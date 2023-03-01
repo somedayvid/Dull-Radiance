@@ -44,7 +44,10 @@ namespace Dull_Radiance
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            _spriteBatch.Begin();
             // TODO: Add your drawing code here
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
