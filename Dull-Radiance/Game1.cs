@@ -48,9 +48,10 @@ namespace Dull_Radiance
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.DarkSlateGray);
 
             _spriteBatch.Begin();
+
             // TODO: Add your drawing code here
 
             _spriteBatch.End();
