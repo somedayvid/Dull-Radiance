@@ -2,6 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+/* Game: Dull Radience
+ * Dev Team: Rice Bowls
+ * Rice in the Bowl: David Gao, Jason Chen, Thaw Thaw, Will Forbes
+ * 
+ */
+
 namespace Dull_Radiance
 {
     public class Game1 : Game
