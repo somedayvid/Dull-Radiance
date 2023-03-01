@@ -31,12 +31,15 @@ namespace Dull_Radiance
             get { return playerRect.X; }
         }
 
+        /// <summary>
+        /// Returns player's Y position
+        /// </summary>
         public int Y
         {
-
+            get { return playerRect.Y; }
         }
 
-        //Constrcutors
+        //Constructors
 
 
         //Methods
