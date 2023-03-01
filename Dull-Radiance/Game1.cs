@@ -15,6 +15,9 @@ namespace Dull_Radiance
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        //Variables
+        private KeyboardState KBState;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -42,6 +45,8 @@ namespace Dull_Radiance
                 Exit();
 
             // TODO: Add your update logic here
+            KBState = new Keyboard.GetState();
+
 
             base.Update(gameTime);
         }
