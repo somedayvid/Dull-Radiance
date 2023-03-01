@@ -27,7 +27,7 @@ namespace Dull_Radiance
         /// Checks for collision with player
         /// </summary>
         /// <param name="playerRect">Player playerRect Position</param>
-        void Intersects(Player playerRect);
+        void Intersects(Player player);
 
         /// <summary>
         /// Draw Object to Screen

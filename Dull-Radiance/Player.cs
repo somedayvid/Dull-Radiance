@@ -43,6 +43,33 @@ namespace Dull_Radiance
 
 
         //Methods
+        /// <summary>
+        /// Check for player intersecting with an object
+        /// </summary>
+        /// <param name="player">Player player</param>
+        public void Intersects(Player player)
+        {
+            //Intersection code
+            //if (this.Intersects(playerRect))
+            //{
+            //     happening
+            //}
+        }
+
+        /// <summary>
+        /// Draw player onto screen
+        /// </summary>
+        /// <param name="sb">SpriteBatch sb</param>
+        public void Draw(SpriteBatch sb)
+        {
+            /*
+            sb.Draw(
+                playerTexture,
+                playerRect,
+                Color.White);
+            */
+        }
+
 
         /// <summary>
         /// Players Movement using WASD and Arrow Keys
