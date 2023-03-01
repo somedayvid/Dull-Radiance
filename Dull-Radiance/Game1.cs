@@ -37,6 +37,11 @@ namespace Dull_Radiance
         private Texture2D lights;
         private Texture2D hearts;
         private Texture2D deadhearts;
+        private Texture2D titleScreen;
+
+        //Window Numbers
+        private int windowHeight;
+        private int windowWidth;
 
         public Game1()
         {
@@ -49,7 +54,12 @@ namespace Dull_Radiance
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            _graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+            _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+            windowHeight = _graphics.PreferredBackBufferHeight;
+            windowWidth = _graphics.PreferredBackBufferWidth;
+            _graphics.IsFullScreen = true;
+            _graphics.ApplyChanges();
             base.Initialize();
         }
 
@@ -57,7 +67,8 @@ namespace Dull_Radiance
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            titleScreen = Content.Load<Texture2D>("Start_Menu(1)");
+            
         }
 
         protected override void Update(GameTime gameTime)
@@ -67,7 +78,6 @@ namespace Dull_Radiance
 
             // TODO: Add your update logic here
             KBState = Keyboard.GetState();
-
 
             switch (currentState)
             {
@@ -94,6 +104,10 @@ namespace Dull_Radiance
             switch (currentState)
             {
                 case GameState.Title:
+                    _spriteBatch.Draw(titleScreen,
+                        new Rectangle(0, 0, windowWidth, windowHeight),
+                        Color.White
+                        );
                     break;
                 case GameState.Instructions:
                     break;
