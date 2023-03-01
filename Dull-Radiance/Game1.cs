@@ -24,8 +24,13 @@ namespace Dull_Radiance
         private SpriteBatch _spriteBatch;
 
         //Variables
-        private KeyboardState KBState;
-        private KeyboardState prevKBState;
+
+        //Player/Enemy Related variables
+
+        private KeyboardState kbState;
+        private KeyboardState prevkbState;
+        private MouseState mState;
+        private MouseState prevmState;
 
         private GameState currentState;
 
@@ -67,7 +72,8 @@ namespace Dull_Radiance
                 Exit();
 
             // TODO: Add your update logic here
-            KBState = Keyboard.GetState();
+            kbState = Keyboard.GetState();
+            mState = Mouse.GetState();
 
 
             switch (currentState)
@@ -81,9 +87,18 @@ namespace Dull_Radiance
                 case GameState.Pause:
                     break;
                 case GameState.GameOver:
+
+
+                    if (SingleKeyPress(kbState, prevkbState))
+                    {
+                        currentState = GameState.Title;
+                    }
                     break;
             }
             base.Update(gameTime);
+
+            prevkbState = Keyboard.GetState();
+            prevmState = Mouse.GetState();
         }
 
         protected override void Draw(GameTime gameTime)
@@ -109,6 +124,42 @@ namespace Dull_Radiance
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        /// <summary>
+        /// Single KeyPress Checker
+        /// </summary>
+        /// <param name="firstPress">KeyboardState firstPress</param>
+        /// <param name="secondPress">KeyBoardState secondPress</param>
+        /// <returns>bool if key is only active for 1 frame</returns>
+        public bool SingleKeyPress(KeyboardState firstPress, KeyboardState secondPress)
+        {
+            if (firstPress.IsKeyDown(Keys.Enter) && secondPress.IsKeyUp(Keys.Enter))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Single MousePress Checker
+        /// </summary>
+        /// <param name="firstPress">MouseState firstPress</param>
+        /// <param name="secondPress">MouseState secondPress</param>
+        /// <returns>bool if mouse click is only active for 1 frame</returns>
+        public bool SingleMouseClick(MouseState firstPress, MouseState secondPress)
+        {
+            if (firstPress.LeftButton == ButtonState.Pressed && secondPress.LeftButton == ButtonState.Pressed)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
