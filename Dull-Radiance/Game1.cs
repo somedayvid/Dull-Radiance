@@ -10,16 +10,37 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Dull_Radiance
 {
+    public enum GameState
+    {
+        Title,
+        Pause,
+        Game,
+        Instructions,
+        GameOver
+    }
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+        private GameState currentState;
+
+        //textures
+        private Texture2D player;
+        private Texture2D key;
+        private Texture2D doors;
+        private Texture2D walls;
+        private Texture2D floors;
+        private Texture2D lights;
+        private Texture2D hearts;
+        private Texture2D deadhearts;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            currentState = GameState.Title;
         }
 
         protected override void Initialize()
@@ -41,8 +62,19 @@ namespace Dull_Radiance
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-
+            switch (currentState)
+            {
+                case GameState.Title:
+                    break;
+                case GameState.Instructions:
+                    break;
+                case GameState.Game:
+                    break;
+                case GameState.Pause:
+                    break;
+                case GameState.GameOver:
+                    break;
+            }
             base.Update(gameTime);
         }
 
@@ -52,7 +84,19 @@ namespace Dull_Radiance
 
             _spriteBatch.Begin();
 
-            // TODO: Add your drawing code here
+            switch (currentState)
+            {
+                case GameState.Title:
+                    break;
+                case GameState.Instructions:
+                    break;
+                case GameState.Game:
+                    break;
+                case GameState.Pause:
+                    break;
+                case GameState.GameOver:
+                    break;
+            }
 
             _spriteBatch.End();
 

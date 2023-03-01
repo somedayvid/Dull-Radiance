@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Dull_Radiance
 {
     internal class Player
-{
-}
+    {
+
+    }
 }
