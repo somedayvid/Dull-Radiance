@@ -45,7 +45,7 @@ namespace Dull_Radiance
                 Exit();
 
             // TODO: Add your update logic here
-            KBState = new Keyboard.GetState();
+            KBState = Keyboard.GetState();
 
 
             base.Update(gameTime);
