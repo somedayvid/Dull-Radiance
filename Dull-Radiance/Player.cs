@@ -13,7 +13,7 @@ namespace Dull_Radiance
     /// <summary>
     /// The main player class
     /// </summary>
-    internal class Player
+    internal class Player : ICollideAndDraw
     {
         //Fields
 
