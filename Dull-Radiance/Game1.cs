@@ -17,6 +17,7 @@ namespace Dull_Radiance
 
         //Variables
         private KeyboardState KBState;
+        private KeyboardState prevKBState;
 
         public Game1()
         {
