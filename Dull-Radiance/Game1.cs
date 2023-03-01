@@ -23,6 +23,9 @@ namespace Dull_Radiance
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        //Variables
+        private KeyboardState KBState;
+
         private GameState currentState;
 
         //textures
@@ -61,6 +64,10 @@ namespace Dull_Radiance
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            // TODO: Add your update logic here
+            KBState = Keyboard.GetState();
+
 
             switch (currentState)
             {
