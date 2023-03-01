@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Dull_Radiance
 {
-    internal class ICollideAndDraw
-{
-}
+    internal interface ICollideAndDraw
+    {
+
+    }
 }
