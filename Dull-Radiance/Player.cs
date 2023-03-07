@@ -16,6 +16,7 @@ namespace Dull_Radiance
     internal class Player : ICollideAndDraw
     {
         //Fields
+        private int playerSpeed = 5;
 
         //private Texture2D playerTexture;
         private Rectangle playerRect;
@@ -82,19 +83,19 @@ namespace Dull_Radiance
             //Movement
             if (KBState.IsKeyDown(Keys.A) || KBState.IsKeyDown(Keys.Left))
             {
-                playerRect.X -= 5;
+                playerRect.X -= playerSpeed;
             }
             if (KBState.IsKeyDown(Keys.D) || KBState.IsKeyDown(Keys.Right))
             {
-                playerRect.X += 5;
+                playerRect.X += playerSpeed;
             }
             if (KBState.IsKeyDown(Keys.W) || KBState.IsKeyDown(Keys.Up))
             {
-                playerRect.Y -= 5;
+                playerRect.Y -= playerSpeed;
             }
             if (KBState.IsKeyDown(Keys.S) || KBState.IsKeyDown(Keys.Down))
             {
-                playerRect.Y -= 5;
+                playerRect.Y -= playerSpeed;
             }
         }
     }

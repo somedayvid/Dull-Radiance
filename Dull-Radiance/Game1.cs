@@ -5,11 +5,11 @@ using Microsoft.Xna.Framework.Input;
 /* Game: Dull Radience
  * Dev Team: Rice Bowls
  * Rice in the Bowl: David Gao, Jason Chen, Thaw Thaw, Will Forbes
- * 
  */
 
 namespace Dull_Radiance
 {
+    // Enum which contains the possible state of the game
     public enum GameState
     {
         Title,
@@ -122,8 +122,7 @@ namespace Dull_Radiance
                 case GameState.Title:
                     _spriteBatch.Draw(titleScreen,
                         new Rectangle(0, 0, windowWidth, windowHeight),
-                        Color.White
-                        );
+                        Color.White);
                     break;
                 case GameState.Instructions:
                     break;
