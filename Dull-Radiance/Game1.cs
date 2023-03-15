@@ -46,14 +46,23 @@ namespace Dull_Radiance
         private Texture2D deadhearts;
 
         //menus
+        private List<Screens> screensList;
         private Texture2D titleScreen;
+        private Texture2D controlsScreen;
+        private Texture2D pauseScreen;
+        private Texture2D playScreen;
+        private Screens title;
+        private Screens controls;
+        private Screens pause;
+        private Screens play;
 
         //button items
         private List<Button> buttonList;
         private Button startButton;
         private Button quitButton;
         private Button controlsButton;
-        private Texture2D buttonHoverTexture;
+        private Button resumeButton;
+        private Button titleReturn;
         private Texture2D buttonUnhoverTexture;
         private SpriteFont agencyFB;
 
@@ -84,7 +93,17 @@ namespace Dull_Radiance
             {
                 startButton,
                 controlsButton,
-                quitButton
+                quitButton,
+                resumeButton,
+                titleReturn
+            };
+
+            screensList = new List<Screens>
+            {
+                title,
+                controls,
+                //play,
+                pause
             };
         }
 
@@ -92,33 +111,50 @@ namespace Dull_Radiance
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            //player
+            player = Content.Load<Texture2D>("Player");
+
+            //screens
             titleScreen = Content.Load<Texture2D>("StartMenu");
+            controlsScreen = Content.Load<Texture2D>("ControlsScreen");
+            pauseScreen = Content.Load<Texture2D>("PauseScreen");
+            //playScreen = Content.Load<Texture2D>("PlayScreen");
+
+            title = new Screens(titleScreen, _graphics);
+            controls = new Screens(controlsScreen, _graphics);
+            pause = new Screens(pauseScreen, _graphics); 
+            //play = new Screens(playScreen, _graphics);
+
+            //buttons
             buttonUnhoverTexture = Content.Load<Texture2D>("BUTTON_UNHOVER");
-            buttonHoverTexture = Content.Load<Texture2D>("BUTTON_HOVER");
+
+            //fonts
             agencyFB = Content.Load<SpriteFont>("Agency FB");
             
-
-            startButton = new Button(windowWidth/10, windowHeight/5, buttonHoverTexture, buttonUnhoverTexture, _graphics, agencyFB);
-            controlsButton = new Button(windowWidth/10, windowHeight/3, buttonHoverTexture, buttonUnhoverTexture, _graphics, agencyFB);
-            quitButton = new Button(windowWidth/10, windowHeight/2, buttonHoverTexture, buttonUnhoverTexture, _graphics, agencyFB);
+            //button initializations
+            startButton = new Button(windowWidth/10, windowHeight/3, buttonUnhoverTexture, _graphics, agencyFB);
+            controlsButton = new Button(windowWidth/10, windowHeight/2, buttonUnhoverTexture, _graphics, agencyFB);
+            quitButton = new Button(windowWidth/10, windowHeight/2 + windowHeight/6, buttonUnhoverTexture, _graphics, agencyFB);
+            resumeButton = new Button(0, windowHeight/3, buttonUnhoverTexture, _graphics, agencyFB);
+            titleReturn = new Button(0, windowHeight/2, buttonUnhoverTexture, _graphics, agencyFB);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //    Exit();
 
-            // TODO: Add your update logic here
             kbState = Keyboard.GetState();
             mState = Mouse.GetState();
+
+            foreach (Button button in buttonList)
+            {
+                button.ButtonsUpdate(gameTime);
+            }
 
             switch (currentState)
             {
                 case GameState.Title:
-                    foreach(Button button in buttonList)
-                    {
-                        button.ButtonsUpdate(gameTime);
-                    }
                     if (startButton.Click())
                     {
                         currentState = GameState.Game;
@@ -129,20 +165,37 @@ namespace Dull_Radiance
                     }
                     if (quitButton.Click())
                     {
-                        System.Threading.Thread.Sleep(1000);
+                        quitButton.Click();
                         Exit();
                     }
-                    
                     break;
                 case GameState.Instructions:
+                    if (kbState.IsKeyDown(Keys.Space))
+                    {
+                        currentState = GameState.Title;
+                    }
                     break;
                 case GameState.Game:
+                    if(kbState.IsKeyDown(Keys.Escape))
+                    {
+                        currentState = GameState.Pause;
+                    }
                     break;
                 case GameState.Pause:
+                    if (quitButton.Click())
+                    {
+                        Exit();
+                    }
+                    if (resumeButton.Click())
+                    {
+                        currentState = GameState.Game;
+                    }
+                    if (titleReturn.Click())
+                    {
+                        currentState = GameState.Title;
+                    }
                     break;
                 case GameState.GameOver:
-
-
                     if (SingleKeyPress(kbState, prevkbState))
                     {
                         currentState = GameState.Title;
@@ -164,18 +217,25 @@ namespace Dull_Radiance
             switch (currentState)
             {
                 case GameState.Title:
-                    _spriteBatch.Draw(titleScreen,
-                        new Rectangle(0, 0, windowWidth, windowHeight),
-                        Color.White);
+                    title.ScreenDraw(_spriteBatch);
                     startButton.DrawButton(_spriteBatch, "Start");
                     controlsButton.DrawButton(_spriteBatch, "Controls");
                     quitButton.DrawButton(_spriteBatch, "Quit");
                     break;
                 case GameState.Instructions:
+                    controls.ScreenDraw(_spriteBatch);
                     break;
                 case GameState.Game:
+                    //play.ScreenDraw(_spriteBatch);
+                    _spriteBatch.Draw(player,
+                        new Rectangle(0, 0, player.Width, player.Height),
+                        Color.White);
                     break;
                 case GameState.Pause:
+                    pause.ScreenDraw(_spriteBatch);
+                    resumeButton.DrawButtonCenter(_spriteBatch, "Resume");
+                    titleReturn.DrawButtonCenter(_spriteBatch, "Return to Title Screen");
+                    quitButton.DrawButtonCenter(_spriteBatch, "Quit");
                     break;
                 case GameState.GameOver:
                     break;
