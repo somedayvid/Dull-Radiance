@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 /* Game: Dull Radience
  * Dev Team: Rice Bowls
@@ -43,7 +44,18 @@ namespace Dull_Radiance
         private Texture2D lights;
         private Texture2D hearts;
         private Texture2D deadhearts;
+
+        //menus
         private Texture2D titleScreen;
+
+        //button items
+        private List<Button> buttonList;
+        private Button startButton;
+        private Button quitButton;
+        private Button controlsButton;
+        private Texture2D buttonHoverTexture;
+        private Texture2D buttonUnhoverTexture;
+        private SpriteFont agencyFB;
 
         //Window Numbers
         private int windowHeight;
@@ -67,14 +79,28 @@ namespace Dull_Radiance
             _graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
             base.Initialize();
+
+            buttonList = new List<Button>
+            {
+                startButton,
+                controlsButton,
+                quitButton
+            };
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            titleScreen = Content.Load<Texture2D>("Start_Menu(1)");
+            titleScreen = Content.Load<Texture2D>("StartMenu");
+            buttonUnhoverTexture = Content.Load<Texture2D>("BUTTON_UNHOVER");
+            buttonHoverTexture = Content.Load<Texture2D>("BUTTON_HOVER");
+            agencyFB = Content.Load<SpriteFont>("Agency FB");
             
+
+            startButton = new Button(windowWidth/10, windowHeight/5, buttonHoverTexture, buttonUnhoverTexture, _graphics, agencyFB);
+            controlsButton = new Button(windowWidth/10, windowHeight/3, buttonHoverTexture, buttonUnhoverTexture, _graphics, agencyFB);
+            quitButton = new Button(windowWidth/10, windowHeight/2, buttonHoverTexture, buttonUnhoverTexture, _graphics, agencyFB);
         }
 
         protected override void Update(GameTime gameTime)
@@ -89,6 +115,24 @@ namespace Dull_Radiance
             switch (currentState)
             {
                 case GameState.Title:
+                    foreach(Button button in buttonList)
+                    {
+                        button.ButtonsUpdate(gameTime);
+                    }
+                    if (startButton.Click())
+                    {
+                        currentState = GameState.Game;
+                    }
+                    if(controlsButton.Click())
+                    {
+                        currentState = GameState.Instructions;
+                    }
+                    if (quitButton.Click())
+                    {
+                        System.Threading.Thread.Sleep(1000);
+                        Exit();
+                    }
+                    
                     break;
                 case GameState.Instructions:
                     break;
@@ -123,6 +167,9 @@ namespace Dull_Radiance
                     _spriteBatch.Draw(titleScreen,
                         new Rectangle(0, 0, windowWidth, windowHeight),
                         Color.White);
+                    startButton.DrawButton(_spriteBatch, "Start");
+                    controlsButton.DrawButton(_spriteBatch, "Controls");
+                    quitButton.DrawButton(_spriteBatch, "Quit");
                     break;
                 case GameState.Instructions:
                     break;
