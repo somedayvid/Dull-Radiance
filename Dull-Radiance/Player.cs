@@ -16,7 +16,15 @@ namespace Dull_Radiance
     internal class Player : ICollideAndDraw
     {
         //Fields
-        private int playerSpeed = 5;
+        private int windowWidth;
+        private int windowHeight;
+        private int width;
+        private int height;
+        private Texture2D playerTexture;
+
+        //gameplay fields
+        private int playerSpeed;
+        private int playerHealth;
 
         //private Texture2D playerTexture;
         private Rectangle playerRect;
@@ -40,10 +48,42 @@ namespace Dull_Radiance
             get { return playerRect.Y; }
         }
 
-        //Constructors
+        public int Width
+        {
+            get { return width; }
+        }
 
+        public int Height
+        {
+            get { return height; }
+        }
+
+        //Constructors
+        public Player(Texture2D playerTexture, GraphicsDeviceManager graphics)
+        {
+            windowWidth = graphics.PreferredBackBufferWidth;
+            windowHeight = graphics.PreferredBackBufferHeight;
+            height = windowHeight/60;
+            width = windowWidth/34;
+
+            this.playerTexture = playerTexture;
+            playerSpeed = 5;
+            playerHealth = 5;
+
+            playerRect = new Rectangle(windowWidth/2 - width/2, windowHeight/2 - height/2, width, height);
+        }
 
         //Methods
+        public void Update(GameTime gameTime)
+        {
+            Movement();
+        }
+
+        public void TakeDamage()
+        {
+            //TODO if ex: trap intersect health -= 1, heart die turn die;
+        }
+
         /// <summary>
         /// Check for player intersecting with an object
         /// </summary>
@@ -63,12 +103,11 @@ namespace Dull_Radiance
         /// <param name="sb">SpriteBatch sb</param>
         public void Draw(SpriteBatch sb)
         {
-            /*
+            
             sb.Draw(
                 playerTexture,
                 playerRect,
                 Color.White);
-            */
         }
 
 
@@ -95,7 +134,7 @@ namespace Dull_Radiance
             }
             if (KBState.IsKeyDown(Keys.S) || KBState.IsKeyDown(Keys.Down))
             {
-                playerRect.Y -= playerSpeed;
+                playerRect.Y += playerSpeed;
             }
         }
     }
