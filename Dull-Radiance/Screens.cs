@@ -8,12 +8,21 @@ using System.Threading.Tasks;
 
 namespace Dull_Radiance
 {
+    /// <summary>
+    /// Draws the various game state screens to the screen
+    /// </summary>
     internal class Screens
     {
+        //fields
         private Texture2D screenTexture;
         private int windowHeight;
         private int windowWidth;
 
+        /// <summary>
+        /// Initializaes the texture of the screen and gets graphics to size texture correctly
+        /// </summary>
+        /// <param name="screenTexture">What the screen looks like</param>
+        /// <param name="graphics">Used to get width and height of screen</param>
         public Screens(Texture2D screenTexture, GraphicsDeviceManager graphics) 
         {
             this.screenTexture = screenTexture;
@@ -21,6 +30,10 @@ namespace Dull_Radiance
             windowWidth = graphics.PreferredBackBufferWidth;
         }    
 
+        /// <summary>
+        /// Draws the texture to fit the entire screen
+        /// </summary>
+        /// <param name="sb">Spritebatch to draw</param>
         public void ScreenDraw(SpriteBatch sb) 
         {
             sb.Draw(
