@@ -75,7 +75,7 @@ namespace Dull_Radiance
         }
 
         /// <summary>
-        /// 
+        /// Updates every frame the mState
         /// </summary>
         /// <param name="gameTime"></param>
         public void ButtonsUpdate(GameTime gameTime)
@@ -90,7 +90,7 @@ namespace Dull_Radiance
         public bool Click()
         {
 
-            if (ButtonIntersects() && mState.LeftButton == ButtonState.Pressed)
+            if (buttonRect.Contains(mState.Position) && mState.LeftButton == ButtonState.Pressed)
             {
                 return true;
             }
@@ -98,19 +98,6 @@ namespace Dull_Radiance
             {
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Checks if the mouse is intersecting with the button
-        /// </summary>
-        /// <returns>True or false depending on mouse position</returns>
-        public bool ButtonIntersects()
-        {
-            if (buttonRect.X <= mState.X && (buttonRect.X + width) >= mState.X
-                && buttonRect.Y <= mState.Y && buttonRect.Y + height >= mState.Y)
-                return true;
-            else
-                return false;
         }
 
         /// <summary>
@@ -137,7 +124,7 @@ namespace Dull_Radiance
         {
             Color color = Color.White;
 
-            if(ButtonIntersects())
+            if(buttonRect.Contains(mState.Position))
             {
                 color = Color.DimGray;
             }

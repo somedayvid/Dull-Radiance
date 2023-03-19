@@ -13,18 +13,30 @@ namespace Dull_Radiance
     /// <summary>
     /// The main player class
     /// </summary>
+
+    //TODO move these into a game manager class instead of being in player
+    public delegate void DamageTakenDelegate();
+    public delegate void GameReset();
+
     internal class Player : ICollideAndDraw
     {
+        //event
+        //TODO this as well
+        public event DamageTakenDelegate OnDamageTaken;
+        public event GameReset OnGameReset;
+
         //Fields
-        private int windowWidth;
+        private int windowWidth; //I commented out some code but these should stay
         private int windowHeight;
         private int width;
         private int height;
         private Texture2D playerTexture;
 
+
         //gameplay fields
         private int playerSpeed;
         private int playerHealth;
+        private bool playerAlive;
 
         //private Texture2D playerTexture;
         private Rectangle playerRect;
@@ -48,40 +60,67 @@ namespace Dull_Radiance
             get { return playerRect.Y; }
         }
 
-        public int Width
+        /// <summary>
+        /// Used in visual displays of player health //TODO supposed to couple with playerhearts class but i dont know how to get it to work rn
+        /// </summary>
+        public int PlayerHealth
         {
-            get { return width; }
+            get { return playerHealth; }
         }
 
-        public int Height
+        /// <summary>
+        /// Used in main to check if game is over b/c player's health dropped to 0
+        /// </summary>
+        public bool PlayerAlive
         {
-            get { return height; }
+            get 
+            { 
+                if(playerHealth >= 1)
+                {
+                    return true; 
+                } 
+                else 
+                { 
+                    return false; 
+                }
+            }
         }
 
         //Constructors
-        public Player(Texture2D playerTexture, GraphicsDeviceManager graphics)
+        /// <summary>
+        /// Initializes the player's initial position and starting stats
+        /// </summary>
+        /// <param name="playerTexture">The texture of the player character</param>
+        public Player(Texture2D playerTexture)      //TODO find way to not hard code numbers for initial positioning and size
         {
-            windowWidth = graphics.PreferredBackBufferWidth;
-            windowHeight = graphics.PreferredBackBufferHeight;
-            height = windowHeight/60;
-            width = windowWidth/34;
+            //windowWidth = graphics.PreferredBackBufferWidth;
+            //windowHeight = graphics.PreferredBackBufferHeight;
+            //height = windowHeight/60;
+            //width = windowWidth/34;
 
-            this.playerTexture = playerTexture;
+            //this.playerTexture = playerTexture;
+
+            //playerRect = new Rectangle(windowWidth/2 - width/2, windowHeight/2 - height/2, width, height);
+
             playerSpeed = 5;
             playerHealth = 5;
+            playerAlive = true;
+            height = 320;
+            width = 320;
 
-            playerRect = new Rectangle(windowWidth/2 - width/2, windowHeight/2 - height/2, width, height);
+            this.playerTexture = playerTexture;
+
+            playerRect = new Rectangle(960, 540, width, height);
         }
 
         //Methods
-        public void Update(GameTime gameTime)
+        /// <summary>
+        /// Updates the player's movement every frame in update
+        /// </summary>
+        /// <param name="gameTime">Gametime</param> //TODO i dont actually know what to put in here
+        public void Update(GameTime gameTime)   //neccesary? -asking
         {
             Movement();
-        }
-
-        public void TakeDamage()
-        {
-            //TODO if ex: trap intersect health -= 1, heart die turn die;
         }
 
         /// <summary>
@@ -95,6 +134,28 @@ namespace Dull_Radiance
             //{
             //     happening
             //}
+        }
+        
+        /// <summary>
+        /// When the player collides with something hazardous they will take dmg and alert event
+        /// </summary>
+        //TODO when player collides with enemy or environmental hazard
+        public void CollideDanger() //TODO better name?
+        {
+             //TODO alerts systems maybe get a screen  flash in here or smth 
+            playerHealth--;
+            OnDamageTaken();
+        }
+
+        /// <summary>
+        /// Resets the player's stats to base game start stats and alerts heart UI to reset
+        /// </summary>
+        public void Reset()
+        {
+            OnGameReset();
+            playerHealth = 5;
+            playerAlive = true;
+            playerRect =  new Rectangle(960, 540, width, height);
         }
 
         /// <summary>

@@ -10,6 +10,9 @@ using System.Collections.Generic;
 
 namespace Dull_Radiance
 {
+    /// <summary>
+    /// Player state enumerations used for player action animations
+    /// </summary>
     public enum PlayerState
     {
         WalkUp,
@@ -49,8 +52,8 @@ namespace Dull_Radiance
         private Texture2D walls;
         private Texture2D floors;
         private Texture2D lights;
-        private Texture2D hearts;
-        private Texture2D deadhearts;
+        private Texture2D aliveHeart;
+        private Texture2D deadHeart;
 
         //player
         private Player player;
@@ -81,6 +84,9 @@ namespace Dull_Radiance
         //Window Numbers
         private int windowHeight;
         private int windowWidth;
+
+        //UI elements
+        private PlayerHearts hearts;
 
         public Game1()
         {
@@ -120,13 +126,22 @@ namespace Dull_Radiance
             };
         }
 
-        protected override void LoadContent()
+        protected override void LoadContent()       //TODO reorganize this mess
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //player
             playerTexture = Content.Load<Texture2D>("Player");
-            player = new Player(playerTexture, _graphics);
+            player = new Player(playerTexture);
+
+            //ui elements
+            aliveHeart = Content.Load<Texture2D>("LiveHeart");
+            deadHeart = Content.Load<Texture2D>("DeadHeart");
+
+            hearts = new PlayerHearts(aliveHeart, deadHeart);
+
+            player.OnDamageTaken += hearts.TakeDamage;
+            player.OnGameReset += hearts.Reset;
 
             //screens
             titleScreen = Content.Load<Texture2D>("StartMenu");
@@ -177,8 +192,8 @@ namespace Dull_Radiance
 
         protected override void Update(GameTime gameTime)
         {
-            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            //    Exit();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Q))
+                Exit();
 
             kbState = Keyboard.GetState();
             mState = Mouse.GetState();
@@ -217,6 +232,14 @@ namespace Dull_Radiance
                     {
                         currentState = GameState.Pause;
                     }
+                    if (!player.PlayerAlive)
+                    {
+                        currentState = GameState.GameOver;
+                    }
+                    if (SingleKeyPress(kbState, prevkbState, Keys.Enter))       //Implemented a test case for taking dmg on pressing enter
+                    {
+                        player.CollideDanger();
+                    }
                     break;
                 case GameState.Pause:
                     if (quitButton2.Click())
@@ -233,8 +256,9 @@ namespace Dull_Radiance
                     }
                     break;
                 case GameState.GameOver:
-                    if (SingleKeyPress(kbState, prevkbState))
+                    if (SingleKeyPress(kbState, prevkbState, Keys.Enter))
                     {
+                        player.Reset();
                         currentState = GameState.Title;
                     }
                     break;
@@ -265,6 +289,11 @@ namespace Dull_Radiance
                 case GameState.Game:
                     play.ScreenDraw(_spriteBatch);
                     player.Draw(_spriteBatch);
+                    hearts.DrawHearts(_spriteBatch);
+                    _spriteBatch.DrawString(agencyFB,               
+                        "PRESS ENTER TO TEST DMG TAKING",
+                        new Vector2(1000, 1000),
+                        Color.White);
                     break;
                 case GameState.Pause:
                     pause.ScreenDraw(_spriteBatch);
@@ -273,6 +302,10 @@ namespace Dull_Radiance
                     quitButton2.DrawButton(_spriteBatch, "Quit");
                     break;
                 case GameState.GameOver:
+                    _spriteBatch.DrawString(agencyFB,               //temporary game over screen //TODO real game over screen
+                        "Game over! PRESS ENTER TO GO TO TITLE",
+                        new Vector2(1000, 2000),
+                        Color.White);
                     break;
             }
 
@@ -287,9 +320,9 @@ namespace Dull_Radiance
         /// <param name="firstPress">KeyboardState firstPress</param>
         /// <param name="secondPress">KeyBoardState secondPress</param>
         /// <returns>bool if key is only active for 1 frame</returns>
-        public bool SingleKeyPress(KeyboardState firstPress, KeyboardState secondPress)
+        public bool SingleKeyPress(KeyboardState firstPress, KeyboardState secondPress, Keys key)
         {
-            if (firstPress.IsKeyDown(Keys.Enter) && secondPress.IsKeyUp(Keys.Enter))
+            if (firstPress.IsKeyDown(key) && secondPress.IsKeyUp(key))
             {
                 return true;
             }
