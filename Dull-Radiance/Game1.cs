@@ -10,6 +10,13 @@ using System.Collections.Generic;
 
 namespace Dull_Radiance
 {
+    public enum PlayerState
+    {
+        WalkUp,
+        WalkDown,
+        WalkLeft,
+        WalkRight,
+    }
     // Enum which contains the possible state of the game
     public enum GameState
     {
@@ -34,9 +41,9 @@ namespace Dull_Radiance
         private MouseState prevmState;
 
         private GameState currentState;
+        private PlayerState playerState;
 
         //textures
-        private Texture2D player;
         private Texture2D key;
         private Texture2D doors;
         private Texture2D walls;
@@ -44,6 +51,10 @@ namespace Dull_Radiance
         private Texture2D lights;
         private Texture2D hearts;
         private Texture2D deadhearts;
+
+        //player
+        private Player player;
+        private Texture2D playerTexture;
 
         //menus
         private List<Screens> screensList;
@@ -104,7 +115,7 @@ namespace Dull_Radiance
             {
                 title,
                 controls,
-                //play,
+                play,
                 pause
             };
         }
@@ -114,18 +125,19 @@ namespace Dull_Radiance
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //player
-            player = Content.Load<Texture2D>("Player");
+            playerTexture = Content.Load<Texture2D>("Player");
+            player = new Player(playerTexture, _graphics);
 
             //screens
             titleScreen = Content.Load<Texture2D>("StartMenu");
             controlsScreen = Content.Load<Texture2D>("ControlsScreen");
             pauseScreen = Content.Load<Texture2D>("PauseScreen");
-            //playScreen = Content.Load<Texture2D>("PlayScreen");
+            playScreen = Content.Load<Texture2D>("TempPlayScreen");
 
             title = new Screens(titleScreen, _graphics);
             controls = new Screens(controlsScreen, _graphics);
             pause = new Screens(pauseScreen, _graphics); 
-            //play = new Screens(playScreen, _graphics);
+            play = new Screens(playScreen, _graphics);
 
             //buttons
             buttonTexture = Content.Load<Texture2D>("BUTTON_UNHOVER");
@@ -189,7 +201,6 @@ namespace Dull_Radiance
                     }
                     if (quitButton.Click())
                     {
-                        quitButton.Click();
                         Exit();
                     }
                     break;
@@ -200,7 +211,9 @@ namespace Dull_Radiance
                     }
                     break;
                 case GameState.Game:
-                    if(kbState.IsKeyDown(Keys.Escape))
+                    player.Movement();
+
+                    if (kbState.IsKeyDown(Keys.Escape))
                     {
                         currentState = GameState.Pause;
                     }
@@ -250,10 +263,8 @@ namespace Dull_Radiance
                     controls.ScreenDraw(_spriteBatch);
                     break;
                 case GameState.Game:
-                    //play.ScreenDraw(_spriteBatch);
-                    _spriteBatch.Draw(player,
-                        new Rectangle(0, 0, player.Width, player.Height),
-                        Color.White);
+                    play.ScreenDraw(_spriteBatch);
+                    player.Draw(_spriteBatch);
                     break;
                 case GameState.Pause:
                     pause.ScreenDraw(_spriteBatch);
