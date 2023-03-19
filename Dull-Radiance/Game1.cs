@@ -63,7 +63,8 @@ namespace Dull_Radiance
         private Button controlsButton;
         private Button resumeButton;
         private Button titleReturn;
-        private Texture2D buttonUnhoverTexture;
+        private Button quitButton2;
+        private Texture2D buttonTexture;
         private SpriteFont agencyFB;
 
         //Window Numbers
@@ -94,6 +95,7 @@ namespace Dull_Radiance
                 startButton,
                 controlsButton,
                 quitButton,
+                quitButton2,
                 resumeButton,
                 titleReturn
             };
@@ -126,17 +128,39 @@ namespace Dull_Radiance
             //play = new Screens(playScreen, _graphics);
 
             //buttons
-            buttonUnhoverTexture = Content.Load<Texture2D>("BUTTON_UNHOVER");
+            buttonTexture = Content.Load<Texture2D>("BUTTON_UNHOVER");
 
             //fonts
             agencyFB = Content.Load<SpriteFont>("Agency FB");
             
             //button initializations
-            startButton = new Button(windowWidth/10, windowHeight/3, buttonUnhoverTexture, _graphics, agencyFB);
-            controlsButton = new Button(windowWidth/10, windowHeight/2, buttonUnhoverTexture, _graphics, agencyFB);
-            quitButton = new Button(windowWidth/10, windowHeight/2 + windowHeight/6, buttonUnhoverTexture, _graphics, agencyFB);
-            resumeButton = new Button(0, windowHeight/3, buttonUnhoverTexture, _graphics, agencyFB);
-            titleReturn = new Button(0, windowHeight/2, buttonUnhoverTexture, _graphics, agencyFB);
+            startButton = new Button(
+                windowWidth/10,                                           //width
+                windowHeight/3 + windowHeight/36,                         //height
+                buttonTexture,                                            //skin
+                _graphics,                                                //gets window height and width 
+                agencyFB);                                                //font
+            controlsButton = new Button(windowWidth/10,                   //TODO find way to not have to include _graphics constructor for button class
+                windowHeight/2 + windowHeight/36,                          
+                buttonTexture,
+                _graphics,
+                agencyFB);
+            quitButton = new Button(windowWidth/10,
+                windowHeight/2 + windowHeight/6 + windowHeight/36,
+                buttonTexture,
+                _graphics, agencyFB);
+            resumeButton = new Button( windowHeight/3 + windowHeight/9,
+                buttonTexture,
+                _graphics,
+                agencyFB);
+            titleReturn = new Button(windowHeight/2 + windowHeight/9,
+                buttonTexture,
+                _graphics,
+                agencyFB);
+            quitButton2 = new Button(windowHeight/2 + windowHeight/6 + windowHeight/9,
+                buttonTexture,
+                _graphics,
+                agencyFB);
         }
 
         protected override void Update(GameTime gameTime)
@@ -182,7 +206,7 @@ namespace Dull_Radiance
                     }
                     break;
                 case GameState.Pause:
-                    if (quitButton.Click())
+                    if (quitButton2.Click())
                     {
                         Exit();
                     }
@@ -233,9 +257,9 @@ namespace Dull_Radiance
                     break;
                 case GameState.Pause:
                     pause.ScreenDraw(_spriteBatch);
-                    resumeButton.DrawButtonCenter(_spriteBatch, "Resume");
-                    titleReturn.DrawButtonCenter(_spriteBatch, "Return to Title Screen");
-                    quitButton.DrawButtonCenter(_spriteBatch, "Quit");
+                    resumeButton.DrawButton(_spriteBatch, "Resume");
+                    titleReturn.DrawButton(_spriteBatch, "Return to Title Screen");
+                    quitButton2.DrawButton(_spriteBatch, "Quit");
                     break;
                 case GameState.GameOver:
                     break;

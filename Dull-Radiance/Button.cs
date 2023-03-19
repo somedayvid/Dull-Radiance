@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace Dull_Radiance
 {
+    //TODO make into a struct?
+    //TODO or make into abstract class with multiple buttons that inherit from abstract class
     /// <summary>
     /// Controls the positioning, clicking, and sizing of buttons
     /// </summary>
@@ -32,6 +34,7 @@ namespace Dull_Radiance
         /// </summary>
         /// <param name="xPos">X position relative to window width</param>
         /// <param name="yPos">Y position relative to window height</param>
+        /// <param name="buttonTexture">Texture of the button</param>
         /// <param name="graphicsDevice">Used in determining width and height of buttons</param>
         /// <param name="font">Font used for the button text</param>
         public Button(int xPos, int yPos, Texture2D buttonTexture, GraphicsDeviceManager graphicsDevice, SpriteFont font)
@@ -45,6 +48,30 @@ namespace Dull_Radiance
             this.width = windowWidth/5;
             this.height = windowHeight/8;
             this.font = font;
+
+            buttonRect = new Rectangle(this.xPos, this.yPos, this.width, this.height);
+        }
+
+        /// <summary>
+        /// Initializes position of the button in the center of the screen relative to X position,
+        /// and other variables used in determining button position
+        /// </summary>
+        /// <param name="yPos">Y position relative to window height</param>
+        /// <param name="buttonTexture">Texture of the button</param>
+        /// <param name="graphicsDevice">Used in determining width and height of buttons</param>
+        /// <param name="font">Font used for the button text</param>
+        public Button(int yPos, Texture2D buttonTexture, GraphicsDeviceManager graphicsDevice, SpriteFont font)
+        {
+            windowHeight = graphicsDevice.PreferredBackBufferHeight;
+            windowWidth = graphicsDevice.PreferredBackBufferWidth;
+
+            this.yPos = yPos;
+            this.buttonTexture = buttonTexture;
+            this.width = windowWidth/5;
+            this.height = windowHeight/8;
+            this.font = font;
+
+            buttonRect = new Rectangle(windowWidth/2 - this.width/2, this.yPos, this.width, this.height);
         }
 
         /// <summary>
@@ -108,7 +135,6 @@ namespace Dull_Radiance
         /// <param name="buttonText">Text that describes button function</param>
         public void DrawButton(SpriteBatch sb, string buttonText)
         {
-            buttonRect = new Rectangle(this.xPos, this.yPos, this.width, this.height);
             Color color = Color.White;
 
             if(ButtonIntersects())
@@ -125,31 +151,5 @@ namespace Dull_Radiance
                 CenterText(buttonText),
                 Color.White);
         }
-
-        /// <summary>
-        /// Draws the buttons and the text that accompanies the button in the center X of the screen
-        /// </summary>
-        /// <param name="sb">Spritebatch to draw</param>
-        /// <param name="buttonText">Text that describes button function</param>
-        public void DrawButtonCenter(SpriteBatch sb, string buttonText)
-        {
-            buttonRect = new Rectangle(windowWidth/2 - buttonRect.Width/2, yPos, width, height);
-            Color color = Color.White;
-
-            if (ButtonIntersects())
-            {
-                color = Color.DimGray;
-            }
-
-            sb.Draw(
-                this.buttonTexture,
-                buttonRect,
-                color);
-            sb.DrawString(font,
-                buttonText,
-                CenterText(buttonText),
-                Color.White);
-        }
-
     }
 }
