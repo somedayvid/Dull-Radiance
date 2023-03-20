@@ -292,7 +292,7 @@ namespace Dull_Radiance
                     hearts.DrawHearts(_spriteBatch);
                     _spriteBatch.DrawString(agencyFB,               
                         "PRESS ENTER TO TEST DMG TAKING",
-                        new Vector2(1000, 1000),
+                        new Vector2(windowWidth/2, windowHeight/2),
                         Color.White);
                     break;
                 case GameState.Pause:
@@ -304,7 +304,7 @@ namespace Dull_Radiance
                 case GameState.GameOver:
                     _spriteBatch.DrawString(agencyFB,               //temporary game over screen //TODO real game over screen
                         "Game over! PRESS ENTER TO GO TO TITLE",
-                        new Vector2(1000, 2000),
+                        new Vector2(windowWidth/2, windowHeight/2),
                         Color.White);
                     break;
             }
