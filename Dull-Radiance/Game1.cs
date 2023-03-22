@@ -98,7 +98,6 @@ namespace Dull_Radiance
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             _graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
             windowHeight = _graphics.PreferredBackBufferHeight;
@@ -126,24 +125,23 @@ namespace Dull_Radiance
             };
         }
 
-        protected override void LoadContent()       //TODO reorganize this mess
+        protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //player
+            // Player
             playerTexture = Content.Load<Texture2D>("Player");
             player = new Player(playerTexture);
 
-            //ui elements
+            // Ui elements
             aliveHeart = Content.Load<Texture2D>("LiveHeart");
             deadHeart = Content.Load<Texture2D>("DeadHeart");
-
             hearts = new PlayerHearts(aliveHeart, deadHeart);
 
             player.OnDamageTaken += hearts.TakeDamage;
             player.OnGameReset += hearts.Reset;
 
-            //screens
+            // Screens
             titleScreen = Content.Load<Texture2D>("StartMenu");
             controlsScreen = Content.Load<Texture2D>("ControlsScreen");
             pauseScreen = Content.Load<Texture2D>("PauseScreen");
@@ -154,43 +152,48 @@ namespace Dull_Radiance
             pause = new Screens(pauseScreen, _graphics); 
             play = new Screens(playScreen, _graphics);
 
-            //buttons
+            // Buttons
             buttonTexture = Content.Load<Texture2D>("BUTTON_UNHOVER");
 
-            //fonts
+            // Fonts
             agencyFB = Content.Load<SpriteFont>("Agency FB");
-            
-            //button initializations
+
+            // Button initializations
             startButton = new Button(
-                windowWidth/10,                                           //width
-                windowHeight/3 + windowHeight/36,                         //height
-                buttonTexture,                                            //skin
-                _graphics,                                                //gets window height and width 
-                agencyFB);                                                //font
+                windowWidth / 10,                           // Width
+                windowHeight / 3 + windowHeight / 36,       // Height
+                buttonTexture,                              // Skin
+                _graphics,                                  // Gets window height and width 
+                agencyFB);                                  // Font
 
-            controlsButton = new Button(windowWidth/10,                  
-                windowHeight/2 + windowHeight/36,                          
+            controlsButton = new Button(
+                windowWidth / 10,
+                windowHeight / 2 + windowHeight / 36,
                 buttonTexture,
                 _graphics,
                 agencyFB);
 
-            quitButton = new Button(windowWidth/10,
-                windowHeight/2 + windowHeight/6 + windowHeight/36,
-                buttonTexture,
-                _graphics, 
-                agencyFB);
-
-            resumeButton = new Button( windowHeight/3 + windowHeight/9,
+            quitButton = new Button(
+                windowWidth / 10,
+                windowHeight / 2 + windowHeight / 6 + windowHeight / 36,
                 buttonTexture,
                 _graphics,
                 agencyFB);
 
-            titleReturn = new Button(windowHeight/2 + windowHeight/9,
+            resumeButton = new Button(
+                windowHeight / 3 + windowHeight / 9,
                 buttonTexture,
                 _graphics,
                 agencyFB);
 
-            quitButton2 = new Button(windowHeight/2 + windowHeight/6 + windowHeight/9,
+            titleReturn = new Button(
+                windowHeight / 2 + windowHeight / 9,
+                buttonTexture,
+                _graphics,
+                agencyFB);
+
+            quitButton2 = new Button(
+                windowHeight / 2 + windowHeight / 6 + windowHeight / 9,
                 buttonTexture,
                 _graphics,
                 agencyFB);
@@ -198,7 +201,7 @@ namespace Dull_Radiance
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Q))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             kbState = Keyboard.GetState();
@@ -234,7 +237,7 @@ namespace Dull_Radiance
                 case GameState.Game:
                     player.Movement();
 
-                    if (kbState.IsKeyDown(Keys.Escape))
+                    if (kbState.IsKeyDown(Keys.P))
                     {
                         currentState = GameState.Pause;
                     }
