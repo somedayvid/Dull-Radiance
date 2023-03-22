@@ -214,6 +214,7 @@ namespace Dull_Radiance
 
             switch (currentState)
             {
+                // Title
                 case GameState.Title:
                     if (startButton.Click())
                     {
@@ -228,6 +229,8 @@ namespace Dull_Radiance
                         Exit();
                     }
                     break;
+
+                // Instructions
                 case GameState.Instructions:
                     if (kbState.IsKeyDown(Keys.Space))
                     {
@@ -250,6 +253,8 @@ namespace Dull_Radiance
                         player.CollideDanger();
                     }
                     break;
+
+                // Pause
                 case GameState.Pause:
                     if (quitButton2.Click())
                     {
@@ -264,6 +269,8 @@ namespace Dull_Radiance
                         currentState = GameState.Title;
                     }
                     break;
+
+                // Game over
                 case GameState.GameOver:
                     if (SingleKeyPress(kbState, prevkbState, Keys.Enter))
                     {

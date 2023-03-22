@@ -140,7 +140,7 @@ namespace Dull_Radiance
         /// When the player collides with something hazardous they will take dmg and alert event
         /// </summary>
         //TODO when player collides with enemy or environmental hazard
-        public void CollideDanger() //TODO better name?
+        public void PlayerCollision()
         {
              //TODO alerts systems maybe get a screen  flash in here or smth 
             playerHealth--;

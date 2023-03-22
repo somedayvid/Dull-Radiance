@@ -22,7 +22,6 @@ namespace Dull_Radiance
         private Texture2D liveHeart;
         private Texture2D deadHeart;
 
-        //TODO make sure health cannot be healed past 5 or wtv number we decide on
         /// <summary>
         /// Initializes the heart textures, amt of starting life, and an array to represent total hp
         /// </summary>
