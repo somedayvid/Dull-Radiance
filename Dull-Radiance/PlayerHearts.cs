@@ -81,7 +81,7 @@ namespace Dull_Radiance
             {
                 if (healthbar[i])
                 {
-                    sb.Draw(
+                    sb.Draw(                                   //TODO DO NOT HARDCODE
                         liveHeart,
                         new Rectangle(i * 110, 0, 100, 100),
                         Color.White);
