@@ -167,23 +167,29 @@ namespace Dull_Radiance
                 buttonTexture,                                            //skin
                 _graphics,                                                //gets window height and width 
                 agencyFB);                                                //font
-            controlsButton = new Button(windowWidth/10,                   //TODO find way to not have to include _graphics constructor for button class
+
+            controlsButton = new Button(windowWidth/10,                  
                 windowHeight/2 + windowHeight/36,                          
                 buttonTexture,
                 _graphics,
                 agencyFB);
+
             quitButton = new Button(windowWidth/10,
                 windowHeight/2 + windowHeight/6 + windowHeight/36,
                 buttonTexture,
-                _graphics, agencyFB);
+                _graphics, 
+                agencyFB);
+
             resumeButton = new Button( windowHeight/3 + windowHeight/9,
                 buttonTexture,
                 _graphics,
                 agencyFB);
+
             titleReturn = new Button(windowHeight/2 + windowHeight/9,
                 buttonTexture,
                 _graphics,
                 agencyFB);
+
             quitButton2 = new Button(windowHeight/2 + windowHeight/6 + windowHeight/9,
                 buttonTexture,
                 _graphics,
