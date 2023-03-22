@@ -9,8 +9,6 @@ using System.Threading.Tasks;
 
 namespace Dull_Radiance
 {
-    //TODO make into a struct?
-    //TODO or make into abstract class with multiple buttons that inherit from abstract class
     /// <summary>
     /// Controls the positioning, clicking, and sizing of buttons
     /// </summary>
@@ -45,8 +43,8 @@ namespace Dull_Radiance
             this.xPos = xPos;
             this.yPos = yPos;
             this.buttonTexture = buttonTexture;
-            this.width = windowWidth/5;
-            this.height = windowHeight/8;
+            this.width = windowWidth / 5;
+            this.height = windowHeight / 8;
             this.font = font;
 
             buttonRect = new Rectangle(this.xPos, this.yPos, this.width, this.height);
@@ -67,11 +65,11 @@ namespace Dull_Radiance
 
             this.yPos = yPos;
             this.buttonTexture = buttonTexture;
-            this.width = windowWidth/5;
-            this.height = windowHeight/8;
+            this.width = windowWidth / 5;
+            this.height = windowHeight / 8;
             this.font = font;
 
-            buttonRect = new Rectangle(windowWidth/2 - this.width/2, this.yPos, this.width, this.height);
+            buttonRect = new Rectangle(windowWidth / 2 - this.width / 2, this.yPos, this.width, this.height);
         }
 
         /// <summary>
@@ -89,7 +87,6 @@ namespace Dull_Radiance
         /// <returns>True or false depending on mouse position and click</returns>
         public bool Click()
         {
-
             if (buttonRect.Contains(mState.Position) && mState.LeftButton == ButtonState.Pressed)
             {
                 return true;
@@ -107,12 +104,11 @@ namespace Dull_Radiance
         /// <returns></returns>
         public Vector2 CenterText(string buttonText)
         {
-            float centerX = this.buttonRect.X + this.buttonRect.Width/2 - 
-                this.font.MeasureString(buttonText).X/2;
-            float centerY = this.buttonRect.Y + this.buttonRect.Height/2 - 
-                (this.font.MeasureString(buttonText).Y/2 + this.font.MeasureString(buttonText).Y/4);
+            float centerX = this.buttonRect.X + this.buttonRect.Width / 2 -
+                this.font.MeasureString(buttonText).X / 2;
+            float centerY = this.buttonRect.Y + this.buttonRect.Height / 2 -
+                (this.font.MeasureString(buttonText).Y / 2 + this.font.MeasureString(buttonText).Y / 4);
             return new Vector2(centerX, centerY);
-
         }
 
         /// <summary>
@@ -124,7 +120,8 @@ namespace Dull_Radiance
         {
             Color color = Color.White;
 
-            if(buttonRect.Contains(mState.Position))
+            // Check if mouse is over button and changes button to grey
+            if (buttonRect.Contains(mState.Position))
             {
                 color = Color.DimGray;
             }
@@ -133,7 +130,9 @@ namespace Dull_Radiance
                 this.buttonTexture,
                 buttonRect,
                 color);
-            sb.DrawString(font,
+
+            sb.DrawString(
+                font,
                 buttonText,
                 CenterText(buttonText),
                 Color.White);

@@ -98,7 +98,6 @@ namespace Dull_Radiance
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             _graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
             windowHeight = _graphics.PreferredBackBufferHeight;
@@ -126,24 +125,23 @@ namespace Dull_Radiance
             };
         }
 
-        protected override void LoadContent()       //TODO reorganize this mess
+        protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //player
+            // Player
             playerTexture = Content.Load<Texture2D>("Player");
             player = new Player(playerTexture);
 
-            //ui elements
+            // Ui elements
             aliveHeart = Content.Load<Texture2D>("LiveHeart");
             deadHeart = Content.Load<Texture2D>("DeadHeart");
-
             hearts = new PlayerHearts(aliveHeart, deadHeart);
 
             player.OnDamageTaken += hearts.TakeDamage;
             player.OnGameReset += hearts.Reset;
 
-            //screens
+            // Screens
             titleScreen = Content.Load<Texture2D>("StartMenu");
             controlsScreen = Content.Load<Texture2D>("ControlsScreen");
             pauseScreen = Content.Load<Texture2D>("PauseScreen");
@@ -151,40 +149,51 @@ namespace Dull_Radiance
 
             title = new Screens(titleScreen, _graphics);
             controls = new Screens(controlsScreen, _graphics);
-            pause = new Screens(pauseScreen, _graphics); 
+            pause = new Screens(pauseScreen, _graphics);
             play = new Screens(playScreen, _graphics);
 
-            //buttons
+            // Buttons
             buttonTexture = Content.Load<Texture2D>("BUTTON_UNHOVER");
 
-            //fonts
+            // Fonts
             agencyFB = Content.Load<SpriteFont>("Agency FB");
-            
-            //button initializations
+
+            // Button initializations
             startButton = new Button(
-                windowWidth/10,                                           //width
-                windowHeight/3 + windowHeight/36,                         //height
-                buttonTexture,                                            //skin
-                _graphics,                                                //gets window height and width 
-                agencyFB);                                                //font
-            controlsButton = new Button(windowWidth/10,                   //TODO find way to not have to include _graphics constructor for button class
-                windowHeight/2 + windowHeight/36,                          
+                windowWidth / 10,                           // Width
+                windowHeight / 3 + windowHeight / 36,       // Height
+                buttonTexture,                              // Skin
+                _graphics,                                  // Gets window height and width 
+                agencyFB);                                  // Font
+
+            controlsButton = new Button(
+                windowWidth / 10,
+                windowHeight / 2 + windowHeight / 36,
                 buttonTexture,
                 _graphics,
                 agencyFB);
-            quitButton = new Button(windowWidth/10,
-                windowHeight/2 + windowHeight/6 + windowHeight/36,
-                buttonTexture,
-                _graphics, agencyFB);
-            resumeButton = new Button( windowHeight/3 + windowHeight/9,
-                buttonTexture,
-                _graphics,
-                agencyFB);
-            titleReturn = new Button(windowHeight/2 + windowHeight/9,
+
+            quitButton = new Button(
+                windowWidth / 10,
+                windowHeight / 2 + windowHeight / 6 + windowHeight / 36,
                 buttonTexture,
                 _graphics,
                 agencyFB);
-            quitButton2 = new Button(windowHeight/2 + windowHeight/6 + windowHeight/9,
+
+            resumeButton = new Button(
+                windowHeight / 3 + windowHeight / 9,
+                buttonTexture,
+                _graphics,
+                agencyFB);
+
+            titleReturn = new Button(
+                windowHeight / 2 + windowHeight / 9,
+                buttonTexture,
+                _graphics,
+                agencyFB);
+
+            quitButton2 = new Button(
+                windowHeight / 2 + windowHeight / 6 + windowHeight / 9,
                 buttonTexture,
                 _graphics,
                 agencyFB);
@@ -192,7 +201,7 @@ namespace Dull_Radiance
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Q))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             kbState = Keyboard.GetState();
@@ -205,12 +214,13 @@ namespace Dull_Radiance
 
             switch (currentState)
             {
+                // Title
                 case GameState.Title:
                     if (startButton.Click())
                     {
                         currentState = GameState.Game;
                     }
-                    if(controlsButton.Click())
+                    if (controlsButton.Click())
                     {
                         currentState = GameState.Instructions;
                     }
@@ -219,6 +229,8 @@ namespace Dull_Radiance
                         Exit();
                     }
                     break;
+
+                // Instructions
                 case GameState.Instructions:
                     if (kbState.IsKeyDown(Keys.Space))
                     {
@@ -228,7 +240,7 @@ namespace Dull_Radiance
                 case GameState.Game:
                     player.Movement();
 
-                    if (kbState.IsKeyDown(Keys.Escape))
+                    if (kbState.IsKeyDown(Keys.P))
                     {
                         currentState = GameState.Pause;
                     }
@@ -238,9 +250,11 @@ namespace Dull_Radiance
                     }
                     if (SingleKeyPress(kbState, prevkbState, Keys.Enter))       //Implemented a test case for taking dmg on pressing enter
                     {
-                        player.CollideDanger();
+                        player.PlayerCollision();
                     }
                     break;
+
+                // Pause
                 case GameState.Pause:
                     if (quitButton2.Click())
                     {
@@ -255,6 +269,8 @@ namespace Dull_Radiance
                         currentState = GameState.Title;
                     }
                     break;
+
+                // Game over
                 case GameState.GameOver:
                     if (SingleKeyPress(kbState, prevkbState, Keys.Enter))
                     {
@@ -271,40 +287,49 @@ namespace Dull_Radiance
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.DarkSlateGray);
-
             _spriteBatch.Begin();
 
             switch (currentState)
             {
+                // Title
                 case GameState.Title:
                     title.ScreenDraw(_spriteBatch);
                     startButton.DrawButton(_spriteBatch, "Start");
                     controlsButton.DrawButton(_spriteBatch, "Controls");
                     quitButton.DrawButton(_spriteBatch, "Quit");
                     break;
+
+                // Instruction
                 case GameState.Instructions:
                     controls.ScreenDraw(_spriteBatch);
                     break;
+
+                // Game
                 case GameState.Game:
                     play.ScreenDraw(_spriteBatch);
                     player.Draw(_spriteBatch);
                     hearts.DrawHearts(_spriteBatch);
-                    _spriteBatch.DrawString(agencyFB,               
+                    _spriteBatch.DrawString(agencyFB,
                         "PRESS ENTER TO TEST DMG TAKING",
-                        new Vector2(windowWidth/2, windowHeight/2),
+                        new Vector2(windowWidth / 2, windowHeight / 2),
                         Color.White);
                     break;
+
+                // Pause
                 case GameState.Pause:
                     pause.ScreenDraw(_spriteBatch);
                     resumeButton.DrawButton(_spriteBatch, "Resume");
                     titleReturn.DrawButton(_spriteBatch, "Return to Title Screen");
                     quitButton2.DrawButton(_spriteBatch, "Quit");
                     break;
+
+                // Game over
+                // TODO: replace temp with actual game over screen
                 case GameState.GameOver:
-                    _spriteBatch.DrawString(agencyFB,               //temporary game over screen //TODO real game over screen
+                    _spriteBatch.DrawString(
+                        agencyFB,
                         "Game over! PRESS ENTER TO GO TO TITLE",
-                        new Vector2(windowWidth/2, windowHeight/2),
+                        new Vector2(windowWidth / 2, windowHeight / 2),
                         Color.White);
                     break;
             }
