@@ -149,7 +149,7 @@ namespace Dull_Radiance
 
             title = new Screens(titleScreen, _graphics);
             controls = new Screens(controlsScreen, _graphics);
-            pause = new Screens(pauseScreen, _graphics); 
+            pause = new Screens(pauseScreen, _graphics);
             play = new Screens(playScreen, _graphics);
 
             // Buttons
@@ -220,7 +220,7 @@ namespace Dull_Radiance
                     {
                         currentState = GameState.Game;
                     }
-                    if(controlsButton.Click())
+                    if (controlsButton.Click())
                     {
                         currentState = GameState.Instructions;
                     }
@@ -250,7 +250,7 @@ namespace Dull_Radiance
                     }
                     if (SingleKeyPress(kbState, prevkbState, Keys.Enter))       //Implemented a test case for taking dmg on pressing enter
                     {
-                        player.CollideDanger();
+                        player.PlayerCollision();
                     }
                     break;
 
@@ -287,40 +287,49 @@ namespace Dull_Radiance
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.DarkSlateGray);
-
             _spriteBatch.Begin();
 
             switch (currentState)
             {
+                // Title
                 case GameState.Title:
                     title.ScreenDraw(_spriteBatch);
                     startButton.DrawButton(_spriteBatch, "Start");
                     controlsButton.DrawButton(_spriteBatch, "Controls");
                     quitButton.DrawButton(_spriteBatch, "Quit");
                     break;
+
+                // Instruction
                 case GameState.Instructions:
                     controls.ScreenDraw(_spriteBatch);
                     break;
+
+                // Game
                 case GameState.Game:
                     play.ScreenDraw(_spriteBatch);
                     player.Draw(_spriteBatch);
                     hearts.DrawHearts(_spriteBatch);
-                    _spriteBatch.DrawString(agencyFB,               
+                    _spriteBatch.DrawString(agencyFB,
                         "PRESS ENTER TO TEST DMG TAKING",
-                        new Vector2(windowWidth/2, windowHeight/2),
+                        new Vector2(windowWidth / 2, windowHeight / 2),
                         Color.White);
                     break;
+
+                // Pause
                 case GameState.Pause:
                     pause.ScreenDraw(_spriteBatch);
                     resumeButton.DrawButton(_spriteBatch, "Resume");
                     titleReturn.DrawButton(_spriteBatch, "Return to Title Screen");
                     quitButton2.DrawButton(_spriteBatch, "Quit");
                     break;
+
+                // Game over
+                // TODO: replace temp with actual game over screen
                 case GameState.GameOver:
-                    _spriteBatch.DrawString(agencyFB,               //temporary game over screen //TODO real game over screen
+                    _spriteBatch.DrawString(
+                        agencyFB,
                         "Game over! PRESS ENTER TO GO TO TITLE",
-                        new Vector2(windowWidth/2, windowHeight/2),
+                        new Vector2(windowWidth / 2, windowHeight / 2),
                         Color.White);
                     break;
             }
