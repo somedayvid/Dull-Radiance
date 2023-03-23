@@ -107,7 +107,6 @@ namespace Dull_Radiance
 
             playerSpeed = 5;
             playerHealth = 5;
-            playerAlive = true;
             height = 320;
             width = 320;
 
@@ -157,7 +156,6 @@ namespace Dull_Radiance
         {
             OnGameReset();
             playerHealth = 5;
-            playerAlive = true;
             playerRect = new Rectangle(960, 540, width, height);
         }
 
