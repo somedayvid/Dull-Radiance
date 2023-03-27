@@ -31,9 +31,9 @@ namespace Dull_Radiance
         {
             this.liveHeart = liveHeart;
             this.deadHeart = deadHeart;
-            healthCounter = 5;
 
             healthbar = new bool[5] { true, true, true, true, true };
+            healthCounter = healthbar.Length;
             //player = new Player(playerTexture);
         }
 
@@ -75,7 +75,7 @@ namespace Dull_Radiance
         /// or false for dead heart
         /// </summary>
         /// <param name="sb">Spritebatch to draw</param>
-        public void DrawHearts(SpriteBatch sb)
+        public void Draw(SpriteBatch sb)
         {
             for (int i = 0; i < 5; i++)
             {

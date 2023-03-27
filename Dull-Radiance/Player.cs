@@ -68,7 +68,14 @@ namespace Dull_Radiance
         /// </summary>
         public int PlayerHealth
         {
-            get { return playerHealth; }
+            get 
+            { 
+                return playerHealth; 
+            }
+            set 
+            {
+                playerHealth = value;
+            }
         }
 
         /// <summary>
@@ -78,13 +85,17 @@ namespace Dull_Radiance
         {
             get
             {
-                if (playerHealth >= 1)
+                return playerAlive;
+            }
+            set
+            {
+                if(playerHealth >= 1)
                 {
-                    return true;
+                    playerAlive = true;
                 }
                 else
                 {
-                    return false;
+                    playerAlive = false;
                 }
             }
         }
@@ -109,6 +120,7 @@ namespace Dull_Radiance
             playerHealth = 5;
             height = 320;
             width = 320;
+            this.PlayerAlive = true;
 
             this.playerTexture = playerTexture;
 
