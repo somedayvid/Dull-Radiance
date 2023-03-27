@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Dull_Radiance
 {
-    //TODO HOW TO COUPLE PLAYER CLASS HP TO THIS CLASS
+    //TODO HOW TO COUPLE PLAYER CLASS HP TO THIS CLASS 
     /// <summary>
     /// A class which displays the hearts of the player character
     /// </summary>
