@@ -23,7 +23,7 @@ namespace Dull_Radiance
         private Texture2D deadHeart;
 
         /// <summary>
-        /// Initializes the heart textures, amt of starting life, and an array to represent total hp
+        /// Initializes the heart textures, amt of starting life, and an array to represent total hp  
         /// </summary>
         /// <param name="liveHeart"></param>
         /// <param name="deadHeart"></param>
