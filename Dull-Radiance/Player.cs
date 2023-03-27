@@ -18,6 +18,9 @@ namespace Dull_Radiance
     public delegate void DamageTakenDelegate();
     public delegate void GameReset();
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal class Player : ICollideAndDraw
     {
         //event
@@ -26,7 +29,7 @@ namespace Dull_Radiance
         public event GameReset OnGameReset;
 
         //Fields
-        private int windowWidth; //I commented out some code but these should stay
+        private int windowWidth;
         private int windowHeight;
         private int width;
         private int height;
@@ -73,15 +76,15 @@ namespace Dull_Radiance
         /// </summary>
         public bool PlayerAlive
         {
-            get 
-            { 
-                if(playerHealth >= 1)
+            get
+            {
+                if (playerHealth >= 1)
                 {
-                    return true; 
-                } 
-                else 
-                { 
-                    return false; 
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
         }
@@ -104,7 +107,6 @@ namespace Dull_Radiance
 
             playerSpeed = 5;
             playerHealth = 5;
-            playerAlive = true;
             height = 320;
             width = 320;
 
@@ -135,14 +137,14 @@ namespace Dull_Radiance
             //     happening
             //}
         }
-        
+
         /// <summary>
         /// When the player collides with something hazardous they will take dmg and alert event
         /// </summary>
         //TODO when player collides with enemy or environmental hazard
-        public void CollideDanger() //TODO better name?
+        public void PlayerCollision()
         {
-             //TODO alerts systems maybe get a screen  flash in here or smth 
+            //TODO alerts systems maybe get a screen  flash in here or smth 
             playerHealth--;
             OnDamageTaken();
         }
@@ -154,8 +156,7 @@ namespace Dull_Radiance
         {
             OnGameReset();
             playerHealth = 5;
-            playerAlive = true;
-            playerRect =  new Rectangle(960, 540, width, height);
+            playerRect = new Rectangle(960, 540, width, height);
         }
 
         /// <summary>
@@ -164,7 +165,7 @@ namespace Dull_Radiance
         /// <param name="sb">SpriteBatch sb</param>
         public void Draw(SpriteBatch sb)
         {
-            
+
             sb.Draw(
                 playerTexture,
                 playerRect,

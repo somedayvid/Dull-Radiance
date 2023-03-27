@@ -22,7 +22,6 @@ namespace Dull_Radiance
         private Texture2D liveHeart;
         private Texture2D deadHeart;
 
-        //TODO make sure health cannot be healed past 5 or wtv number we decide on
         /// <summary>
         /// Initializes the heart textures, amt of starting life, and an array to represent total hp
         /// </summary>
@@ -65,7 +64,7 @@ namespace Dull_Radiance
         public void Reset()
         {
             healthCounter = 5;
-            for(int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 healthbar[i] = true;
             }
@@ -82,7 +81,7 @@ namespace Dull_Radiance
             {
                 if (healthbar[i])
                 {
-                    sb.Draw(
+                    sb.Draw(                                   //TODO DO NOT HARDCODE
                         liveHeart,
                         new Rectangle(i * 110, 0, 100, 100),
                         Color.White);
