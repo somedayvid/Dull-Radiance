@@ -58,6 +58,8 @@ namespace Dull_Radiance
         StreamReader readMap;
         string lineOfText;
 
+        private SpriteBatch _spriteBatch;
+
         //Properties
 
 
@@ -70,6 +72,12 @@ namespace Dull_Radiance
 
             //Load Map
             LoadMap();
+
+            //ConvertMap to enum map
+            ConvertMap(doubleMap);
+
+                //Draw Objects to screen
+            //Draw(_spriteBatch);
         }
 
         /// <summary>
@@ -80,7 +88,7 @@ namespace Dull_Radiance
             try
             {
                 //Initialize Reader
-                readMap = new StreamReader("../../StartingMapCoordinates");
+                readMap = new StreamReader("../../../StartingMapCoordinates.txt");
 
                 //Loop through lines until reaching data
                 lineOfText = readMap.ReadLine();
@@ -94,7 +102,7 @@ namespace Dull_Radiance
                 int col = 0;
 
                 //Run through lines in txt
-                while((lineOfText = readMap.ReadLine()) != null)
+                while(lineOfText != null)
                 {
                     //Turn line into array of strings - Parse to double
                     string[] splitPrint = lineOfText.Split('|');
@@ -112,65 +120,8 @@ namespace Dull_Radiance
 
                     //Move down one row
                     row++;
-                }
 
-                //Reset row|col
-                for (row = 0; row < 30; row++)
-                {
-                    for (col = 0; col < 52; col++)
-                    {
-                        switch(doubleMap[row,col])
-                        {
-                            case .1:
-                                map[row, col] = WallType.TLCorner;
-                                break;
-                            case .3:
-                                map[row, col] = WallType.BLCorner;
-                                break;
-                            case 2.1:
-                                map[row, col] = WallType.TRCorner;
-                                break;
-                            case 2.3:
-                                map[row, col] = WallType.BRCorner;
-                                break;
-                            case 1:
-                                map[row, col] = WallType.Floor;
-                                break;
-                            case 3.3:
-                                map[row, col] = WallType.HoriWall;
-                                break;
-                            case 3.2:
-                                map[row, col] = WallType.VertWall;
-                                break;
-                            case .2:
-                                map[row, col] = WallType.LMWall;
-                                break;
-                            case 1.1:
-                                map[row, col] = WallType.TMWall;
-                                break;
-                            case 1.3:
-                                map[row, col] = WallType.BMWall;
-                                break;
-                            case 2.2:
-                                map[row, col] = WallType.RMWall;
-                                break;
-                            case 4.1:
-                                map[row, col] = WallType.HIF;
-                                break;
-                            case 5.1:
-                                map[row, col] = WallType.SawBlade;
-                                break;
-                            case 1.9:
-                                map[row, col] = WallType.MBDoor;
-                                break;
-                            case 3:
-                                map[row, col] = WallType.Lore;
-                                break;
-                            case 3.1:
-                                map[row, col] = WallType.LightSwitch;
-                                break;
-                        }
-                    }
+                    lineOfText = readMap.ReadLine();
                 }
             }
             catch(Exception error)
@@ -185,6 +136,87 @@ namespace Dull_Radiance
                     readMap.Close();
                 }
             }
+        }
+
+        /// <summary>
+        /// Converts doublemap to enum map
+        /// </summary>
+        /// <param name="doubleMap">2D array map of doubles ot convert</param>
+        public void ConvertMap(double[,] doubleMap)
+        {
+            //Variables
+            int row;
+            int col;
+            double tile;
+
+            //Convert doubleMap into Enum Map
+            for (row = 0; row < 30; row++)
+            {
+                for (col = 0; col < 52; col++)
+                {
+                    tile = doubleMap[row, col];
+                    switch (tile)
+                    {
+                        case .1:
+                            map[row, col] = WallType.TLCorner;
+                            break;
+                        case .3:
+                            map[row, col] = WallType.BLCorner;
+                            break;
+                        case 2.1:
+                            map[row, col] = WallType.TRCorner;
+                            break;
+                        case 2.3:
+                            map[row, col] = WallType.BRCorner;
+                            break;
+                        case 1:
+                            map[row, col] = WallType.Floor;
+                            break;
+                        case 3.3:
+                            map[row, col] = WallType.HoriWall;
+                            break;
+                        case 3.2:
+                            map[row, col] = WallType.VertWall;
+                            break;
+                        case .2:
+                            map[row, col] = WallType.LMWall;
+                            break;
+                        case 1.1:
+                            map[row, col] = WallType.TMWall;
+                            break;
+                        case 1.3:
+                            map[row, col] = WallType.BMWall;
+                            break;
+                        case 2.2:
+                            map[row, col] = WallType.RMWall;
+                            break;
+                        case 4.1:
+                            map[row, col] = WallType.HIF;
+                            break;
+                        case 5.1:
+                            map[row, col] = WallType.SawBlade;
+                            break;
+                        case 1.9:
+                            map[row, col] = WallType.MBDoor;
+                            break;
+                        case 3:
+                            map[row, col] = WallType.Lore;
+                            break;
+                        case 3.1:
+                            map[row, col] = WallType.LightSwitch;
+                            break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Draw tiles onto the screen
+        /// </summary>
+        /// <param name="sb">Spritebatch sb</param>
+        public void Draw(SpriteBatch sb)
+        {
+            //Draw Methods or calls to draw
         }
     }
 }
