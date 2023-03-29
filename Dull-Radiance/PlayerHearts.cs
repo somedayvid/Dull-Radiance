@@ -21,6 +21,35 @@ namespace Dull_Radiance
         private bool[] healthbar;
         private Texture2D liveHeart;
         private Texture2D deadHeart;
+        private bool playerAlive;
+
+        public int HealthCounter
+        {
+            get { return healthCounter; }
+            set 
+            {
+                if(healthCounter < 0)
+                {
+                    healthCounter = 0;
+                }
+                else if(healthCounter > 5)
+                {
+                    healthCounter = 5;
+                }
+            }
+        }
+
+        public bool PlayerAlive
+        {
+            get { return playerAlive; }
+            set
+            {
+                if (!healthbar[0])
+                {
+                    playerAlive = false;
+                }
+            }
+        }
 
         /// <summary>
         /// Initializes the heart textures, amt of starting life, and an array to represent total hp  
@@ -34,6 +63,7 @@ namespace Dull_Radiance
 
             healthbar = new bool[5] { true, true, true, true, true };
             healthCounter = healthbar.Length;
+            playerAlive = true;
             //player = new Player(playerTexture);
         }
 
@@ -77,7 +107,7 @@ namespace Dull_Radiance
         /// <param name="sb">Spritebatch to draw</param>
         public void Draw(SpriteBatch sb)
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < healthbar.Length; i++)
             {
                 if (healthbar[i])
                 {
