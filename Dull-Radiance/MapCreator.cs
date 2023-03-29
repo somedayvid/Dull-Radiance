@@ -73,6 +73,9 @@ namespace Dull_Radiance
             //Load Map
             LoadMap();
 
+            //ConvertMap to enum map
+            ConvertMap(doubleMap);
+
                 //Draw Objects to screen
             //Draw(_spriteBatch);
         }
@@ -120,65 +123,6 @@ namespace Dull_Radiance
 
                     lineOfText = readMap.ReadLine();
                 }
-
-                //Convert doubleMap into Enum Map
-                for (row = 0; row < 30; row++)
-                {
-                    for (col = 0; col < 52; col++)
-                    {
-                        switch(doubleMap[row,col])
-                        {
-                            case .1:
-                                map[row, col] = WallType.TLCorner;
-                                break;
-                            case .3:
-                                map[row, col] = WallType.BLCorner;
-                                break;
-                            case 2.1:
-                                map[row, col] = WallType.TRCorner;
-                                break;
-                            case 2.3:
-                                map[row, col] = WallType.BRCorner;
-                                break;
-                            case 1:
-                                map[row, col] = WallType.Floor;
-                                break;
-                            case 3.3:
-                                map[row, col] = WallType.HoriWall;
-                                break;
-                            case 3.2:
-                                map[row, col] = WallType.VertWall;
-                                break;
-                            case .2:
-                                map[row, col] = WallType.LMWall;
-                                break;
-                            case 1.1:
-                                map[row, col] = WallType.TMWall;
-                                break;
-                            case 1.3:
-                                map[row, col] = WallType.BMWall;
-                                break;
-                            case 2.2:
-                                map[row, col] = WallType.RMWall;
-                                break;
-                            case 4.1:
-                                map[row, col] = WallType.HIF;
-                                break;
-                            case 5.1:
-                                map[row, col] = WallType.SawBlade;
-                                break;
-                            case 1.9:
-                                map[row, col] = WallType.MBDoor;
-                                break;
-                            case 3:
-                                map[row, col] = WallType.Lore;
-                                break;
-                            case 3.1:
-                                map[row, col] = WallType.LightSwitch;
-                                break;
-                        }
-                    }
-                }
             }
             catch(Exception error)
             {
@@ -194,6 +138,79 @@ namespace Dull_Radiance
             }
         }
 
+
+        public void ConvertMap(double[,] doubleMap)
+        {
+            //Variables
+            int row;
+            int col;
+            double tile;
+
+            //Convert doubleMap into Enum Map
+            for (row = 0; row < 30; row++)
+            {
+                for (col = 0; col < 52; col++)
+                {
+                    tile = doubleMap[row, col];
+                    switch (tile)
+                    {
+                        case .1:
+                            map[row, col] = WallType.TLCorner;
+                            break;
+                        case .3:
+                            map[row, col] = WallType.BLCorner;
+                            break;
+                        case 2.1:
+                            map[row, col] = WallType.TRCorner;
+                            break;
+                        case 2.3:
+                            map[row, col] = WallType.BRCorner;
+                            break;
+                        case 1:
+                            map[row, col] = WallType.Floor;
+                            break;
+                        case 3.3:
+                            map[row, col] = WallType.HoriWall;
+                            break;
+                        case 3.2:
+                            map[row, col] = WallType.VertWall;
+                            break;
+                        case .2:
+                            map[row, col] = WallType.LMWall;
+                            break;
+                        case 1.1:
+                            map[row, col] = WallType.TMWall;
+                            break;
+                        case 1.3:
+                            map[row, col] = WallType.BMWall;
+                            break;
+                        case 2.2:
+                            map[row, col] = WallType.RMWall;
+                            break;
+                        case 4.1:
+                            map[row, col] = WallType.HIF;
+                            break;
+                        case 5.1:
+                            map[row, col] = WallType.SawBlade;
+                            break;
+                        case 1.9:
+                            map[row, col] = WallType.MBDoor;
+                            break;
+                        case 3:
+                            map[row, col] = WallType.Lore;
+                            break;
+                        case 3.1:
+                            map[row, col] = WallType.LightSwitch;
+                            break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Draw tiles onto the screen
+        /// </summary>
+        /// <param name="sb">Spritebatch sb</param>
         public void Draw(SpriteBatch sb)
         {
             //Draw Methods or calls to draw
