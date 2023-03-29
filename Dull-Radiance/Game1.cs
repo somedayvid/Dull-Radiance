@@ -50,7 +50,10 @@ namespace Dull_Radiance
         //textures
         private Texture2D key;
         private Texture2D doors;
-        private Texture2D walls;
+        private Texture2D corner;
+        private Texture2D side;
+        private Texture2D top;
+        private Texture2D middle;
         private Texture2D floors;
         private Texture2D lights;
         private Texture2D aliveHeart;
@@ -132,6 +135,8 @@ namespace Dull_Radiance
 
             //Intialize 2d Map
             mapMaker = new MapCreator();
+
+
         }
 
         protected override void LoadContent()
@@ -166,6 +171,14 @@ namespace Dull_Radiance
 
             // Fonts
             agencyFB = Content.Load<SpriteFont>("Agency FB");
+
+            // Load wall textures
+            corner = Content.Load<Texture2D>("L");
+            middle = Content.Load<Texture2D>("Middle");
+            side = Content.Load<Texture2D>("Side");
+            top = Content.Load<Texture2D>("Top");
+            floors = Content.Load<Texture2D>("Floor");
+            doors = Content.Load<Texture2D>("Door");
 
             // Button initializations
             startButton = new Button(

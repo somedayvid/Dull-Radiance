@@ -8,6 +8,7 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using static System.Net.WebRequestMethods;
 
 namespace Dull_Radiance
 {
@@ -211,9 +212,13 @@ namespace Dull_Radiance
         /// Draw tiles onto the screen
         /// </summary>
         /// <param name="sb">Spritebatch sb</param>
-        public void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch _sb, Texture2D[] texture, WallType[,] map)
         {
-            //Draw Methods or calls to draw
+            switch (map)
+            {
+                default:
+    
+            }
         }
     }
 }
