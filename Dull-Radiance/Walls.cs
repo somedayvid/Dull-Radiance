@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Dull_Radiance
 {
-    internal class Walls// : //ICollideAndDraw
+    internal class Walls // : ICollideAndDraw
     {
         //Fields
         List<Rectangle> allWalls = new List<Rectangle>();

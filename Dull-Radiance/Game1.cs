@@ -35,6 +35,7 @@ namespace Dull_Radiance
         private SpriteBatch _spriteBatch;
 
         //Variables
+        MapCreator mapMaker;
 
         //Player/Enemy Related variables
 
@@ -100,6 +101,7 @@ namespace Dull_Radiance
 
         protected override void Initialize()
         {
+            //Commments
             _graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
             windowHeight = _graphics.PreferredBackBufferHeight;
@@ -108,6 +110,7 @@ namespace Dull_Radiance
             _graphics.ApplyChanges();
             base.Initialize();
 
+            //huh comments
             buttonList = new List<Button>
             {
                 startButton,
@@ -118,6 +121,7 @@ namespace Dull_Radiance
                 titleReturn
             };
 
+            //Screen where
             screensList = new List<Screens>
             {
                 title,
@@ -125,6 +129,9 @@ namespace Dull_Radiance
                 play,
                 pause
             };
+
+            //Intialize 2d Map
+            mapMaker = new MapCreator();
         }
 
         protected override void LoadContent()
