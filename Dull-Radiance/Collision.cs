@@ -54,16 +54,6 @@ namespace Dull_Radiance
 
         }
 
-        /// <summary>
-        /// Draw Object to Screen
-        /// </summary>
-        /// <param name="sb">SpriteBatch sb</param>
-        public void Draw(SpriteBatch sb)
-        {
-            //TODO Figure out what to do here as this may also handles drawing map
-
-        }
-
         //Constructor
         public Collisions()
         {
