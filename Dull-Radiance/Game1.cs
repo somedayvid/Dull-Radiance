@@ -69,6 +69,8 @@ namespace Dull_Radiance
         private Screens controls;
         private Screens pause;
         private Screens play;
+        private UIManager uiManager;
+        private Inventory inventory;
 
         //button items
         private List<Button> buttonList;
@@ -137,9 +139,8 @@ namespace Dull_Radiance
             aliveHeart = Content.Load<Texture2D>("LiveHeart");
             deadHeart = Content.Load<Texture2D>("DeadHeart");
             hearts = new PlayerHearts(aliveHeart, deadHeart);
-
-            player.OnDamageTaken += hearts.TakeDamage;
-            player.OnGameReset += hearts.Reset;
+            inventory = new Inventory(deadHeart, _graphics);
+            uiManager = new UIManager(hearts, player, inventory);
 
             // Screens
             titleScreen = Content.Load<Texture2D>("StartMenu");
@@ -256,6 +257,8 @@ namespace Dull_Radiance
 
                 // Pause
                 case GameState.Pause:
+                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                        Exit();
                     if (quitButton2.Click())
                     {
                         Exit();
@@ -272,6 +275,8 @@ namespace Dull_Radiance
 
                 // Game over
                 case GameState.GameOver:
+                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                        Exit();
                     if (SingleKeyPress(kbState, prevkbState, Keys.Enter))
                     {
                         player.Reset();
@@ -308,7 +313,7 @@ namespace Dull_Radiance
                 case GameState.Game:
                     play.ScreenDraw(_spriteBatch);
                     player.Draw(_spriteBatch);
-                    hearts.DrawHearts(_spriteBatch);
+                    uiManager.Draw(_spriteBatch);
                     _spriteBatch.DrawString(agencyFB,
                         "PRESS ENTER TO TEST DMG TAKING",
                         new Vector2(windowWidth / 2, windowHeight / 2),
