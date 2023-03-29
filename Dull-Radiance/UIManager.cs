@@ -18,6 +18,8 @@ namespace Dull_Radiance
         private PlayerHearts hearts;
         private Player player;
         private Inventory inventory;
+        private KeyboardState currentKBState;
+        private KeyboardState previousKBState;
 
         /// <summary>
         /// 
@@ -33,11 +35,27 @@ namespace Dull_Radiance
 
             player.OnDamageTaken += hearts.TakeDamage;
             player.OnGameReset += hearts.Reset;
+            player.OnHeal += hearts.Heal;
         }
 
         public void Update(GameTime gameTime)
         {
+            currentKBState = Keyboard.GetState();
 
+            if (SingleKeyPress(currentKBState, previousKBState, Keys.Z))
+            {
+                hearts.TakeDamage();
+            }
+            else if(SingleKeyPress(currentKBState, currentKBState, Keys.X))
+            {
+                hearts.Heal();
+            }
+            //if(SingleKeyPress(currentKBState, previousKBState, Keys.Space))
+            //{
+            //    inventory.AddToInventory()
+            //}
+
+            previousKBState = Keyboard.GetState();
         }
 
         /// <summary>
@@ -48,6 +66,24 @@ namespace Dull_Radiance
         {
             hearts.Draw(sb);
             inventory.DrawInventory(sb);
+        }
+
+        /// <summary>
+        /// Single KeyPress Checker
+        /// </summary>
+        /// <param name="firstPress">KeyboardState firstPress</param>
+        /// <param name="secondPress">KeyBoardState secondPress</param>
+        /// <returns>bool if key is only active for 1 frame</returns>
+        public bool SingleKeyPress(KeyboardState firstPress, KeyboardState secondPress, Keys key)
+        {
+            if (firstPress.IsKeyDown(key) && secondPress.IsKeyUp(key))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

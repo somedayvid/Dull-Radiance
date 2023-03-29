@@ -17,6 +17,7 @@ namespace Dull_Radiance
     //TODO move these into a game manager class instead of being in player
     public delegate void DamageTakenDelegate();
     public delegate void GameReset();
+    public delegate void Healing();
 
     /// <summary>
     /// 
@@ -27,6 +28,7 @@ namespace Dull_Radiance
         //TODO this as well
         public event DamageTakenDelegate OnDamageTaken;
         public event GameReset OnGameReset;
+        public event Healing OnHeal; 
 
         //Fields
         private int windowWidth;
@@ -45,6 +47,8 @@ namespace Dull_Radiance
         private Rectangle playerRect;
 
         private KeyboardState KBState;
+
+        private PlayerHearts hearts;
 
         //Properties
         /// <summary>
@@ -105,7 +109,7 @@ namespace Dull_Radiance
         /// Initializes the player's initial position and starting stats
         /// </summary>
         /// <param name="playerTexture">The texture of the player character</param>
-        public Player(Texture2D playerTexture)      //TODO find way to not hard code numbers for initial positioning and size
+        public Player(Texture2D playerTexture, PlayerHearts hearts)      //TODO find way to not hard code numbers for initial positioning and size
         {
             //windowWidth = graphics.PreferredBackBufferWidth;
             //windowHeight = graphics.PreferredBackBufferHeight;
@@ -121,7 +125,6 @@ namespace Dull_Radiance
             height = 320;
             width = 320;
             this.PlayerAlive = true;
-
             this.playerTexture = playerTexture;
 
             playerRect = new Rectangle(960, 540, width, height);
@@ -157,8 +160,12 @@ namespace Dull_Radiance
         public void PlayerCollision()
         {
             //TODO alerts systems maybe get a screen  flash in here or smth 
-            playerHealth--;
             OnDamageTaken();
+        }
+
+        public void PlayerHeal()
+        {
+            OnHeal();
         }
 
         /// <summary>

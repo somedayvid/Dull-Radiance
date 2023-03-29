@@ -138,15 +138,16 @@ namespace Dull_Radiance
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // Player
-            playerTexture = Content.Load<Texture2D>("Player");
-            player = new Player(playerTexture);
-
             // Ui elements
             aliveHeart = Content.Load<Texture2D>("LiveHeart");
             deadHeart = Content.Load<Texture2D>("DeadHeart");
             hearts = new PlayerHearts(aliveHeart, deadHeart);
             inventory = new Inventory(deadHeart, _graphics);
+
+
+            // Player
+            playerTexture = Content.Load<Texture2D>("Player");
+            player = new Player(playerTexture, hearts);
             uiManager = new UIManager(hearts, player, inventory);
 
             // Screens
@@ -247,19 +248,17 @@ namespace Dull_Radiance
                     break;
                 case GameState.Game:
                     player.Movement();
+                    uiManager.Update(gameTime);
 
                     if (kbState.IsKeyDown(Keys.P))
                     {
                         currentState = GameState.Pause;
                     }
-                    if (!player.PlayerAlive)
+                    if (!hearts.PlayerAlive)
                     {
                         currentState = GameState.GameOver;
                     }
-                    if (SingleKeyPress(kbState, prevkbState, Keys.Enter))       //Implemented a test case for taking dmg on pressing enter
-                    {
-                        player.PlayerCollision();
-                    }
+
                     break;
 
                 // Pause
