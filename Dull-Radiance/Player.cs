@@ -40,7 +40,6 @@ namespace Dull_Radiance
 
         //gameplay fields
         private int playerSpeed;
-        private int playerHealth;
         private bool playerAlive;
 
         //private Texture2D playerTexture;
@@ -48,7 +47,7 @@ namespace Dull_Radiance
 
         private KeyboardState KBState;
 
-        private PlayerHearts hearts;
+        private PlayerHealth hearts;
 
         //Properties
         /// <summary>
@@ -67,49 +66,12 @@ namespace Dull_Radiance
             get { return playerRect.Y; }
         }
 
-        /// <summary>
-        /// Used in visual displays of player health //TODO supposed to couple with playerhearts class but i dont know how to get it to work rn
-        /// </summary>
-        public int PlayerHealth
-        {
-            get 
-            { 
-                return playerHealth; 
-            }
-            set 
-            {
-                playerHealth = value;
-            }
-        }
-
-        /// <summary>
-        /// Used in main to check if game is over b/c player's health dropped to 0
-        /// </summary>
-        public bool PlayerAlive
-        {
-            get
-            {
-                return playerAlive;
-            }
-            set
-            {
-                if(playerHealth >= 1)
-                {
-                    playerAlive = true;
-                }
-                else
-                {
-                    playerAlive = false;
-                }
-            }
-        }
-
         //Constructors
         /// <summary>
         /// Initializes the player's initial position and starting stats
         /// </summary>
         /// <param name="playerTexture">The texture of the player character</param>
-        public Player(Texture2D playerTexture, PlayerHearts hearts)      //TODO find way to not hard code numbers for initial positioning and size
+        public Player(Texture2D playerTexture, PlayerHealth hearts)      //TODO find way to not hard code numbers for initial positioning and size
         {
             //windowWidth = graphics.PreferredBackBufferWidth;
             //windowHeight = graphics.PreferredBackBufferHeight;
@@ -121,10 +83,8 @@ namespace Dull_Radiance
             //playerRect = new Rectangle(windowWidth/2 - width/2, windowHeight/2 - height/2, width, height);
 
             playerSpeed = 5;
-            playerHealth = 5;
             height = 320;
             width = 320;
-            this.PlayerAlive = true;
             this.playerTexture = playerTexture;
 
             playerRect = new Rectangle(960, 540, width, height);
@@ -174,7 +134,6 @@ namespace Dull_Radiance
         public void Reset()
         {
             OnGameReset();
-            playerHealth = 5;
             playerRect = new Rectangle(960, 540, width, height);
         }
 
@@ -190,7 +149,6 @@ namespace Dull_Radiance
                 playerRect,
                 Color.White);
         }
-
 
         /// <summary>
         /// Players Movement using WASD and Arrow Keys
