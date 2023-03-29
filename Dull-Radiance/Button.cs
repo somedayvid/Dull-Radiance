@@ -75,7 +75,7 @@ namespace Dull_Radiance
         /// <summary>
         /// Updates every frame the mState
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="gameTime">Used to update every frame</param>
         public void ButtonsUpdate(GameTime gameTime)
         {
             mState = Mouse.GetState();
@@ -100,8 +100,8 @@ namespace Dull_Radiance
         /// <summary>
         /// Formula for centering text within a button
         /// </summary>
-        /// <param name="buttonText"></param>
-        /// <returns></returns>
+        /// <param name="buttonText">Used to check the length and width of the text</param>
+        /// <returns>The vector of where to place the text rect of the text</returns>
         public Vector2 CenterText(string buttonText)
         {
             float centerX = this.buttonRect.X + this.buttonRect.Width / 2 -

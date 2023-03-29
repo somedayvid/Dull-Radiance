@@ -89,7 +89,7 @@ namespace Dull_Radiance
         private int windowWidth;
 
         //UI elements
-        private PlayerHearts hearts;
+        private PlayerHealth hearts;
 
         public Game1()
         {
@@ -141,7 +141,7 @@ namespace Dull_Radiance
             // Ui elements
             aliveHeart = Content.Load<Texture2D>("LiveHeart");
             deadHeart = Content.Load<Texture2D>("DeadHeart");
-            hearts = new PlayerHearts(aliveHeart, deadHeart);
+            hearts = new PlayerHealth(aliveHeart, deadHeart);
             inventory = new Inventory(deadHeart, _graphics);
 
 
@@ -227,6 +227,7 @@ namespace Dull_Radiance
                 case GameState.Title:
                     if (startButton.Click())
                     {
+                        player.Reset();
                         currentState = GameState.Game;
                     }
                     if (controlsButton.Click())
@@ -248,13 +249,13 @@ namespace Dull_Radiance
                     break;
                 case GameState.Game:
                     player.Movement();
-                    uiManager.Update(gameTime);
+                    uiManager.Update(gameTime, kbState, prevkbState);
 
                     if (kbState.IsKeyDown(Keys.P))
                     {
                         currentState = GameState.Pause;
                     }
-                    if (!hearts.PlayerAlive)
+                    if (hearts.CurrentHealth == 0)
                     {
                         currentState = GameState.GameOver;
                     }
@@ -285,7 +286,6 @@ namespace Dull_Radiance
                         Exit();
                     if (SingleKeyPress(kbState, prevkbState, Keys.Enter))
                     {
-                        player.Reset();
                         currentState = GameState.Title;
                     }
                     break;
@@ -337,6 +337,7 @@ namespace Dull_Radiance
                 // Game over
                 // TODO: replace temp with actual game over screen
                 case GameState.GameOver:
+                    play.ScreenDraw(_spriteBatch);
                     _spriteBatch.DrawString(
                         agencyFB,
                         "Game over! PRESS ENTER TO GO TO TITLE",

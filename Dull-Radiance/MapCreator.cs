@@ -138,7 +138,10 @@ namespace Dull_Radiance
             }
         }
 
-
+        /// <summary>
+        /// Converts doublemap to enum map
+        /// </summary>
+        /// <param name="doubleMap">2D array map of doubles ot convert</param>
         public void ConvertMap(double[,] doubleMap)
         {
             //Variables

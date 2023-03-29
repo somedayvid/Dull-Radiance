@@ -15,19 +15,17 @@ namespace Dull_Radiance
     internal class UIManager
     {
         //fields
-        private PlayerHearts hearts;
+        private PlayerHealth hearts;
         private Player player;
         private Inventory inventory;
-        private KeyboardState currentKBState;
-        private KeyboardState previousKBState;
 
         /// <summary>
-        /// 
+        /// Subscribes and initializes methods and variables
         /// </summary>
-        /// <param name="hearts"></param>
-        /// <param name="player"></param>
-        /// <param name="inventory"></param>
-        public UIManager(PlayerHearts hearts, Player player, Inventory inventory)
+        /// <param name="hearts">Hearts UI</param>
+        /// <param name="player">Player to work with hearts</param>
+        /// <param name="inventory">Inventory UI</param>
+        public UIManager(PlayerHealth hearts, Player player, Inventory inventory)
         {
             this.hearts = hearts;
             this.player = player;
@@ -38,15 +36,19 @@ namespace Dull_Radiance
             player.OnHeal += hearts.Heal;
         }
 
-        public void Update(GameTime gameTime)
-        {
-            currentKBState = Keyboard.GetState();
-
-            if (SingleKeyPress(currentKBState, previousKBState, Keys.Z))
+        /// <summary>
+        /// Checks for inputs for the UI elements
+        /// </summary>
+        /// <param name="gameTime">Update every frame</param>
+        /// <param name="first">First keyboard press</param>
+        /// <param name="second">Previous keyboard press</param>
+        public void Update(GameTime gameTime, KeyboardState first, KeyboardState second)
+        { 
+            if (SingleKeyPress(first, second, Keys.Q))
             {
                 hearts.TakeDamage();
             }
-            else if(SingleKeyPress(currentKBState, currentKBState, Keys.X))
+            if(SingleKeyPress(first, second, Keys.Z))
             {
                 hearts.Heal();
             }
@@ -54,14 +56,12 @@ namespace Dull_Radiance
             //{
             //    inventory.AddToInventory()
             //}
-
-            previousKBState = Keyboard.GetState();
         }
 
         /// <summary>
         /// Draws the UI elements to the game screen
         /// </summary>
-        /// <param name="sb"></param>
+        /// <param name="sb">Uses monogame library spritebatch</param>
         public void Draw(SpriteBatch sb)
         {
             hearts.Draw(sb);
