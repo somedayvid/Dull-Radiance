@@ -13,40 +13,31 @@ namespace Dull_Radiance
     /// <summary>
     /// A class which displays the hearts of the player character
     /// </summary>
-    internal class PlayerHearts
+    internal class PlayerHealth
     {
         //fields
         //private Player player;
-        private int healthCounter;
+        private int currentHealth;
         private bool[] healthbar;
         private Texture2D liveHeart;
         private Texture2D deadHeart;
-        private bool playerAlive;
+        private int maxHealth;
 
-        public int HealthCounter
+        /// <summary>
+        /// Gets the current health of the player
+        /// </summary>
+        public int CurrentHealth
         {
-            get { return healthCounter; }
+            get { return currentHealth; }
             set 
             {
-                if(healthCounter < 0)
+                if(currentHealth < 0)
                 {
-                    healthCounter = 0;
+                    currentHealth = 0;
                 }
-                else if(healthCounter > 5)
+                else if(currentHealth > maxHealth)
                 {
-                    healthCounter = 5;
-                }
-            }
-        }
-
-        public bool PlayerAlive
-        {
-            get { return playerAlive; }
-            set
-            {
-                if (!healthbar[0])
-                {
-                    playerAlive = false;
+                    currentHealth = maxHealth;
                 }
             }
         }
@@ -54,38 +45,51 @@ namespace Dull_Radiance
         /// <summary>
         /// Initializes the heart textures, amt of starting life, and an array to represent total hp  
         /// </summary>
-        /// <param name="liveHeart"></param>
-        /// <param name="deadHeart"></param>
-        public PlayerHearts(Texture2D liveHeart, Texture2D deadHeart)
+        /// <param name="liveHeart">Living heart texture</param>
+        /// <param name="deadHeart">Dead heart textures</param>
+        public PlayerHealth(Texture2D liveHeart, Texture2D deadHeart)
         {
             this.liveHeart = liveHeart;
             this.deadHeart = deadHeart;
+            maxHealth = 5;
+            currentHealth = maxHealth;
 
-            healthbar = new bool[5] { true, true, true, true, true };
-            healthCounter = healthbar.Length;
-            playerAlive = true;
-            //player = new Player(playerTexture);
+            healthbar = new bool[maxHealth];
         }
 
         //TODO correctly couple take damage and heal with the player's hp
         /// <summary>
-        /// Lowers healthcounter on taking damage and sets the heart in the array to false  to
+        /// Lowers currentHealth on taking damage and sets the heart in the array to false  to
         /// indicate damage taken
         /// </summary>
         public void TakeDamage()
         {
-            healthCounter--;
-            healthbar[healthCounter] = false;
+            try
+            {
+                currentHealth--;
+                healthbar[currentHealth] = false;
+            }
+            catch(IndexOutOfRangeException)
+            {
+
+            }
         }
 
         /// <summary>
-        /// Raises healthcounter on healing damage and sets the heart in the array to true  to
+        /// Raises currentHealth on healing damage and sets the heart in the array to true  to
         /// indicate damage healed
         /// </summary>
         public void Heal()
         {
-            healthCounter++;
-            healthbar[healthCounter] = true;
+            try
+            {
+                healthbar[currentHealth] = true;
+                currentHealth++;
+            }
+            catch(IndexOutOfRangeException)
+            {
+
+            }
         }
 
         /// <summary>
@@ -93,11 +97,11 @@ namespace Dull_Radiance
         /// </summary>
         public void Reset()
         {
-            healthCounter = 5;
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < maxHealth; i++)
             {
                 healthbar[i] = true;
             }
+            currentHealth = maxHealth;
         }
 
         /// <summary>
