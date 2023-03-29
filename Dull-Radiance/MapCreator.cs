@@ -31,7 +31,8 @@ namespace Dull_Radiance
         SawBlade,       //Saw Blade
         MBGoal,         //Moving Block Goal
         MBDoor,         //Moving Block Door
-        Lore            //Lore
+        Lore,           //Lore
+        LightSwitch     //Light Switch
     }
 
     /// <summary>
@@ -52,7 +53,8 @@ namespace Dull_Radiance
     internal class MapCreator
     {
         //Variables
-        private double[,] map;
+        private double[,] doubleMap;
+        private WallType[,] map;
         StreamReader readMap;
         string lineOfText;
 
@@ -62,8 +64,9 @@ namespace Dull_Radiance
         //Constructor
         public MapCreator()
         {
-            //Map Size
-            map = new double[52, 30];
+            //Map Sizing
+            doubleMap = new double[30, 52];
+            map = new WallType[30,52];
 
             //Load Map
             LoadMap();
@@ -104,11 +107,70 @@ namespace Dull_Radiance
                         parsedPrint[i] = double.Parse(splitPrint[i]);
 
                         //Add double value into map
-                        map[row, i] = parsedPrint[i];
+                        doubleMap[row, i] = parsedPrint[i];
                     }
 
                     //Move down one row
                     row++;
+                }
+
+                //Reset row|col
+                for (row = 0; row < 30; row++)
+                {
+                    for (col = 0; col < 52; col++)
+                    {
+                        switch(doubleMap[row,col])
+                        {
+                            case .1:
+                                map[row, col] = WallType.TLCorner;
+                                break;
+                            case .3:
+                                map[row, col] = WallType.BLCorner;
+                                break;
+                            case 2.1:
+                                map[row, col] = WallType.TRCorner;
+                                break;
+                            case 2.3:
+                                map[row, col] = WallType.BRCorner;
+                                break;
+                            case 1:
+                                map[row, col] = WallType.Floor;
+                                break;
+                            case 3.3:
+                                map[row, col] = WallType.HoriWall;
+                                break;
+                            case 3.2:
+                                map[row, col] = WallType.VertWall;
+                                break;
+                            case .2:
+                                map[row, col] = WallType.LMWall;
+                                break;
+                            case 1.1:
+                                map[row, col] = WallType.TMWall;
+                                break;
+                            case 1.3:
+                                map[row, col] = WallType.BMWall;
+                                break;
+                            case 2.2:
+                                map[row, col] = WallType.RMWall;
+                                break;
+                            case 4.1:
+                                map[row, col] = WallType.HIF;
+                                break;
+                            case 5.1:
+                                map[row, col] = WallType.SawBlade;
+                                break;
+                            case 1.9:
+                                map[row, col] = WallType.MBDoor;
+                                break;
+                            case 3:
+                                map[row, col] = WallType.Lore;
+                                break;
+                            case 3:
+                                map[row, col] = WallType.LightSwitch;
+                                break;
+                        }
+                    }
                 }
             }
             catch(Exception error)
