@@ -166,7 +166,7 @@ namespace Dull_Radiance
                             case 3:
                                 map[row, col] = WallType.Lore;
                                 break;
-                            case 3:
+                            case 3.1:
                                 map[row, col] = WallType.LightSwitch;
                                 break;
                         }
