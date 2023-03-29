@@ -58,6 +58,8 @@ namespace Dull_Radiance
         StreamReader readMap;
         string lineOfText;
 
+        private SpriteBatch _spriteBatch;
+
         //Properties
 
 
@@ -70,6 +72,9 @@ namespace Dull_Radiance
 
             //Load Map
             LoadMap();
+
+                //Draw Objects to screen
+            //Draw(_spriteBatch);
         }
 
         /// <summary>
@@ -80,7 +85,7 @@ namespace Dull_Radiance
             try
             {
                 //Initialize Reader
-                readMap = new StreamReader("../../StartingMapCoordinates");
+                readMap = new StreamReader("../../../StartingMapCoordinates.txt");
 
                 //Loop through lines until reaching data
                 lineOfText = readMap.ReadLine();
@@ -94,7 +99,7 @@ namespace Dull_Radiance
                 int col = 0;
 
                 //Run through lines in txt
-                while((lineOfText = readMap.ReadLine()) != null)
+                while(lineOfText != null)
                 {
                     //Turn line into array of strings - Parse to double
                     string[] splitPrint = lineOfText.Split('|');
@@ -112,9 +117,11 @@ namespace Dull_Radiance
 
                     //Move down one row
                     row++;
+
+                    lineOfText = readMap.ReadLine();
                 }
 
-                //Reset row|col
+                //Convert doubleMap into Enum Map
                 for (row = 0; row < 30; row++)
                 {
                     for (col = 0; col < 52; col++)
@@ -185,6 +192,11 @@ namespace Dull_Radiance
                     readMap.Close();
                 }
             }
+        }
+
+        public void Draw(SpriteBatch sb)
+        {
+            //Draw Methods or calls to draw
         }
     }
 }
