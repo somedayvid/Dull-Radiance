@@ -17,7 +17,7 @@ namespace Dull_Radiance
     //TODO move these into a game manager class instead of being in player
     public delegate void DamageTakenDelegate();
     public delegate void GameReset();
-    public delegate void Healing();
+   // public delegate void Healing();
 
     /// <summary>
     /// 
@@ -28,7 +28,7 @@ namespace Dull_Radiance
         //TODO this as well
         public event DamageTakenDelegate OnDamageTaken;
         public event GameReset OnGameReset;
-        public event Healing OnHeal; 
+        //public event Healing OnHeal; 
 
         //Fields
         private int windowWidth;
@@ -123,10 +123,10 @@ namespace Dull_Radiance
             OnDamageTaken();
         }
 
-        public void PlayerHeal()
-        {
-            OnHeal();
-        }
+        //public void PlayerHeal()
+        //{
+        //    OnHeal();
+        //}
 
         /// <summary>
         /// Resets the player's stats to base game start stats and alerts heart UI to reset

@@ -334,7 +334,7 @@ namespace Dull_Radiance
                     player.Draw(_spriteBatch);
                     uiManager.Draw(_spriteBatch);
                     _spriteBatch.DrawString(agencyFB,
-                        "PRESS Q TO TEST DMG TAKING\n PRESS Z TO TEST HEAL",
+                        "PRESS Q TO TEST DMG TAKING",
                         new Vector2(windowWidth / 2, windowHeight / 2),
                         Color.White);
                     break;

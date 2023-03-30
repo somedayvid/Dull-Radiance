@@ -33,7 +33,7 @@ namespace Dull_Radiance
 
             player.OnDamageTaken += hearts.TakeDamage;
             player.OnGameReset += hearts.Reset;
-            player.OnHeal += hearts.Heal;
+           // player.OnHeal += hearts.Heal;
         }
 
         /// <summary>
@@ -48,10 +48,10 @@ namespace Dull_Radiance
             {
                 hearts.TakeDamage();
             }
-            if(SingleKeyPress(first, second, Keys.Z))
-            {
-                hearts.Heal();
-            }
+            //if(SingleKeyPress(first, second, Keys.Z))
+            //{
+            //    hearts.Heal();
+            //}
             //if(SingleKeyPress(currentKBState, previousKBState, Keys.Space))
             //{
             //    inventory.AddToInventory()

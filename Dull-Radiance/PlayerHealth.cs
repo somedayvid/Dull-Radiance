@@ -79,18 +79,18 @@ namespace Dull_Radiance
         /// Raises currentHealth on healing damage and sets the heart in the array to true  to
         /// indicate damage healed
         /// </summary>
-        public void Heal()
-        {
-            try
-            {
-                healthbar[currentHealth] = true;
-                currentHealth++;
-            }
-            catch(IndexOutOfRangeException)
-            {
+        //public void Heal()
+        //{
+        //    try
+        //    {
+        //        healthbar[currentHealth] = true;
+        //        currentHealth++;
+        //    }
+        //    catch(IndexOutOfRangeException)
+        //    {
 
-            }
-        }
+        //    }
+        //}
 
         /// <summary>
         /// Resets the hearts display to its original stat 
