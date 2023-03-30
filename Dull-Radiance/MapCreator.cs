@@ -338,20 +338,7 @@ namespace Dull_Radiance
 
         public void CheckPlayerCollisions(Player player)
         {
-            Rectangle playerBounds = player.Bounds;
-
-            for (int row = 0; row < _tileBounds.GetLength(0); row++)
-            {
-                for (int col = 0; col < _tileBounds.GetLength(1); col++)
-                {
-                    Rectangle tileBounds = _tileBounds[row, col];
-
-                    if (tileBounds != null && tileBounds.Intersects(playerBounds))
-                    {
-                        // Collision detected - handle it here
-                    }
-                }
-            }
+            
         }
     }
 }
