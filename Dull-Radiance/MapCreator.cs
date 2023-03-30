@@ -62,7 +62,10 @@ namespace Dull_Radiance
         private SpriteBatch _spriteBatch;
 
         //Properties
-
+        public WallType[,] Map
+        {
+            get { return map; }
+        }
 
         //Constructor
         public MapCreator()
@@ -212,16 +215,27 @@ namespace Dull_Radiance
         }
 
         /// <summary>
-        /// Draw tiles onto the screen
+        /// 
         /// </summary>
-        /// <param name="sb">Spritebatch sb</param>
+        /// <param name="_sb"></param>
+        /// <param name="texture"></param>
+        /// <param name="map"></param>
         public void Draw(SpriteBatch _sb, Texture2D[] texture, WallType[,] map)
         {
-            switch (map)
+            switch (WallType)
             {
-               // default:
-    
+
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="playerX"></param>
+        /// <param name="playerY"></param>
+        public void DrawPlayerScreen(int playerX, int playerY)
+        {
+
         }
     }
 }

@@ -337,6 +337,10 @@ namespace Dull_Radiance
                         "PRESS Q TO TEST DMG TAKING",
                         new Vector2(windowWidth / 2, windowHeight / 2),
                         Color.White);
+
+                    // Test test test test test test test test test test test
+                    _spriteBatch.Draw(corner, new Rectangle(0, 0, 100, 100), Color.White);
+                    _spriteBatch.Draw(top, new Rectangle(100, 0, 100, 100), Color.White);
                     break;
 
                 // Pause
