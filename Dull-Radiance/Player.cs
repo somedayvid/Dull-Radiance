@@ -36,6 +36,7 @@ namespace Dull_Radiance
         private int width;
         private int height;
         private Texture2D playerTexture;
+        private Rectangle bounds;
 
 
         //gameplay fields
@@ -66,6 +67,12 @@ namespace Dull_Radiance
             get { return playerRect.Y; }
         }
 
+        public Rectangle Bounds
+        {
+            get { return bounds; }
+            set { bounds = value; }
+        }
+
         //Constructors
         /// <summary>
         /// Initializes the player's initial position and starting stats
@@ -88,6 +95,9 @@ namespace Dull_Radiance
             this.playerTexture = playerTexture;
 
             playerRect = new Rectangle(960, 540, width, height);
+
+            // Set initial bounds for player object
+            bounds = new Rectangle(0, 0, 500, 500);
         }
 
         //Methods
@@ -175,6 +185,19 @@ namespace Dull_Radiance
             {
                 playerRect.Y += playerSpeed;
             }
+        }
+
+        // Method to check collision with another object's bounds
+        public bool Intersects(Rectangle otherBounds)
+        {
+            return bounds.Intersects(otherBounds);
+        }
+
+        // Method to update player object's bounds based on current position
+        public void UpdateBounds(int x, int y)
+        {
+            bounds.X = x;
+            bounds.Y = y;
         }
     }
 }

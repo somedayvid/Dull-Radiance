@@ -73,13 +73,12 @@ namespace Dull_Radiance
         }
 
         //Constructor
-        public MapCreator()
+        public MapCreator(int windowWidth, int windowHeight)
         {
             //Map Sizing
             doubleMap = new double[30, 52];
             map = new WallType[30, 52];
 
-            //Window Dimensions
 
 
             //Load Map
@@ -88,6 +87,11 @@ namespace Dull_Radiance
             //ConvertMap to enum map
             ConvertMap(doubleMap);
 
+            //Tilesize to be multiply to change 
+            int tileSize = 500;
+
+            //Create rectangles for collision detection
+            Rectangles = CreateMapRectangles(windowWidth, windowHeight, tileSize, Map);
 
             //Draw Objects to screen
             //Draw(_spriteBatch);
@@ -330,6 +334,24 @@ namespace Dull_Radiance
             }
 
             return rectangles;
+        }
+
+        public void CheckPlayerCollisions(Player player)
+        {
+            Rectangle playerBounds = player.Bounds;
+
+            for (int row = 0; row < _tileBounds.GetLength(0); row++)
+            {
+                for (int col = 0; col < _tileBounds.GetLength(1); col++)
+                {
+                    Rectangle tileBounds = _tileBounds[row, col];
+
+                    if (tileBounds != null && tileBounds.Intersects(playerBounds))
+                    {
+                        // Collision detected - handle it here
+                    }
+                }
+            }
         }
     }
 }

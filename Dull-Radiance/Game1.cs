@@ -136,7 +136,7 @@ namespace Dull_Radiance
             };
 
             //Intialize 2d Map
-            mapMaker = new MapCreator();
+            mapMaker = new MapCreator(windowWidth, windowHeight);
 
 
         }
