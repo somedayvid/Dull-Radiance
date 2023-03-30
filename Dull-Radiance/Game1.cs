@@ -10,6 +10,7 @@ using System.Collections.Generic;
 
 namespace Dull_Radiance
 {
+    #region Enums
     /// <summary>
     /// Player state enumerations used for player action animations
     /// </summary>
@@ -29,25 +30,28 @@ namespace Dull_Radiance
         Instructions,
         GameOver
     }
+    #endregion
     public class Game1 : Game
     {
+        #region Variables
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        //Variables
-        MapCreator mapMaker;
-
         //Player/Enemy Related variables
 
+        // Keyboard and mouse states
         private KeyboardState kbState;
         private KeyboardState prevkbState;
         private MouseState mState;
         private MouseState prevmState;
 
+        // Call classes
+        private PlayerHealth hearts;
+        private MapCreator mapMaker;
         private GameState currentState;
         private PlayerState playerState;
 
-        //textures
+        // Map textures
         private Texture2D key;
         private Texture2D doors;
         private Texture2D corner;
@@ -56,16 +60,14 @@ namespace Dull_Radiance
         private Texture2D middle;
         private Texture2D floors;
         private Texture2D lights;
-        private Texture2D aliveHeart;
-        private Texture2D deadHeart;
         private List<Texture2D> wallList;
         private List<Texture2D> collectableList;
 
-        //player
+        // Player texture
         private Player player;
         private Texture2D playerTexture;
 
-        //menus
+        // Menu
         private List<Screens> screensList;
         private Texture2D titleScreen;
         private Texture2D controlsScreen;
@@ -78,7 +80,7 @@ namespace Dull_Radiance
         private UIManager uiManager;
         private Inventory inventory;
 
-        //button items
+        // Button items
         private List<Button> buttonList;
         private Button startButton;
         private Button quitButton;
@@ -89,12 +91,14 @@ namespace Dull_Radiance
         private Texture2D buttonTexture;
         private SpriteFont agencyFB;
 
-        //Window Numbers
+        // Window size
         private int windowHeight;
         private int windowWidth;
 
-        //UI elements
-        private PlayerHealth hearts;
+        // UI elements
+        private Texture2D aliveHeart;
+        private Texture2D deadHeart;
+        #endregion
 
         public Game1()
         {
@@ -347,7 +351,7 @@ namespace Dull_Radiance
                     play.ScreenDraw(_spriteBatch);
 
                     // Test test test test test test test test test test test
-                    mapMaker.Draw(_spriteBatch, wallList);
+                    mapMaker.DrawMap(_spriteBatch, wallList);
 
                     player.Draw(_spriteBatch);
                     uiManager.Draw(_spriteBatch);
