@@ -58,6 +58,8 @@ namespace Dull_Radiance
         private Texture2D lights;
         private Texture2D aliveHeart;
         private Texture2D deadHeart;
+        private List<Texture2D> wallList;
+        private List<Texture2D> collectableList;
 
         //player
         private Player player;
@@ -172,13 +174,23 @@ namespace Dull_Radiance
             // Fonts
             agencyFB = Content.Load<SpriteFont>("Agency FB");
 
-            // Load wall textures
+            // Load map related textures
             corner = Content.Load<Texture2D>("L");
             middle = Content.Load<Texture2D>("Middle");
             side = Content.Load<Texture2D>("Side");
             top = Content.Load<Texture2D>("Top");
             floors = Content.Load<Texture2D>("Floor");
             doors = Content.Load<Texture2D>("Door");
+
+            // Add walls to list
+            wallList.Add(corner);
+            wallList.Add(middle);
+            wallList.Add(side);
+            wallList.Add(top);
+            wallList.Add(floors);
+
+            // Add collectables to list
+            collectableList.Add(doors);
 
             // Button initializations
             startButton = new Button(

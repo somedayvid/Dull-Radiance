@@ -58,8 +58,7 @@ namespace Dull_Radiance
         private WallType[,] map;
         StreamReader readMap;
         string lineOfText;
-
-        private SpriteBatch _spriteBatch;
+        //private SpriteBatch _spriteBatch;
 
         //Properties
         public WallType[,] Map
@@ -222,9 +221,65 @@ namespace Dull_Radiance
         /// <param name="map"></param>
         public void Draw(SpriteBatch _sb, Texture2D[] texture, WallType[,] map)
         {
-            switch (WallType)
+            for (int row = 0; row < 30; row++)
             {
-
+                for (int col = 0; col < 52; col++)
+                {
+                    switch (map[row, col])
+                    {
+                        case WallType.TLCorner:
+                            _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
+                            break;
+                        case WallType.BLCorner:
+                            _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
+                            break;
+                        case WallType.TRCorner:
+                            _sb.Draw(texture[], new Vector2(col * 32, row * 32), Color.White);
+                            break;
+                        case WallType.BRCorner:
+                            _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
+                            break;
+                        case WallType.Floor:
+                            _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
+                            break;
+                        case WallType.HoriWall:
+                            _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
+                            break;
+                        case WallType.VertWall:
+                            _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
+                            break;
+                        case WallType.LMWall:
+                            _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
+                            break;
+                        case WallType.TMWall:
+                            _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
+                            break;
+                        case WallType.BMWall:
+                            _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
+                            break;
+                        case WallType.RMWall:
+                            _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
+                            break;
+                        case WallType.HIF:
+                            _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
+                            break;
+                        case WallType.SawBlade:
+                            _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
+                            break;
+                        case WallType.MBGoal:
+                            _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
+                            break;
+                        case WallType.MBDoor:
+                            _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
+                            break;
+                        case WallType.Lore:
+                            _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
+                            break;
+                        case WallType.LightSwitch:
+                            _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
+                            break;
+                    }
+                }
             }
         }
 
