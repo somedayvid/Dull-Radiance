@@ -66,12 +66,21 @@ namespace Dull_Radiance
             get { return map; }
         }
 
+        public Rectangle[,] Rectangles
+        {
+            get;
+            private set;
+        }
+
         //Constructor
         public MapCreator()
         {
             //Map Sizing
             doubleMap = new double[30, 52];
-            map = new WallType[30,52];
+            map = new WallType[30, 52];
+
+            //Window Dimensions
+
 
             //Load Map
             LoadMap();
@@ -79,7 +88,8 @@ namespace Dull_Radiance
             //ConvertMap to enum map
             ConvertMap(doubleMap);
 
-                //Draw Objects to screen
+
+            //Draw Objects to screen
             //Draw(_spriteBatch);
         }
 
@@ -105,7 +115,7 @@ namespace Dull_Radiance
                 int col = 0;
 
                 //Run through lines in txt
-                while(lineOfText != null)
+                while (lineOfText != null)
                 {
                     //Turn line into array of strings - Parse to double
                     string[] splitPrint = lineOfText.Split('|');
@@ -127,7 +137,7 @@ namespace Dull_Radiance
                     lineOfText = readMap.ReadLine();
                 }
             }
-            catch(Exception error)
+            catch (Exception error)
             {
                 Console.WriteLine("The error is: " + error);
             }
@@ -234,7 +244,7 @@ namespace Dull_Radiance
                             _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
                             break;
                         case WallType.TRCorner:
-                            _sb.Draw(texture[], new Vector2(col * 32, row * 32), Color.White);
+                            _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
                             break;
                         case WallType.BRCorner:
                             _sb.Draw(texture[0], new Vector2(col * 32, row * 32), Color.White);
@@ -291,6 +301,35 @@ namespace Dull_Radiance
         public void DrawPlayerScreen(int playerX, int playerY)
         {
 
+        }
+
+
+        public Rectangle[,] CreateMapRectangles(int windowWidth, int windowHeight, int tileSize, WallType[,] map)
+        {
+            int mapWidth = map.GetLength(1);
+            int mapHeight = map.GetLength(0);
+
+            Rectangle[,] rectangles = new Rectangle[mapHeight, mapWidth];
+
+            for (int row = 0; row < mapHeight; row++)
+            {
+                for (int col = 0; col < mapWidth; col++)
+                {
+                    int x = col * tileSize;
+                    int y = row * tileSize;
+                    int width = tileSize;
+                    int height = tileSize;
+
+                    // If the current point on the map is a wall or interactable object,
+                    // create a rectangle that represents its position and size
+                    if (map[row, col] != WallType.Floor)
+                    {
+                        rectangles[row, col] = new Rectangle(x, y, width, height);
+                    }
+                }
+            }
+
+            return rectangles;
         }
     }
 }
