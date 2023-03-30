@@ -57,6 +57,7 @@ namespace Dull_Radiance
         public int X
         {
             get { return playerRect.X; }
+            //set { playerRect.X = value; }
         }
 
         /// <summary>
@@ -65,6 +66,7 @@ namespace Dull_Radiance
         public int Y
         {
             get { return playerRect.Y; }
+            //set { playerRect.Y = value; }
         }
 
         public Rectangle Bounds

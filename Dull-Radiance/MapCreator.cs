@@ -61,6 +61,15 @@ namespace Dull_Radiance
         private StreamReader readMap;
         private string lineOfText;
         private Rectangle playerBounds;
+        private KeyboardState KbState;
+        private KeyboardState PrevState;
+
+
+        //Variables for Arrays of draw
+        private int[,] playerRowLoad;
+        private int[,] playerColLoad;
+        private int startingX;
+        private int startingY;
 
         /// <summary>
         /// Read only property for the map array
@@ -77,7 +86,7 @@ namespace Dull_Radiance
         }
 
         //Constructor
-        public MapCreator(int windowWidth, int windowHeight,Player player)
+        public MapCreator(int windowWidth, int windowHeight, Player player)
         {
             //Map Sizing
             doubleMap = new double[30, 52];
@@ -96,9 +105,6 @@ namespace Dull_Radiance
 
             //Create rectangles for collision detection
             Rectangles = CreateMapRectangles(windowWidth, windowHeight, tileSize, Map);
-
-            //Draw Objects to screen
-            //Draw(_spriteBatch);
         }
 
         #region MAP READING
@@ -308,20 +314,104 @@ namespace Dull_Radiance
             }
         }
 
+
+
         /// <summary>
-        /// 
+        /// Loading in a specific area of the scren for the player to see
         /// </summary>
-        public void DrawPlayerScreen()
+        public void StartingPosition()
         {
+            //Player starting coord (by Tile)
+            playerBounds.X = 2;
+            playerBounds.Y = 28;
+
+            //Put info in 2D load arrays
+            int[,] playerRowLoad = { { 1, 2, 3 }, { 1, 2, 3 }, { 1, 2, 3 } };
+            int[,] playerColLoad = { { 27, 27, 27 }, { 28, 28, 28 }, { 29, 29, 29 } };
+
             // Start the map at the bottom left (player spawn)
             // If player presses W move map down (basically reverse)
             // Do NOT move map if player is at edge 
 
-            if (CheckPlayerCollisions() == true)
-            {
-                // DO NOT move map
-            }
         }
+
+        //----------------------------------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Move screen depending on if the player wants ot move
+        /// </summary>
+        public void MoveScreen()
+        {
+            //Variables for Arrays of draw
+            //private WallType[,] playerRowLoad = new WallType[3, 3];
+            //private WallType[,] playerColLoad = new WallType[3, 3];
+
+
+            //Iniutial Key Press
+            KbState = Keyboard.GetState();
+
+            //Initial Corrds
+            //Need to press space to start the positioning. Should ultimately tied with start but
+            //heres code that can be moved into a new method once we do that
+           
+
+            //regular Allowed Movement
+            if (playerBounds.X > 1 && playerBounds.X < 51 && playerBounds.Y > 1 && playerBounds.Y > 29 )//&& playercollision is false)
+            {
+                if (KbState.IsKeyDown(Keys.A))
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            playerRowLoad[i, j]--;
+                        }
+                    }
+                }
+                if (KbState.IsKeyDown(Keys.D))
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            playerRowLoad[i, j]++;
+                        }
+                    }
+                }
+                if (KbState.IsKeyDown(Keys.W))
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            playerColLoad[i, j]--;
+                        }
+                    }
+                }
+                if (KbState.IsKeyDown(Keys.S))
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            playerColLoad[i, j]++;
+                        }
+                    }
+                }
+
+            }
+
+
+            /*Draw Images
+             * sort through enum array until recieving correct coordinates
+             * 
+             */
+
+            //Recieve one frame key press
+            PrevState = Keyboard.GetState();
+        }
+
+        //----------------------------------------------------------------------------------------------------------------
         #endregion
 
         #region COLLECTABLE DRAWING

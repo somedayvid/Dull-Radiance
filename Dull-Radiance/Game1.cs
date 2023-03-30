@@ -259,6 +259,7 @@ namespace Dull_Radiance
                     if (startButton.Click())
                     {
                         player.Reset();
+                        //Map Creator.StartingPosition
                         currentState = GameState.Game;
                     }
                     if (controlsButton.Click())
