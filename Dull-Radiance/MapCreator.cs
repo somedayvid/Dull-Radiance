@@ -364,7 +364,14 @@ namespace Dull_Radiance
                     {
                         for (int j = 0; j < 3; j++)
                         {
-                            playerRowLoad[i, j]--;
+                            if (CheckPlayerCollisions() == true)
+                            {
+                                //nothing
+                            }
+                            else
+                            {
+                                playerRowLoad[i, j]--;
+                            }
                         }
                     }
                 }
