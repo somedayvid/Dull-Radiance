@@ -16,9 +16,6 @@ namespace Dull_Radiance //TODO THE COMMENTS AND SUMMARIES
     {
         //fields 
         private List<Collectibles> inventory;
-        private KeyboardState currentKBState;
-        private KeyboardState prevKBState;
-        private Keys currentKey;
         private Texture2D inventorySlots;
         private int counter;
         private int width;
@@ -28,18 +25,6 @@ namespace Dull_Radiance //TODO THE COMMENTS AND SUMMARIES
         private Rectangle slotRect;
         private int currentKeyNumber;
         private int count;
-
-        public Collectibles this[int index]
-        {
-            get 
-            {
-                return inventory[index];
-            }
-            set
-            {
-                inventory[index] = value;
-            }
-        }
 
         /// <summary>
         /// 
@@ -64,36 +49,9 @@ namespace Dull_Radiance //TODO THE COMMENTS AND SUMMARIES
 
         public void Update()
         {
-            currentKBState = Keyboard.GetState();
-
-            currentKeyNumber = InventorySelect();
-
-            prevKBState = Keyboard.GetState();
+            
         }
 
-        /// <summary>
-        /// Checks the number buttons to see which inventory slot is selected
-        /// </summary>
-        /// <returns>A number that represents the selected slot</returns>
-        public int InventorySelect()
-        {
-            switch (currentKey)
-            {
-                case Keys.D1:
-                    return 1;
-                case Keys.D2:
-                    return 2;
-                case Keys.D3:
-                    return 3;
-                case Keys.D4:
-                    return 4;
-                case Keys.D5:
-                    return 5;
-                default:
-                    return currentKeyNumber;
-            }
-        }
-        
         /// <summary>
         /// 
         /// </summary>
@@ -125,24 +83,6 @@ namespace Dull_Radiance //TODO THE COMMENTS AND SUMMARIES
         public void RemoveFromInventory(int index)
         {
 
-        }
-
-        /// <summary>
-        /// Single KeyPress Checker
-        /// </summary>
-        /// <param name="firstPress">KeyboardState firstPress</param>
-        /// <param name="secondPress">KeyBoardState secondPress</param>
-        /// <returns>bool if key is only active for 1 frame</returns>
-        public bool SingleKeyPress(KeyboardState firstPress, KeyboardState secondPress, Keys key)
-        {
-            if (firstPress.IsKeyDown(key) && secondPress.IsKeyUp(key))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         /// <summary>
