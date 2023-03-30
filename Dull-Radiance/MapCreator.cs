@@ -311,11 +311,16 @@ namespace Dull_Radiance
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="playerX"></param>
-        /// <param name="playerY"></param>
-        public void DrawPlayerScreen(int playerX, int playerY)
+        public void DrawPlayerScreen()
         {
-            CheckPlayerCollisions();
+            // Start the map at the bottom left (player spawn)
+            // If player presses W move map down (basically reverse)
+            // Do NOT move map if player is at edge 
+
+            if (CheckPlayerCollisions() == true)
+            {
+                // DO NOT move map
+            }
         }
         #endregion
 
@@ -331,7 +336,15 @@ namespace Dull_Radiance
         }
         #endregion
 
-
+        #region COLLISION
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="windowWidth"></param>
+        /// <param name="windowHeight"></param>
+        /// <param name="tileSize"></param>
+        /// <param name="map"></param>
+        /// <returns></returns>
         public Rectangle[,] CreateMapRectangles(int windowWidth, int windowHeight, int tileSize, WallType[,] map)
         {
             int mapWidth = map.GetLength(1);
@@ -360,6 +373,10 @@ namespace Dull_Radiance
             return rectangles;
         }
 
+        /// <summary>
+        /// Checks player collison
+        /// </summary>
+        /// <returns>Returns true if they collide</returns>
         public bool CheckPlayerCollisions()
         {
             for (int row = 0; row < Rectangles.GetLength(0); row++)
@@ -377,5 +394,6 @@ namespace Dull_Radiance
 
             return false;
         }
+        #endregion
     }
 }
