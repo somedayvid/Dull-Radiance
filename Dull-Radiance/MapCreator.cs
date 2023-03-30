@@ -60,6 +60,7 @@ namespace Dull_Radiance
         private WallType[,] map;
         private StreamReader readMap;
         private string lineOfText;
+        private Rectangle playerBounds;
 
         /// <summary>
         /// Read only property for the map array
@@ -76,13 +77,13 @@ namespace Dull_Radiance
         }
 
         //Constructor
-        public MapCreator(int windowWidth, int windowHeight)
+        public MapCreator(int windowWidth, int windowHeight,Player player)
         {
             //Map Sizing
             doubleMap = new double[30, 52];
             map = new WallType[30, 52];
 
-
+            Rectangle playerBounds = player.Bounds;
 
             //Load Map
             LoadMap();
@@ -314,7 +315,7 @@ namespace Dull_Radiance
         /// <param name="playerY"></param>
         public void DrawPlayerScreen(int playerX, int playerY)
         {
-
+            CheckPlayerCollisions();
         }
         #endregion
 
@@ -359,10 +360,8 @@ namespace Dull_Radiance
             return rectangles;
         }
 
-        public void CheckPlayerCollisions(Player player)
+        public bool CheckPlayerCollisions()
         {
-            Rectangle playerBounds = player.Bounds;
-
             for (int row = 0; row < Rectangles.GetLength(0); row++)
             {
                 for (int col = 0; col < Rectangles.GetLength(1); col++)
@@ -371,10 +370,12 @@ namespace Dull_Radiance
 
                     if (tileBounds != null && tileBounds.Intersects(playerBounds))
                     {
-                        //TODO add code relating to moving player back to intial point 
+                        return true;
                     }
                 }
             }
+
+            return false;
         }
     }
 }
