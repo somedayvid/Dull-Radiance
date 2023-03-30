@@ -183,6 +183,7 @@ namespace Dull_Radiance
             doors = Content.Load<Texture2D>("Door");
 
             // Add walls to list
+            wallList = new List<Texture2D>();
             wallList.Add(corner);
             wallList.Add(middle);
             wallList.Add(side);
@@ -190,6 +191,7 @@ namespace Dull_Radiance
             wallList.Add(floors);
 
             // Add collectables to list
+            collectableList = new List<Texture2D>();
             collectableList.Add(doors);
 
             // Button initializations
@@ -343,16 +345,16 @@ namespace Dull_Radiance
                 // Game
                 case GameState.Game:
                     play.ScreenDraw(_spriteBatch);
+
+                    // Test test test test test test test test test test test
+                    mapMaker.Draw(_spriteBatch, wallList);
+
                     player.Draw(_spriteBatch);
                     uiManager.Draw(_spriteBatch);
                     _spriteBatch.DrawString(agencyFB,
                         "PRESS Q TO TEST DMG TAKING",
                         new Vector2(windowWidth / 2, windowHeight / 2),
                         Color.White);
-
-                    // Test test test test test test test test test test test
-                    _spriteBatch.Draw(corner, new Rectangle(0, 0, 100, 100), Color.White);
-                    _spriteBatch.Draw(top, new Rectangle(100, 0, 100, 100), Color.White);
                     break;
 
                 // Pause
