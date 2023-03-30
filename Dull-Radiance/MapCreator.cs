@@ -361,7 +361,20 @@ namespace Dull_Radiance
 
         public void CheckPlayerCollisions(Player player)
         {
-            
+            Rectangle playerBounds = player.Bounds;
+
+            for (int row = 0; row < Rectangles.GetLength(0); row++)
+            {
+                for (int col = 0; col < Rectangles.GetLength(1); col++)
+                {
+                    Rectangle tileBounds = Rectangles[row, col];
+
+                    if (tileBounds != null && tileBounds.Intersects(playerBounds))
+                    {
+                        //TODO add code relating to moving player back to intial point 
+                    }
+                }
+            }
         }
     }
 }
