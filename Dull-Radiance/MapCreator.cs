@@ -374,6 +374,7 @@ namespace Dull_Radiance
 
             // Down 3 => always see 3 down
             for (int i = 0; i < 3; i++)
+            //for (int i = (int)cord.Y - 1; i < (int)cord.Y + 2; i++)
             {
                 // Across 5 => always see 5 across
                 for (int j = 0; j < 6; j++)
