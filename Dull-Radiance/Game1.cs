@@ -38,6 +38,7 @@ namespace Dull_Radiance
         private SpriteBatch _spriteBatch;
 
         //Player/Enemy Related variables
+        private Vector2 cord;
 
         // Keyboard and mouse states
         private KeyboardState kbState;
@@ -144,6 +145,7 @@ namespace Dull_Radiance
 
             //Intialize 2d Map
             mapMaker = new MapCreator(windowWidth, windowHeight, player);
+            cord = new Vector2(800, 800);
         }
 
         protected override void LoadContent()
@@ -154,7 +156,7 @@ namespace Dull_Radiance
             aliveHeart = Content.Load<Texture2D>("LiveHeart");
             deadHeart = Content.Load<Texture2D>("DeadHeart");
             key = Content.Load<Texture2D>("KEY");
-            redKey = new Collectibles(key, Color.Red);
+            redKey = new Collectibles(key,player, Color.Red);
             hearts = new PlayerHealth(aliveHeart, deadHeart);
             inventory = new Inventory();
 
@@ -263,7 +265,8 @@ namespace Dull_Radiance
                     {
                         player.Reset();
                         //Give player starting position
-                        mapMaker.StartingPosition();
+                        //mapMaker.StartingPosition();
+                        mapMaker.DetermineStart(cord);
                         //Shift state
                         currentState = GameState.Game;
                     }
@@ -289,9 +292,9 @@ namespace Dull_Radiance
                     uiManager.Update(gameTime, kbState, prevkbState);
 
                     //How the map moves with the player
-                    mapMaker.MoveScreen();
+                    //mapMaker.MoveScreen();
                     //mapMaker.DrawMap(_spriteBatch, wallList);
-
+                    mapMaker.MoveTheMAP();
                     //Changed state based on events
 
                     if (kbState.IsKeyDown(Keys.P))

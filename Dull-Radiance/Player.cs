@@ -32,13 +32,13 @@ namespace Dull_Radiance
         //private bool playerAlive;
 
         //private Texture2D playerTexture;
-        //private Rectangle playerRect;
+        private Rectangle playerRect;
 
         private KeyboardState KBState;
 
         //private PlayerHealth hearts;
 
-        /*
+        
         //Properties
         /// <summary>
         /// Returns player's X position
@@ -57,7 +57,7 @@ namespace Dull_Radiance
             get { return playerRect.Y; }
             //set { playerRect.Y = value; }
         }
-        */
+        
 
         public Rectangle Bounds
         {

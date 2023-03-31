@@ -465,7 +465,7 @@ namespace Dull_Radiance
                         for (int j = 0; j < 3; j++)
                         {
                             playerRowLoad[i, j]--;
-                            playerBounds.X = box.Width + playerBounds.Width / 2;
+                            playerBounds.X = box.Width;
                         }
                     }
                 }
@@ -476,11 +476,11 @@ namespace Dull_Radiance
                         for (int j = 0; j < 3; j++)
                         {
                             playerColLoad[i, j]--;
-                            playerBounds.Y = box.Height + playerBounds.Height / 2;
+                            playerBounds.Y = box.Height;
                         }
                     }
                 }
-                if (playerBounds.X >= box.Width + playerBounds.Width)
+                if (playerBounds.X >= box.X + box.Width + playerBounds.Width)
                 {
                     for (int i = 0; i < 3; i++)
                     {
@@ -491,7 +491,7 @@ namespace Dull_Radiance
                         }
                     }
                 }
-                if (playerBounds.Y >= box.Height + playerBounds.Width)
+                if (playerBounds.Y >= box.Y + box.Height + playerBounds.Width)
                 {
                     for (int i = 0; i < 3; i++)
                     {
