@@ -284,8 +284,8 @@ namespace Dull_Radiance
         public void DrawTile(SpriteBatch _sb, List<Texture2D> texture, Vector2 cord)
         {
             // Variable Field
-            int imageWidth = 500;
-            int imageHeight = 500;
+            int imageWidth = 32;
+            int imageHeight = 32;
             int multiplerX = imageWidth;
             int multiplerY = imageHeight;
 
@@ -372,12 +372,12 @@ namespace Dull_Radiance
             // Variable field
             List<Vector2> textureVector = new List<Vector2>();
 
-            // Down 3 => always see 3 down
-            for (int i = 0; i < 3; i++)
+            // Down 3 => always see 3 down || 3
+            for (int i = 0; i < map.GetLength(0); i++)
             //for (int i = (int)cord.Y - 1; i < (int)cord.Y + 2; i++)
             {
-                // Across 5 => always see 5 across
-                for (int j = 0; j < 6; j++)
+                // Across 5 => always see 5 across || 6
+                for (int j = 0; j < map.GetLength(1); j++)
                 {
                     // Add the texture to the list
                     textureVector.Add(new Vector2(i, j));
