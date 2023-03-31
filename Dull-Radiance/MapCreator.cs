@@ -74,12 +74,22 @@ namespace Dull_Radiance
         {
             get { return map; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public Rectangle[,] Rectangles
         {
             get;
             private set;
         }
-        //Constructor
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="windowWidth"></param>
+        /// <param name="windowHeight"></param>
+        /// <param name="player"></param>
         public MapCreator(int windowWidth, int windowHeight, Player player)
         {
             //Map Sizing
@@ -97,6 +107,7 @@ namespace Dull_Radiance
             //Create box that player can't leave
             box = new Rectangle(windowWidth / 2 - 250, windowHeight / 2 - 250, 500, 500);
         }
+
         #region MAP READING
         /// <summary>
         /// Using try|catch to safely load in map
@@ -148,6 +159,7 @@ namespace Dull_Radiance
                 }
             }
         }
+
         /// <summary>
         /// Converts doublemap to enum map
         /// </summary>
@@ -219,6 +231,7 @@ namespace Dull_Radiance
             }
         }
         #endregion
+
         #region MAP DRAWING
         /// <summary>
         /// Determines which texture to draw base on the enum value
@@ -243,73 +256,95 @@ namespace Dull_Radiance
             // playerRowLoad[i, j] = cordX;
             //playerColLoad[i, j] = cordY;
 
-            for (int row = 0; row < 30; row++)
-                    {
-                        for (int col = 0; col < 52; col++)
-                        {
-                            if (row == cordX && col == cordY)
-                            {
+            DrawTile(_sb, texture, 0, 0);
+        }
 
-                                switch (map[row, col])
-                                {
-                                    case WallType.TLCorner:
-                                        _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), null, Color.White, 90, origin, SpriteEffects.None, 0f);
-                                        break;
-                                    case WallType.BLCorner:
-                                        _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), null, Color.White, 0, origin, SpriteEffects.None, 0f);
-                                        break;
-                                    case WallType.TRCorner:
-                                        _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), null, Color.White, 90, origin, SpriteEffects.FlipVertically, 0f);
-                                        break;
-                                    case WallType.BRCorner:
-                                        _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), null, Color.White, 0, origin, SpriteEffects.FlipVertically, 0f);
-                                        break;
-                                    case WallType.Floor:
-                                        _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
-                                        break;
-                                    case WallType.HoriWall:
-                                        _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
-                                        break;
-                                    case WallType.VertWall:
-                                        _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
-                                        break;
-                                    case WallType.LMWall:
-                                        _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
-                                        break;
-                                    case WallType.TMWall:
-                                        _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
-                                        break;
-                                    case WallType.BMWall:
-                                        _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
-                                        break;
-                                    case WallType.RMWall:
-                                        _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
-                                        break;
-                                    case WallType.HIF:
-                                        _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
-                                        break;
-                                    case WallType.SawBlade:
-                                        _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
-                                        break;
-                                    case WallType.MBGoal:
-                                        _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
-                                        break;
-                                    case WallType.MBDoor:
-                                        _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
-                                        break;
-                                    case WallType.Lore:
-                                        _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
-                                        break;
-                                    case WallType.LightSwitch:
-                                        _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
-                                        break;
-                                }
-                            }
+
+        /// <summary>
+        /// Draws the tile at given row and column
+        /// </summary>
+        /// <param name="_sb">Spritebatch</param>
+        /// <param name="texture">Texture</param>
+        /// <param name="rowNum">Row number</param>
+        /// <param name="colNum">Column number</param>
+        public void DrawTile(SpriteBatch _sb, List<Texture2D> texture, int rowNum, int colNum)
+        {
+            // Variable field
+            int imageWidth = 500;
+            int imageHeight = 500;
+            int multiplerX = imageWidth;
+            int multiplerY = imageHeight;
+            Vector2 origin = new Vector2(imageWidth / 2, imageHeight / 2);
+
+            // Loop through 2D array
+            for (int row = 0; row < map.GetLength(1); row++)
+            {
+                for (int col = 0; col < map.GetLength(0); col++)
+                {
+                    // Check if given row and column match, if they do, draw corresponding tile
+                    if (row == rowNum && col == colNum)
+                    {
+                        // Switch through different tile
+                        switch (map[row, col])
+                        {
+                            case WallType.TLCorner:
+                                _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), null, Color.White, 90, origin, SpriteEffects.None, 0f);
+                                break;
+                            case WallType.BLCorner:
+                                _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), null, Color.White, 0, origin, SpriteEffects.None, 0f);
+                                break;
+                            case WallType.TRCorner:
+                                _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), null, Color.White, 90, origin, SpriteEffects.FlipVertically, 0f);
+                                break;
+                            case WallType.BRCorner:
+                                _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), null, Color.White, 0, origin, SpriteEffects.FlipVertically, 0f);
+                                break;
+                            case WallType.Floor:
+                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case WallType.HoriWall:
+                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case WallType.VertWall:
+                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case WallType.LMWall:
+                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case WallType.TMWall:
+                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case WallType.BMWall:
+                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case WallType.RMWall:
+                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case WallType.HIF:
+                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case WallType.SawBlade:
+                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case WallType.MBGoal:
+                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case WallType.MBDoor:
+                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case WallType.Lore:
+                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case WallType.LightSwitch:
+                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
                         }
-                   // }
-                //}
+                    }
+                }
             }
         }
+
+
 
         /// <summary>
         /// Loading in a specific area of the scren for the player to see
@@ -320,7 +355,6 @@ namespace Dull_Radiance
             int[,] playerRowLoad = { { 1, 2, 3 }, { 1, 2, 3 }, { 1, 2, 3 } };
             int[,] playerColLoad = { { 27, 27, 27 }, { 28, 28, 28 }, { 29, 29, 29 } };
         }
-        //----------------------------------------------------------------------------------------------------------------
 
         /// <summary>
         /// Move screen depending on if the player wants ot move
@@ -329,11 +363,11 @@ namespace Dull_Radiance
         {
             //Iniutial Key Press
             kbState = Keyboard.GetState();
-            
+
             //Checks for all scinerios where map shouldn't move
-            if (playerBounds.X > 1 && playerBounds.X < 51 && playerBounds.Y > 1 && playerBounds.Y > 29 )//&& CheckPlayerCollisions() == false)
+            if (playerBounds.X > 1 && playerBounds.X < 51 && playerBounds.Y > 1 && playerBounds.Y > 29)//&& CheckPlayerCollisions() == false)
             {
-                if (playerBounds.X <= box.X - playerBounds.Width/2)
+                if (playerBounds.X <= box.X - playerBounds.Width / 2)
                 {
                     for (int i = 0; i < 3; i++)
                     {
@@ -344,7 +378,7 @@ namespace Dull_Radiance
                         }
                     }
                 }
-                if (playerBounds.Y <= box.Y - playerBounds.Height/2)
+                if (playerBounds.Y <= box.Y - playerBounds.Height / 2)
                 {
                     for (int i = 0; i < 3; i++)
                     {
@@ -377,7 +411,7 @@ namespace Dull_Radiance
                         }
                     }
                 }
-            
+
 
                 #region SingleClickGame
                 //Clicked A button - Moving Coordinates left
@@ -430,61 +464,61 @@ namespace Dull_Radiance
                 #endregion
             }
         }
-            #endregion
+        #endregion
 
-            #region COLLECTABLE DRAWING
-            /*
+        #region COLLECTABLE DRAWING
+        /*
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="_sb"></param>
+    /// <param name="texture"></param>
+    public void DrawCollectable(SpriteBatch _sb, List<Texture2D> texture)
+    {
+
+    }
+        */
+        #endregion
+
+
+        #region COLLISION
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="_sb"></param>
-        /// <param name="texture"></param>
-        public void DrawCollectable(SpriteBatch _sb, List<Texture2D> texture)
+        /// <param name="windowWidth"></param>
+        /// <param name="windowHeight"></param>
+        /// <param name="tileSize"></param>
+        /// <param name="map"></param>
+        /// <returns></returns>
+        public Rectangle[,] CreateMapRectangles(int windowWidth, int windowHeight, int tileSize, WallType[,] map)
         {
-
-        }
-            */
-        #endregion
-        
-
-            #region COLLISION
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="windowWidth"></param>
-            /// <param name="windowHeight"></param>
-            /// <param name="tileSize"></param>
-            /// <param name="map"></param>
-            /// <returns></returns>
-            public Rectangle[,] CreateMapRectangles(int windowWidth, int windowHeight, int tileSize, WallType[,] map)
+            int mapWidth = map.GetLength(1);
+            int mapHeight = map.GetLength(0);
+            Rectangle[,] rectangles = new Rectangle[mapHeight, mapWidth];
+            for (int row = 0; row < mapHeight; row++)
             {
-                int mapWidth = map.GetLength(1);
-                int mapHeight = map.GetLength(0);
-                Rectangle[,] rectangles = new Rectangle[mapHeight, mapWidth];
-                for (int row = 0; row < mapHeight; row++)
+                for (int col = 0; col < mapWidth; col++)
                 {
-                    for (int col = 0; col < mapWidth; col++)
+                    int x = col * tileSize;
+                    int y = row * tileSize;
+                    int width = tileSize;
+                    int height = tileSize;
+                    // If the current point on the map is a wall or interactable object,
+                    // create a rectangle that represents its position and size
+                    if (map[row, col] != WallType.Floor)
                     {
-                        int x = col * tileSize;
-                        int y = row * tileSize;
-                        int width = tileSize;
-                        int height = tileSize;
-                        // If the current point on the map is a wall or interactable object,
-                        // create a rectangle that represents its position and size
-                        if (map[row, col] != WallType.Floor)
-                        {
-                            rectangles[row, col] = new Rectangle(x, y, width, height);
-                        }
+                        rectangles[row, col] = new Rectangle(x, y, width, height);
                     }
                 }
-                return rectangles;
             }
+            return rectangles;
+        }
 
-            /// <summary>
-            /// Checks player collison
-            /// </summary>
-            /// <returns>Returns true if they collide</returns>
-            public bool CheckPlayerCollisions()
+        /// <summary>
+        /// Checks player collison
+        /// </summary>
+        /// <returns>Returns true if they collide</returns>
+        public bool CheckPlayerCollisions()
         {
             for (int row = 0; row < Rectangles.GetLength(0); row++)
             {
