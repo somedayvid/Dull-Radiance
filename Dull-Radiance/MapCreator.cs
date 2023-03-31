@@ -254,6 +254,7 @@ namespace Dull_Radiance
             int imageHeight = 500;
             int multiplerX = imageWidth;
             int multiplerY = imageHeight;
+            Vector2 origin = new Vector2(imageWidth / 2, imageHeight / 2);
 
             for (int row = 0; row < 30; row++)
             {
@@ -264,16 +265,16 @@ namespace Dull_Radiance
                     switch (map[row, col])
                     {
                         case WallType.TLCorner:
-                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), null, Color.White, 90, origin, SpriteEffects.None, 0f);
                             break;
                         case WallType.BLCorner:
-                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), null, Color.White, 0, origin, SpriteEffects.None, 0f);
                             break;
                         case WallType.TRCorner:
-                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), null, Color.White, 90, origin, SpriteEffects.FlipVertically, 0f);
                             break;
                         case WallType.BRCorner:
-                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), null, Color.White, 0, origin, SpriteEffects.FlipVertically, 0f);
                             break;
                         case WallType.Floor:
                             _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
