@@ -3,114 +3,59 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
-namespace Dull_Radiance //TODO THE COMMENTS AND SUMMARIES
+namespace Dull_Radiance
 {
-    /// <summary>
-    /// The player's inventory to hold usable items
-    /// </summary>
     internal class Inventory
     {
-        //fields 
-        private List<Collectibles> inventory;
-        private Texture2D inventorySlots;
-        private int counter;
-        private int width;
-        private int height;
-        private int windowWidth;
-        private int windowHeight;
-        private Rectangle slotRect;
-        private int currentKeyNumber;
-        private int count;
-
         /// <summary>
-        /// 
+        /// A custom list with limited functionality to add and remove items 
         /// </summary>
-        /// <param name="inventorySlots"></param>
-        /// <param name="graphics"></param>
-        public Inventory(Texture2D inventorySlots, GraphicsDeviceManager graphics)
+        private Collectibles[] inventory;
+        private int maxCount;
+
+        public int MaxCount
         {
-            windowWidth = graphics.PreferredBackBufferWidth;
-            windowHeight = graphics.PreferredBackBufferHeight;
-
-            this.inventorySlots = inventorySlots;
-            counter = 0;
-            count = 0;
-            inventory = new List<Collectibles>(5);
-
-            width = windowWidth / 192;
-            height = windowHeight / 108;
-
-            slotRect = new Rectangle(width * counter, windowHeight - height, width, height);  //TODO fix x initial positioning so that the middle slot is in the middle of the screen
+            get { return maxCount; }
         }
 
-        public void Update()
+        public Collectibles this[int index]
         {
-            
+            get { return inventory[index]; }
         }
-
+        
         /// <summary>
-        /// 
+        /// Initializes the array 
         /// </summary>
-        /// <param name="item"></param>
-        public void AddToInventory(Collectibles item)
+        public Inventory()
         {
-            if (count == 5)
+            inventory = new Collectibles[5];
+            maxCount = 5;
+        } 
+
+        /// <summary> 
+        /// Adds at first avaliable open index
+        /// </summary>
+        /// <param name="item">Item to add to the inventory</param>
+        public void Add(Collectibles item)
+        {
+            for (int i = 0; i < maxCount; i++)
             {
-                foreach (Collectibles thing in inventory)
+                if (inventory[i] == null)
                 {
-                    if (thing == null)
-                    {
-                        inventory[inventory.IndexOf(thing)] = thing;
-                        break;
-                    }
+                    inventory[i] = item;
+                    break;
                 }
             }
-            else
-            {
-                count++;
-                inventory.Add(item);
-            }
         }
 
         /// <summary>
-        /// 
+        /// Removes item at certain index
         /// </summary>
-        /// <param name="index"></param>
-        public void RemoveFromInventory(int index)
+        /// <param name="index">Index of item to remove from inventory</param>
+        public void Remove(int index)
         {
-
-        }
-
-        /// <summary>
-        /// Draws the inventory slots, the selected one will be draw as gray instead of white
-        /// </summary>
-        /// <param name="sb">Spritebatch to draw</param>
-        public void DrawInventory(SpriteBatch sb)
-        {
-            counter = 0;
-            for (int i = 0; i < 5; i++)
-            {
-                counter++;
-                if (currentKeyNumber == i)
-                {
-                    sb.Draw(
-                    inventorySlots,
-                    slotRect,
-                    Color.DimGray);
-                }
-                else
-                {
-                    sb.Draw(
-                    inventorySlots,
-                    slotRect,
-                    Color.White);
-                }
-            }
-
+            inventory[index] = null;
         }
     }
 }

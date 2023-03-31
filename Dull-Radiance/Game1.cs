@@ -61,7 +61,8 @@ namespace Dull_Radiance
         private Texture2D floors;
         private Texture2D lights;
         private List<Texture2D> wallList;
-        private List<Texture2D> collectableList;
+        private List<Collectibles> collectibleList;
+        private Collectibles redKey;
 
         // Player texture
         private Player player;
@@ -141,8 +142,6 @@ namespace Dull_Radiance
 
             //Intialize 2d Map
             mapMaker = new MapCreator(windowWidth, windowHeight, player);
-
-
         }
 
         protected override void LoadContent()
@@ -152,14 +151,14 @@ namespace Dull_Radiance
             // Ui elements
             aliveHeart = Content.Load<Texture2D>("LiveHeart");
             deadHeart = Content.Load<Texture2D>("DeadHeart");
+            key = Content.Load<Texture2D>("KEY");
+            redKey = new Collectibles(key, Color.Red);
             hearts = new PlayerHealth(aliveHeart, deadHeart);
-            inventory = new Inventory(deadHeart, _graphics);
-
+            inventory = new Inventory();
 
             // Player
             playerTexture = Content.Load<Texture2D>("Player");
             player = new Player(playerTexture, hearts);
-            uiManager = new UIManager(hearts, player, inventory);
 
             // Screens
             titleScreen = Content.Load<Texture2D>("StartMenu");
@@ -195,8 +194,10 @@ namespace Dull_Radiance
             wallList.Add(floors);
 
             // Add collectables to list
-            collectableList = new List<Texture2D>();
-            collectableList.Add(doors);
+            collectibleList = new List<Collectibles>();
+            collectibleList.Add(redKey);
+
+            uiManager = new UIManager(hearts, player, inventory, collectibleList);
 
             // Button initializations
             startButton = new Button(

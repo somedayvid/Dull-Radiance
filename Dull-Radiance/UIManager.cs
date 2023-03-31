@@ -9,6 +9,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Dull_Radiance 
 {
+    public delegate void DamageTakenDelegate();
+    public delegate void GameReset();
+    public delegate void AddToInventoryDelegate();
+
     /// <summary>
     /// Consolidates all in game UI elements to the manager
     /// </summary>
@@ -18,22 +22,24 @@ namespace Dull_Radiance
         private PlayerHealth hearts;
         private Player player;
         private Inventory inventory;
+        private List<Collectibles> collectibleList;
+
+        //events
 
         /// <summary>
         /// Subscribes and initializes methods and variables
-        /// </summary>
+        /// </summary> 
         /// <param name="hearts">Hearts UI</param>
         /// <param name="player">Player to work with hearts</param>
         /// <param name="inventory">Inventory UI</param>
-        public UIManager(PlayerHealth hearts, Player player, Inventory inventory)
+        public UIManager(PlayerHealth hearts, Player player, Inventory inventory, List<Collectibles> collectibleList)
         {
             this.hearts = hearts;
             this.player = player;
-            this.inventory = inventory;
+            this.collectibleList = collectibleList;
 
             player.OnDamageTaken += hearts.TakeDamage;
             player.OnGameReset += hearts.Reset;
-           // player.OnHeal += hearts.Heal;
         }
 
         /// <summary>
@@ -48,15 +54,19 @@ namespace Dull_Radiance
             {
                 hearts.TakeDamage();
             }
-            //if(SingleKeyPress(first, second, Keys.Z))
-            //{
-            //    hearts.Heal();
-            //}
-            //if(SingleKeyPress(currentKBState, previousKBState, Keys.Space))
-            //{
-            //    inventory.AddToInventory()
-            //}
         }
+
+       public void ItemPickUp()
+       {
+            foreach(Collectibles key in collectibleList)
+            {
+                if (key.Intersects(player))
+                {
+                    inventory.Add(key);
+                    collectibleList.Remove(key);
+                }
+            }
+       }
 
         /// <summary>
         /// Draws the UI elements to the game screen
@@ -65,7 +75,14 @@ namespace Dull_Radiance
         public void Draw(SpriteBatch sb)
         {
             hearts.Draw(sb);
-            inventory.DrawInventory(sb);
+            //inventory.DrawInventory(sb);
+            //for (int i = 0; i < inventory.MaxCount; i++)
+            //{
+            //    if (inventory[i] != null)
+            //    {
+            //        inventory[i].Draw(sb);
+            //    }
+            //}
         }
 
         /// <summary>

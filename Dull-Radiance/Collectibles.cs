@@ -12,39 +12,35 @@ namespace Dull_Radiance
     internal class Collectibles
     {
         private Texture2D keyTexture;
-        private Player player;
         private Rectangle keyRect;
-        private Color color;  
+        private Color color;
+        public event AddToInventoryDelegate OnAddToInventory;
 
         //Properties
         /// <summary>
         /// Receive X coordinate
         /// </summary>
-        int X { get; }
+        public int X { get; }
         /// <summary>
         /// Receive y coordinate
         /// </summary>
-        int Y { get; }
+        public int Y { get; }
 
 
-        public Collectibles(Texture2D keyTexture, Player player, Color color)
+        public Collectibles(Texture2D keyTexture, Color color)
         {
             this.keyTexture = keyTexture;
-            this.color = color;
-            keyRect = new Rectangle(1,1, 100,100);  //TODO do not hardcode
         }
 
-        //Methods
-        /// <summary>
-        /// Checks for collision with player
-        /// </summary>
-        /// <param name="playerRect">Player playerRect Position</param>
-        public void Intersects(Player player)
+        public bool Intersects(Player player)
         {
-            //if(keyRect.Intersects(player.PlayerRect))
-            //{
-
-            //}
+            if (keyRect.Intersects(player.Bounds))
+            {
+                return true;
+            }
+            else
+            { 
+                return false; }
         }
 
         /// <summary>

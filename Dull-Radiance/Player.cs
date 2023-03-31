@@ -14,22 +14,11 @@ namespace Dull_Radiance
     /// The main player class
     /// </summary>
 
-    //TODO move these into a game manager class instead of being in player
-    public delegate void DamageTakenDelegate();
-    public delegate void GameReset();
-   // public delegate void Healing();
-
-    /// <summary>
-    /// 
-    /// </summary>
     internal class Player : ICollideAndDraw
     {
-        //event
-        //TODO this as well
+
         public event DamageTakenDelegate OnDamageTaken;
         public event GameReset OnGameReset;
-        //public event Healing OnHeal; 
-
         //Fields
         private int windowWidth;
         private int windowHeight;
