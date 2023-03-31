@@ -319,25 +319,18 @@ namespace Dull_Radiance
             }
         }
 
+        #endregion
 
+        #region Move Map
 
         /// <summary>
         /// Loading in a specific area of the scren for the player to see
         /// </summary>
         public void StartingPosition()
         {
-            //Player starting coord (by Tile)
-            //playerBounds.X = 2;
-            //playerBounds.Y = 28;
-
             //Put info in 2D load arrays
             int[,] playerRowLoad = { { 1, 2, 3 }, { 1, 2, 3 }, { 1, 2, 3 } };
             int[,] playerColLoad = { { 27, 27, 27 }, { 28, 28, 28 }, { 29, 29, 29 } };
-
-            // Start the map at the bottom left (player spawn)
-            // If player presses W move map down (basically reverse)
-            // Do NOT move map if player is at edge 
-
         }
 
         //----------------------------------------------------------------------------------------------------------------
@@ -353,13 +346,47 @@ namespace Dull_Radiance
             //Checks for all scinerios where map shouldn't move
             if (playerBounds.X > 1 && playerBounds.X < 51 && playerBounds.Y > 1 && playerBounds.Y > 29 && CheckPlayerCollisions() == false)
             {
-                if (playerBounds.X <= 0 || playerBounds.Y <= 0 || playerBounds.X >= box.Width + playerBounds.Width || playerBounds.Y >= box.Height + playerBounds.Width)
+                if (playerBounds.X <= box.X - playerBounds.Width/2)
                 {
                     for (int i = 0; i < 3; i++)
                     {
                         for (int j = 0; j < 3; j++)
                         {
                             playerRowLoad[i, j]--;
+                            playerBounds.X = box.Width + playerBounds.Width / 2;
+                        }
+                    }
+                }
+                if (playerBounds.Y <= box.Y - playerBounds.Height/2)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            playerColLoad[i, j]--;
+                            playerBounds.Y = box.Height + playerBounds.Height / 2;
+                        }
+                    }
+                }
+                if (playerBounds.X >= box.Width + playerBounds.Width)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            playerRowLoad[i, j]++;
+                            playerBounds.X = box.X - playerBounds.Width / 2;
+                        }
+                    }
+                }
+                if (playerBounds.Y >= box.Height + playerBounds.Width)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            playerColLoad[i, j]++;
+                            playerBounds.Y = box.Y - playerBounds.Height / 2;
                         }
                     }
                 }
@@ -376,7 +403,7 @@ namespace Dull_Radiance
                             playerRowLoad[i, j]--;
                         }
                     }
-                }*/
+                }
                 //Clicked D Button - Moving Coordinates Right
                 if (kbState.IsKeyDown(Keys.D) && prevState.IsKeyUp(Keys.D))
                 {
@@ -410,7 +437,9 @@ namespace Dull_Radiance
                         }
                     }
                 }
+                */
             }
+                
 
             //Recieve one key press per frame
             prevState = Keyboard.GetState();
