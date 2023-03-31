@@ -456,7 +456,7 @@ namespace Dull_Radiance
         /// <param name="texture"></param>
         public void DrawCollectable(SpriteBatch _sb, List<Texture2D> texture)
         {
-
+            //this as well
         }
         #endregion
 
