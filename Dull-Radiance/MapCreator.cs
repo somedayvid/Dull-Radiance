@@ -399,11 +399,14 @@ namespace Dull_Radiance
             // WASD movement
             if (kbState.IsKeyDown(Keys.W))
             {
-                for (int i = 0; i < textureLocation.Count; i++)
+                if (CheckPlayerCollisions() == false)
                 {
-                    Vector2 temp = textureLocation[i];
-                    temp.Y -= 1;
-                    textureLocation[i] = temp;
+                    for (int i = 0; i < textureLocation.Count; i++)
+                    {
+                        Vector2 temp = textureLocation[i];
+                        temp.Y -= 1;
+                        textureLocation[i] = temp;
+                    }
                 }
             }
             else if (kbState.IsKeyDown(Keys.A))
