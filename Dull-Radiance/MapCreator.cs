@@ -408,6 +408,7 @@ namespace Dull_Radiance
                     }
                 }
 
+                #region SingleClickGame
                 //Clicked A button - Moving Coordinates left
 
                 /*
@@ -455,8 +456,9 @@ namespace Dull_Radiance
                     }
                 }
                 */
+                #endregion
             }
-                
+
 
             //Recieve one key press per frame
             prevState = Keyboard.GetState();
