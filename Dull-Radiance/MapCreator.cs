@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using static System.Net.WebRequestMethods;
-
+using System.Reflection;
 namespace Dull_Radiance
 {
     #region ENUMS
@@ -36,7 +35,6 @@ namespace Dull_Radiance
         Lore,           //Lore
         LightSwitch     //Light Switch
     }
-
     /// <summary>
     /// Collectible|Movable Type of Object
     /// </summary>
@@ -49,7 +47,6 @@ namespace Dull_Radiance
         MB              //Moving Block
     }
     #endregion
-
     /// <summary>
     /// Class focused around creating the 2D Array map for the player
     /// </summary>
@@ -61,6 +58,14 @@ namespace Dull_Radiance
         private StreamReader readMap;
         private string lineOfText;
         private Rectangle playerBounds;
+        private KeyboardState kbState;
+        private KeyboardState prevState;
+        //Variables for Arrays of draw
+        private int[,] playerRowLoad;
+        private int[,] playerColLoad;
+        private Rectangle box;
+        private int cordX;
+        private int cordY;
 
         /// <summary>
         /// Read only property for the map array
@@ -69,38 +74,29 @@ namespace Dull_Radiance
         {
             get { return map; }
         }
-
         public Rectangle[,] Rectangles
         {
             get;
             private set;
         }
-
         //Constructor
-        public MapCreator(int windowWidth, int windowHeight,Player player)
+        public MapCreator(int windowWidth, int windowHeight, Player player)
         {
             //Map Sizing
             doubleMap = new double[30, 52];
             map = new WallType[30, 52];
-
             Rectangle playerBounds = player.Bounds;
-
             //Load Map
             LoadMap();
-
             //ConvertMap to enum map
             ConvertMap(doubleMap);
-
             //Tilesize to be multiply to change 
             int tileSize = 500;
-
             //Create rectangles for collision detection
             Rectangles = CreateMapRectangles(windowWidth, windowHeight, tileSize, Map);
-
-            //Draw Objects to screen
-            //Draw(_spriteBatch);
+            //Create box that player can't leave
+            box = new Rectangle(windowWidth / 2 - 250, windowHeight / 2 - 250, 500, 500);
         }
-
         #region MAP READING
         /// <summary>
         /// Using try|catch to safely load in map
@@ -111,38 +107,31 @@ namespace Dull_Radiance
             {
                 //Initialize Reader
                 readMap = new StreamReader("../../../StartingMapCoordinates.txt");
-
                 //Loop through lines until reaching data
                 lineOfText = readMap.ReadLine();
                 while (lineOfText[0] == '-')
                 {
                     lineOfText = readMap.ReadLine();
                 }
-
                 //Loop data into 2d Array
                 int row = 0;
                 int col = 0;
-
                 //Run through lines in txt
                 while (lineOfText != null)
                 {
                     //Turn line into array of strings - Parse to double
                     string[] splitPrint = lineOfText.Split('|');
                     double[] parsedPrint = new double[splitPrint.Length];
-
                     //iterate through coloumn
                     for (int i = 0; i < splitPrint.Length; i++)
                     {
                         //Parse string to double for 2D Array
                         parsedPrint[i] = double.Parse(splitPrint[i]);
-
                         //Add double value into map
                         doubleMap[row, i] = parsedPrint[i];
                     }
-
                     //Move down one row
                     row++;
-
                     lineOfText = readMap.ReadLine();
                 }
             }
@@ -159,7 +148,6 @@ namespace Dull_Radiance
                 }
             }
         }
-
         /// <summary>
         /// Converts doublemap to enum map
         /// </summary>
@@ -170,7 +158,6 @@ namespace Dull_Radiance
             int row;
             int col;
             double tile;
-
             //Convert doubleMap into Enum Map
             for (row = 0; row < 30; row++)
             {
@@ -232,7 +219,6 @@ namespace Dull_Radiance
             }
         }
         #endregion
-
         #region MAP DRAWING
         /// <summary>
         /// Determines which texture to draw base on the enum value
@@ -245,18 +231,19 @@ namespace Dull_Radiance
             int imageHeight = 500;
             int multiplerX = imageWidth;
             int multiplerY = imageHeight;
+            Vector2 origin = new Vector2(imageWidth / 2, imageHeight / 2);
 
-            
+
             //for (int i = 0; i < 3; i++)
             //{
 
-                //for (int j = 0; j < 3; j++)
-                //{
-                    //Save 2D Array variables
-                   // playerRowLoad[i, j] = cordX;
-                    //playerColLoad[i, j] = cordY;
+            //for (int j = 0; j < 3; j++)
+            //{
+            //Save 2D Array variables
+            // playerRowLoad[i, j] = cordX;
+            //playerColLoad[i, j] = cordY;
 
-                    for (int row = 0; row < 30; row++)
+            for (int row = 0; row < 30; row++)
                     {
                         for (int col = 0; col < 52; col++)
                         {
@@ -325,14 +312,14 @@ namespace Dull_Radiance
         }
 
         /// <summary>
-        /// 
+        /// Loading in a specific area of the scren for the player to see
         /// </summary>
-        public void DrawPlayerScreen()
+        public void StartingPosition()
         {
-            // Start the map at the bottom left (player spawn)
-            // If player presses W move map down (basically reverse)
-            // Do NOT move map if player is at edge 
-
+            //Put info in 2D load arrays
+            int[,] playerRowLoad = { { 1, 2, 3 }, { 1, 2, 3 }, { 1, 2, 3 } };
+            int[,] playerColLoad = { { 27, 27, 27 }, { 28, 28, 28 }, { 29, 29, 29 } };
+        }
         //----------------------------------------------------------------------------------------------------------------
 
         /// <summary>
@@ -443,9 +430,10 @@ namespace Dull_Radiance
                 #endregion
             }
         }
-        #endregion
+            #endregion
 
-        #region COLLECTABLE DRAWING
+            #region COLLECTABLE DRAWING
+            /*
         /// <summary>
         /// 
         /// </summary>
@@ -455,50 +443,48 @@ namespace Dull_Radiance
         {
 
         }
+            */
         #endregion
+        
 
-        #region COLLISION
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="windowWidth"></param>
-        /// <param name="windowHeight"></param>
-        /// <param name="tileSize"></param>
-        /// <param name="map"></param>
-        /// <returns></returns>
-        public Rectangle[,] CreateMapRectangles(int windowWidth, int windowHeight, int tileSize, WallType[,] map)
-        {
-            int mapWidth = map.GetLength(1);
-            int mapHeight = map.GetLength(0);
-
-            Rectangle[,] rectangles = new Rectangle[mapHeight, mapWidth];
-
-            for (int row = 0; row < mapHeight; row++)
+            #region COLLISION
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="windowWidth"></param>
+            /// <param name="windowHeight"></param>
+            /// <param name="tileSize"></param>
+            /// <param name="map"></param>
+            /// <returns></returns>
+            public Rectangle[,] CreateMapRectangles(int windowWidth, int windowHeight, int tileSize, WallType[,] map)
             {
-                for (int col = 0; col < mapWidth; col++)
+                int mapWidth = map.GetLength(1);
+                int mapHeight = map.GetLength(0);
+                Rectangle[,] rectangles = new Rectangle[mapHeight, mapWidth];
+                for (int row = 0; row < mapHeight; row++)
                 {
-                    int x = col * tileSize;
-                    int y = row * tileSize;
-                    int width = tileSize;
-                    int height = tileSize;
-
-                    // If the current point on the map is a wall or interactable object,
-                    // create a rectangle that represents its position and size
-                    if (map[row, col] != WallType.Floor)
+                    for (int col = 0; col < mapWidth; col++)
                     {
-                        rectangles[row, col] = new Rectangle(x, y, width, height);
+                        int x = col * tileSize;
+                        int y = row * tileSize;
+                        int width = tileSize;
+                        int height = tileSize;
+                        // If the current point on the map is a wall or interactable object,
+                        // create a rectangle that represents its position and size
+                        if (map[row, col] != WallType.Floor)
+                        {
+                            rectangles[row, col] = new Rectangle(x, y, width, height);
+                        }
                     }
                 }
+                return rectangles;
             }
 
-            return rectangles;
-        }
-
-        /// <summary>
-        /// Checks player collison
-        /// </summary>
-        /// <returns>Returns true if they collide</returns>
-        public bool CheckPlayerCollisions()
+            /// <summary>
+            /// Checks player collison
+            /// </summary>
+            /// <returns>Returns true if they collide</returns>
+            public bool CheckPlayerCollisions()
         {
             for (int row = 0; row < Rectangles.GetLength(0); row++)
             {

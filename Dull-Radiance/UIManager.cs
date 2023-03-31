@@ -56,6 +56,7 @@ namespace Dull_Radiance
             }
         }
 
+        /*
        public void ItemPickUp()
        {
             foreach(Collectibles key in collectibleList)
@@ -67,6 +68,7 @@ namespace Dull_Radiance
                 }
             }
        }
+        */
 
         /// <summary>
         /// Draws the UI elements to the game screen
