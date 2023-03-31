@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using static System.Net.WebRequestMethods;
 using System.Reflection;
+using Microsoft.Xna.Framework.Content;
+
 namespace Dull_Radiance
 {
     #region ENUMS
@@ -67,6 +69,11 @@ namespace Dull_Radiance
         private int cordX;
         private int cordY;
 
+        private int playerX;
+        private int playerY;
+        List<Vector2> textureLocation;
+
+
         /// <summary>
         /// Read only property for the map array
         /// </summary>
@@ -106,6 +113,9 @@ namespace Dull_Radiance
             Rectangles = CreateMapRectangles(windowWidth, windowHeight, tileSize, Map);
             //Create box that player can't leave
             box = new Rectangle(windowWidth / 2 - 250, windowHeight / 2 - 250, 500, 500);
+            playerX = 3;
+            playerY = 2;
+            textureLocation = new List<Vector2>();
         }
 
         #region MAP READING
@@ -240,13 +250,21 @@ namespace Dull_Radiance
         /// <param name="texture"></param>
         public void DrawMap(SpriteBatch _sb, List<Texture2D> texture)
         {
-            int imageWidth = 500;
-            int imageHeight = 500;
-            int multiplerX = imageWidth;
-            int multiplerY = imageHeight;
-            Vector2 origin = new Vector2(imageWidth / 2, imageHeight / 2);
+            // Set texture location to the screen's location
+            textureLocation = DetermineStart(new Vector2(playerX, playerY));
 
+            // Iterate through list of locations and draw
+            for (int i = 0; i < textureLocation.Count; i++)
+            {
+                DrawTile(
+                    _sb,
+                    texture,
+                    new Vector2(
+                        textureLocation[i].X,
+                        textureLocation[i].Y));
+            }
 
+            MoveTheMAP();
             //for (int i = 0; i < 3; i++)
             //{
 
@@ -255,25 +273,23 @@ namespace Dull_Radiance
             //Save 2D Array variables
             // playerRowLoad[i, j] = cordX;
             //playerColLoad[i, j] = cordY;
-
-            DrawTile(_sb, texture, 0, 0);
         }
-
 
         /// <summary>
         /// Draws the tile at given row and column
         /// </summary>
-        /// <param name="_sb">Spritebatch</param>
-        /// <param name="texture">Texture</param>
-        /// <param name="rowNum">Row number</param>
-        /// <param name="colNum">Column number</param>
-        public void DrawTile(SpriteBatch _sb, List<Texture2D> texture, int rowNum, int colNum)
+        /// <param name="_sb">Sprite batch</param>
+        /// <param name="texture">Texture to draw</param>
+        /// <param name="cord">Cordinate of tile</param>
+        public void DrawTile(SpriteBatch _sb, List<Texture2D> texture, Vector2 cord)
         {
-            // Variable field
+            // Variable Field
             int imageWidth = 500;
             int imageHeight = 500;
             int multiplerX = imageWidth;
             int multiplerY = imageHeight;
+
+            // Get origin of image
             Vector2 origin = new Vector2(imageWidth / 2, imageHeight / 2);
 
             // Loop through 2D array
@@ -282,43 +298,45 @@ namespace Dull_Radiance
                 for (int col = 0; col < map.GetLength(0); col++)
                 {
                     // Check if given row and column match, if they do, draw corresponding tile
-                    if (row == rowNum && col == colNum)
+                    if (row == cord.X && col == cord.Y)
                     {
                         // Switch through different tile
                         switch (map[row, col])
                         {
+                            // _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), null, Color.White, 90, origin, SpriteEffects.None, 0f);
+                            // TODO: Properly draw each tile by rotating/flipping certain ones
                             case WallType.TLCorner:
-                                _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), null, Color.White, 90, origin, SpriteEffects.None, 0f);
+                                _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                                 break;
                             case WallType.BLCorner:
-                                _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), null, Color.White, 0, origin, SpriteEffects.None, 0f);
+                                _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                                 break;
                             case WallType.TRCorner:
-                                _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), null, Color.White, 90, origin, SpriteEffects.FlipVertically, 0f);
+                                _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                                 break;
                             case WallType.BRCorner:
-                                _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), null, Color.White, 0, origin, SpriteEffects.FlipVertically, 0f);
+                                _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                                 break;
                             case WallType.Floor:
                                 _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                                 break;
                             case WallType.HoriWall:
-                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[1], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                                 break;
                             case WallType.VertWall:
-                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[1], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                                 break;
                             case WallType.LMWall:
-                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[1], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                                 break;
                             case WallType.TMWall:
-                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[1], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                                 break;
                             case WallType.BMWall:
-                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[1], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                                 break;
                             case WallType.RMWall:
-                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[1], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                                 break;
                             case WallType.HIF:
                                 _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
@@ -344,10 +362,82 @@ namespace Dull_Radiance
             }
         }
 
+        /// <summary>
+        /// Starts the start screen
+        /// </summary>
+        /// <param name="cord"></param>
+        /// <returns></returns>
+        public List<Vector2> DetermineStart(Vector2 cord)
+        {
+            // Variable field
+            List<Vector2> textureVector = new List<Vector2>();
+
+            // Down 3 => always see 3 down
+            for (int i = 0; i < 3; i++)
+            {
+                // Across 5 => always see 5 across
+                for (int j = 0; j < 6; j++)
+                {
+                    // Add the texture to the list
+                    textureVector.Add(new Vector2(i, j));
+                }
+            }
+
+            // Return the list
+            return textureVector;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void MoveTheMAP()
+        {
+            // Get the keyboard state
+            kbState = Keyboard.GetState();
+
+            // WASD movement
+            if (kbState.IsKeyDown(Keys.W))
+            {
+                for (int i = 0; i < textureLocation.Count; i++)
+                {
+                    Vector2 temp = textureLocation[i];
+                    temp.Y -= 1;
+                    textureLocation[i] = temp;
+                }
+            }
+            else if (kbState.IsKeyDown(Keys.A))
+            {
+                for (int i = 0; i < textureLocation.Count; i++)
+                {
+                    Vector2 temp = textureLocation[i];
+                    temp.X += 1;
+                    textureLocation[i] = temp;
+                }
+            }
+            else if (kbState.IsKeyDown(Keys.S))
+            {
+                for (int i = 0; i < textureLocation.Count; i++)
+                {
+                    Vector2 temp = textureLocation[i];
+                    temp.Y += 1;
+                    textureLocation[i] = temp;
+                }
+            }
+            else if (kbState.IsKeyDown(Keys.D))
+            {
+                for (int i = 0; i < textureLocation.Count; i++)
+                {
+                    Vector2 temp = textureLocation[i];
+                    temp.X -= 1;
+                    textureLocation[i] = temp;
+                }
+            }
+        }
+
 
 
         /// <summary>
-        /// Loading in a specific area of the scren for the player to see
+        /// Loading in a specific area of the screen for the player to see
         /// </summary>
         public void StartingPosition()
         {

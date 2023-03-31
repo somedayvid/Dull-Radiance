@@ -117,6 +117,8 @@ namespace Dull_Radiance
             windowHeight = _graphics.PreferredBackBufferHeight;
             windowWidth = _graphics.PreferredBackBufferWidth;
             _graphics.IsFullScreen = true;
+            //_graphics.PreferredBackBufferHeight = 1000;
+            //_graphics.PreferredBackBufferWidth = 12000;
             _graphics.ApplyChanges();
             base.Initialize();
 
@@ -288,6 +290,7 @@ namespace Dull_Radiance
 
                     //How the map moves with the player
                     mapMaker.MoveScreen();
+                    //mapMaker.DrawMap(_spriteBatch, wallList);
 
                     //Changed state based on events
 
