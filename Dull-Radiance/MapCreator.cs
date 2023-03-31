@@ -61,15 +61,15 @@ namespace Dull_Radiance
         private StreamReader readMap;
         private string lineOfText;
         private Rectangle playerBounds;
-        private KeyboardState KbState;
-        private KeyboardState PrevState;
+        private KeyboardState kbState;
+        private KeyboardState prevState;
 
 
         //Variables for Arrays of draw
         private int[,] playerRowLoad;
         private int[,] playerColLoad;
-        private int startingX;
-        private int startingY;
+        private Rectangle box;
+        
 
         /// <summary>
         /// Read only property for the map array
@@ -105,6 +105,9 @@ namespace Dull_Radiance
 
             //Create rectangles for collision detection
             Rectangles = CreateMapRectangles(windowWidth, windowHeight, tileSize, Map);
+
+            //Create box that player can't leave
+            box = new Rectangle(windowWidth / 2 - 250, windowHeight / 2 - 250, 500, 500);
         }
 
         #region MAP READING
@@ -256,6 +259,8 @@ namespace Dull_Radiance
             {
                 for (int col = 0; col < 52; col++)
                 {
+                    //Check for correct row/col
+                    
                     switch (map[row, col])
                     {
                         case WallType.TLCorner:
@@ -322,8 +327,8 @@ namespace Dull_Radiance
         public void StartingPosition()
         {
             //Player starting coord (by Tile)
-            playerBounds.X = 2;
-            playerBounds.Y = 28;
+            //playerBounds.X = 2;
+            //playerBounds.Y = 28;
 
             //Put info in 2D load arrays
             int[,] playerRowLoad = { { 1, 2, 3 }, { 1, 2, 3 }, { 1, 2, 3 } };
@@ -343,13 +348,12 @@ namespace Dull_Radiance
         public void MoveScreen()
         {
             //Iniutial Key Press
-            KbState = Keyboard.GetState();
+            kbState = Keyboard.GetState();
 
             //Checks for all scinerios where map shouldn't move
             if (playerBounds.X > 1 && playerBounds.X < 51 && playerBounds.Y > 1 && playerBounds.Y > 29 && CheckPlayerCollisions() == false)
             {
-                //Clicked A button - Moving Coordinates left
-                if (KbState.IsKeyDown(Keys.A))
+                if (playerBounds.X <= 0 || playerBounds.Y <= 0 || playerBounds.X >= box.Width + playerBounds.Width || playerBounds.Y >= box.Height + playerBounds.Width)
                 {
                     for (int i = 0; i < 3; i++)
                     {
@@ -359,8 +363,22 @@ namespace Dull_Radiance
                         }
                     }
                 }
+
+                //Clicked A button - Moving Coordinates left
+
+                /*
+                if (kbState.IsKeyDown(Keys.A) && prevState.IsKeyUp(Keys.A))
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            playerRowLoad[i, j]--;
+                        }
+                    }
+                }*/
                 //Clicked D Button - Moving Coordinates Right
-                if (KbState.IsKeyDown(Keys.D))
+                if (kbState.IsKeyDown(Keys.D) && prevState.IsKeyUp(Keys.D))
                 {
                     for (int i = 0; i < 3; i++)
                     {
@@ -371,7 +389,7 @@ namespace Dull_Radiance
                     }
                 }
                 //Clicked W Button - Moving Coordinates Up
-                if (KbState.IsKeyDown(Keys.W))
+                if (kbState.IsKeyDown(Keys.W) && prevState.IsKeyUp(Keys.W))
                 {
                     for (int i = 0; i < 3; i++)
                     {
@@ -382,7 +400,7 @@ namespace Dull_Radiance
                     }
                 }
                 //Clicked S Button - Moving Coordinates Down
-                if (KbState.IsKeyDown(Keys.S))
+                if (kbState.IsKeyDown(Keys.S) && prevState.IsKeyUp(Keys.S))
                 {
                     for (int i = 0; i < 3; i++)
                     {
@@ -392,8 +410,10 @@ namespace Dull_Radiance
                         }
                     }
                 }
-
             }
+
+            //Recieve one key press per frame
+            prevState = Keyboard.GetState();
         }
 
         //----------------------------------------------------------------------------------------------------------------

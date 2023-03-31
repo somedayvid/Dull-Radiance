@@ -99,7 +99,7 @@ namespace Dull_Radiance
             playerRect = new Rectangle(960, 540, width, height);
 
             // Set initial bounds for player object
-            bounds = new Rectangle(960, 540, 500, 500);
+            bounds = new Rectangle(0, 0, 320, 320);
         }
 
         //Methods
