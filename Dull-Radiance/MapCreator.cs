@@ -259,14 +259,15 @@ namespace Dull_Radiance
             int multiplerY = imageHeight;
             Vector2 origin = new Vector2(imageWidth / 2, imageHeight / 2);
 
-            for (int i = 0; i < 3; i++)
-            {
+            
+            //for (int i = 0; i < 3; i++)
+            //{
 
-                for (int j = 0; j < 3; j++)
-                {
+                //for (int j = 0; j < 3; j++)
+                //{
                     //Save 2D Array variables
-                    playerRowLoad[i, j] = cordX;
-                    playerColLoad[i, j] = cordY;
+                   // playerRowLoad[i, j] = cordX;
+                    //playerColLoad[i, j] = cordY;
 
                     for (int row = 0; row < 30; row++)
                     {
@@ -331,8 +332,8 @@ namespace Dull_Radiance
                                 }
                             }
                         }
-                    }
-                }
+                   // }
+                //}
             }
         }
 
@@ -359,7 +360,7 @@ namespace Dull_Radiance
         {
             //Iniutial Key Press
             kbState = Keyboard.GetState();
-
+            
             //Checks for all scinerios where map shouldn't move
             if (playerBounds.X > 1 && playerBounds.X < 51 && playerBounds.Y > 1 && playerBounds.Y > 29 )//&& CheckPlayerCollisions() == false)
             {
@@ -407,6 +408,7 @@ namespace Dull_Radiance
                         }
                     }
                 }
+            
 
                 #region SingleClickGame
                 //Clicked A button - Moving Coordinates left
