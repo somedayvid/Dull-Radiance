@@ -19,8 +19,8 @@ namespace Dull_Radiance
         public event DamageTakenDelegate OnDamageTaken;
         public event GameReset OnGameReset;
         //Fields
-        //private int windowWidth;
-        //private int windowHeight;
+        private int windowWidth;
+        private int windowHeight;
         private int width;
         private int height;
         private Texture2D playerTexture;
@@ -70,10 +70,10 @@ namespace Dull_Radiance
         /// Initializes the player's initial position and starting stats
         /// </summary>
         /// <param name="playerTexture">The texture of the player character</param>
-        public Player(Texture2D playerTexture, PlayerHealth hearts)      //TODO find way to not hard code numbers for initial positioning and size
+        public Player(Texture2D playerTexture, PlayerHealth hearts, int windowWidth, int windowHeight)
         {
-            //windowWidth = graphics.PreferredBackBufferWidth;
-            //windowHeight = graphics.PreferredBackBufferHeight;
+            this.windowWidth = windowWidth;
+            this.windowHeight = windowHeight;
             //height = windowHeight/60;
             //width = windowWidth/34;
 
@@ -138,7 +138,10 @@ namespace Dull_Radiance
         public void Reset()
         {
             OnGameReset();
-            bounds = new Rectangle(960, 540, width, height);
+            bounds = new Rectangle(
+                windowWidth / 2 - (width / 2), 
+                windowHeight / 2 - (height / 2), 
+                width, height);
         }
 
         /// <summary>
@@ -147,7 +150,6 @@ namespace Dull_Radiance
         /// <param name="sb">SpriteBatch sb</param>
         public void Draw(SpriteBatch sb)
         {
-
             sb.Draw(
                 playerTexture,
                 bounds,

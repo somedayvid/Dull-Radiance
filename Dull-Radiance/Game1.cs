@@ -156,13 +156,13 @@ namespace Dull_Radiance
             aliveHeart = Content.Load<Texture2D>("LiveHeart");
             deadHeart = Content.Load<Texture2D>("DeadHeart");
             key = Content.Load<Texture2D>("KEY");
-            redKey = new Collectibles(key,player, Color.Red);
+            redKey = new Collectibles(key, Color.Red);
             hearts = new PlayerHealth(aliveHeart, deadHeart);
             inventory = new Inventory();
 
             // Player
             playerTexture = Content.Load<Texture2D>("Player");
-            player = new Player(playerTexture, hearts);
+            player = new Player(playerTexture, hearts, windowWidth, windowHeight);
 
             // Screens
             titleScreen = Content.Load<Texture2D>("StartMenu");
@@ -288,7 +288,7 @@ namespace Dull_Radiance
                     }
                     break;
                 case GameState.Game:
-                    player.Movement();
+                    //player.Movement();
                     uiManager.Update(gameTime, kbState, prevkbState);
 
                     //How the map moves with the player
