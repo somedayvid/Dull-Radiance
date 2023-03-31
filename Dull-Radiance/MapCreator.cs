@@ -264,55 +264,55 @@ namespace Dull_Radiance
                     switch (map[row, col])
                     {
                         case WallType.TLCorner:
-                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                             break;
                         case WallType.BLCorner:
-                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                             break;
                         case WallType.TRCorner:
-                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                             break;
                         case WallType.BRCorner:
-                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                             break;
                         case WallType.Floor:
-                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                             break;
                         case WallType.HoriWall:
-                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                             break;
                         case WallType.VertWall:
-                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                             break;
                         case WallType.LMWall:
-                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                             break;
                         case WallType.TMWall:
-                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                             break;
                         case WallType.BMWall:
-                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                             break;
                         case WallType.RMWall:
-                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                             break;
                         case WallType.HIF:
-                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                             break;
                         case WallType.SawBlade:
-                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                             break;
                         case WallType.MBGoal:
-                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                             break;
                         case WallType.MBDoor:
-                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                             break;
                         case WallType.Lore:
-                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                             break;
                         case WallType.LightSwitch:
-                            _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                            _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                             break;
                     }
                 }
@@ -344,7 +344,7 @@ namespace Dull_Radiance
             kbState = Keyboard.GetState();
 
             //Checks for all scinerios where map shouldn't move
-            if (playerBounds.X > 1 && playerBounds.X < 51 && playerBounds.Y > 1 && playerBounds.Y > 29 && CheckPlayerCollisions() == false)
+            if (playerBounds.X > 1 && playerBounds.X < 51 && playerBounds.Y > 1 && playerBounds.Y > 29 )//&& CheckPlayerCollisions() == false)
             {
                 if (playerBounds.X <= box.X - playerBounds.Width/2)
                 {

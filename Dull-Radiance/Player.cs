@@ -10,19 +10,15 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Dull_Radiance
 {
-    /// <summary>
-    /// The main player class
-    /// </summary>
-
     //TODO move these into a game manager class instead of being in player
     public delegate void DamageTakenDelegate();
     public delegate void GameReset();
-   // public delegate void Healing();
+    // public delegate void Healing();
 
     /// <summary>
-    /// 
+    /// The main player class
     /// </summary>
-    internal class Player : ICollideAndDraw
+    internal class Player //: ICollideAndDraw
     {
         //event
         //TODO this as well
@@ -31,8 +27,8 @@ namespace Dull_Radiance
         //public event Healing OnHeal; 
 
         //Fields
-        private int windowWidth;
-        private int windowHeight;
+        //private int windowWidth;
+        //private int windowHeight;
         private int width;
         private int height;
         private Texture2D playerTexture;
@@ -41,15 +37,16 @@ namespace Dull_Radiance
 
         //gameplay fields
         private int playerSpeed;
-        private bool playerAlive;
+        //private bool playerAlive;
 
         //private Texture2D playerTexture;
-        private Rectangle playerRect;
+        //private Rectangle playerRect;
 
         private KeyboardState KBState;
 
-        private PlayerHealth hearts;
+        //private PlayerHealth hearts;
 
+        /*
         //Properties
         /// <summary>
         /// Returns player's X position
@@ -68,6 +65,7 @@ namespace Dull_Radiance
             get { return playerRect.Y; }
             //set { playerRect.Y = value; }
         }
+        */
 
         public Rectangle Bounds
         {
@@ -96,7 +94,7 @@ namespace Dull_Radiance
             width = 320;
             this.playerTexture = playerTexture;
 
-            playerRect = new Rectangle(960, 540, width, height);
+            //playerRect = new Rectangle(960, 540, width, height);
 
             // Set initial bounds for player object
             bounds = new Rectangle(0, 0, 320, 320);
@@ -112,6 +110,7 @@ namespace Dull_Radiance
             Movement();
         }
 
+        /*
         /// <summary>
         /// Check for player intersecting with an object
         /// </summary>
@@ -124,6 +123,7 @@ namespace Dull_Radiance
             //     happening
             //}
         }
+        */
 
         /// <summary>
         /// When the player collides with something hazardous they will take dmg and alert event
@@ -146,7 +146,7 @@ namespace Dull_Radiance
         public void Reset()
         {
             OnGameReset();
-            playerRect = new Rectangle(960, 540, width, height);
+            bounds = new Rectangle(960, 540, width, height);
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace Dull_Radiance
 
             sb.Draw(
                 playerTexture,
-                playerRect,
+                bounds,
                 Color.White);
         }
 
@@ -173,19 +173,19 @@ namespace Dull_Radiance
             //Movement
             if (KBState.IsKeyDown(Keys.A) || KBState.IsKeyDown(Keys.Left))
             {
-                playerRect.X -= playerSpeed;
+                bounds.X -= playerSpeed;
             }
             if (KBState.IsKeyDown(Keys.D) || KBState.IsKeyDown(Keys.Right))
             {
-                playerRect.X += playerSpeed;
+                bounds.X += playerSpeed;
             }
             if (KBState.IsKeyDown(Keys.W) || KBState.IsKeyDown(Keys.Up))
             {
-                playerRect.Y -= playerSpeed;
+                bounds.Y -= playerSpeed;
             }
             if (KBState.IsKeyDown(Keys.S) || KBState.IsKeyDown(Keys.Down))
             {
-                playerRect.Y += playerSpeed;
+                bounds.Y += playerSpeed;
             }
         }
 
