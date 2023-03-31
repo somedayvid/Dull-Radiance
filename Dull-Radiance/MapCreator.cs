@@ -342,22 +342,13 @@ namespace Dull_Radiance
         /// </summary>
         public void MoveScreen()
         {
-            //Variables for Arrays of draw
-            //private WallType[,] playerRowLoad = new WallType[3, 3];
-            //private WallType[,] playerColLoad = new WallType[3, 3];
-
-
             //Iniutial Key Press
             KbState = Keyboard.GetState();
 
-            //Initial Corrds
-            //Need to press space to start the positioning. Should ultimately tied with start but
-            //heres code that can be moved into a new method once we do that
-           
-
-            //regular Allowed Movement
-            if (playerBounds.X > 1 && playerBounds.X < 51 && playerBounds.Y > 1 && playerBounds.Y > 29 )//&& playercollision is false)
+            //Checks for all scinerios where map shouldn't move
+            if (playerBounds.X > 1 && playerBounds.X < 51 && playerBounds.Y > 1 && playerBounds.Y > 29 && CheckPlayerCollisions() == false)
             {
+                //Clicked A button - Moving Coordinates left
                 if (KbState.IsKeyDown(Keys.A))
                 {
                     for (int i = 0; i < 3; i++)
@@ -368,6 +359,7 @@ namespace Dull_Radiance
                         }
                     }
                 }
+                //Clicked D Button - Moving Coordinates Right
                 if (KbState.IsKeyDown(Keys.D))
                 {
                     for (int i = 0; i < 3; i++)
@@ -378,6 +370,7 @@ namespace Dull_Radiance
                         }
                     }
                 }
+                //Clicked W Button - Moving Coordinates Up
                 if (KbState.IsKeyDown(Keys.W))
                 {
                     for (int i = 0; i < 3; i++)
@@ -388,6 +381,7 @@ namespace Dull_Radiance
                         }
                     }
                 }
+                //Clicked S Button - Moving Coordinates Down
                 if (KbState.IsKeyDown(Keys.S))
                 {
                     for (int i = 0; i < 3; i++)
@@ -400,15 +394,6 @@ namespace Dull_Radiance
                 }
 
             }
-
-
-            /*Draw Images
-             * sort through enum array until recieving correct coordinates
-             * 
-             */
-
-            //Recieve one frame key press
-            PrevState = Keyboard.GetState();
         }
 
         //----------------------------------------------------------------------------------------------------------------
