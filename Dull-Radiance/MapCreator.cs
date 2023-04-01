@@ -151,7 +151,7 @@ namespace Dull_Radiance
                 string textLine = "";
                 textLine = reader.ReadLine();
 
-                // Initialize array to always be 29x52
+                // Initialize array to always be 30x53
                 newMap = new NewWall[30, 53];
 
                 // Skip every data containing '-' before it
@@ -409,10 +409,14 @@ namespace Dull_Radiance
             // Get origin of image
             Vector2 origin = new Vector2(imageWidth / 2, imageHeight / 2);
 
+            int x = newMap.GetLength(0);
+            int y = newMap.GetLength(1);
+            int z = 1;
+
             // Loop through 2D array
-            for (int row = 0; row < newMap.GetLength(1); row++)
+            for (int row = 0; row <= newMap.GetLength(0); row++)
             {
-                for (int col = 0; col < newMap.GetLength(0); col++)
+                for (int col = 0; col <= newMap.GetLength(1); col++)
                 {
                     // Check if given row and column match, if they do, draw corresponding tile
                     if (row == cord.X && col == cord.Y)
@@ -423,10 +427,10 @@ namespace Dull_Radiance
                             case NewWall.TLCorner:
                                 _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                                 break;
-                            case NewWall.BLCorner:
+                            case NewWall.TRCorner:
                                 _sb.Draw(texture[1], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                                 break;
-                            case NewWall.TRCorner:
+                            case NewWall.BLCorner:
                                 _sb.Draw(texture[2], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                                 break;
                             case NewWall.BRCorner:

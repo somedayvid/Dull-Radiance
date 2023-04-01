@@ -62,9 +62,10 @@ namespace Dull_Radiance
         private Texture2D bottomWall;
         private Texture2D leftWall;
         private Texture2D rightWall;
+        private Texture2D floor;
         private Texture2D horizontalWall;
         private Texture2D verticalWall;
-        private Texture2D floor;
+        private Texture2D boxWall;
         private Texture2D door;
         private List<Collectibles> collectibleList;
         private Texture2D key;
@@ -189,18 +190,19 @@ namespace Dull_Radiance
 
             #region Map Textures
             // Load all the wall types
-            tlCorner = Content.Load<Texture2D>("L");
-            trCorner = Content.Load<Texture2D>("L");
-            blCorner = Content.Load<Texture2D>("L");
-            brCorner = Content.Load<Texture2D>("L");
-            topWall = Content.Load<Texture2D>("L");
-            bottomWall = Content.Load<Texture2D>("L");
-            leftWall = Content.Load<Texture2D>("L");
-            rightWall = Content.Load<Texture2D>("L");
-            horizontalWall = Content.Load<Texture2D>("L");
-            verticalWall = Content.Load<Texture2D>("L");
-            floor = Content.Load<Texture2D>("L");
-            door = Content.Load<Texture2D>("L");
+            tlCorner = Content.Load<Texture2D>("T_TL");
+            trCorner = Content.Load<Texture2D>("T_TR");
+            blCorner = Content.Load<Texture2D>("T_BL");
+            brCorner = Content.Load<Texture2D>("T_BR");
+            topWall = Content.Load<Texture2D>("T_T");
+            bottomWall = Content.Load<Texture2D>("T_B");
+            leftWall = Content.Load<Texture2D>("T_L");
+            rightWall = Content.Load<Texture2D>("T_R");
+            floor = Content.Load<Texture2D>("T_F");
+            horizontalWall = Content.Load<Texture2D>("T_H");
+            verticalWall = Content.Load<Texture2D>("T_V");
+            boxWall = Content.Load<Texture2D>("T_BOX");
+            door = Content.Load<Texture2D>("T_D");
 
             // Add walls to list of texture2D
             wallList = new List<Texture2D>();
@@ -212,9 +214,10 @@ namespace Dull_Radiance
             wallList.Add(bottomWall);
             wallList.Add(leftWall);
             wallList.Add(rightWall);
+            wallList.Add(floor);
             wallList.Add(horizontalWall);
             wallList.Add(verticalWall);
-            wallList.Add(floor);
+            wallList.Add(boxWall);
             wallList.Add(door);
 
             // Load all the collectable types
