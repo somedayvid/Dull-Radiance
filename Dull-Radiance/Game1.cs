@@ -53,16 +53,22 @@ namespace Dull_Radiance
         private PlayerState playerState;
 
         // Map textures
-        private Texture2D key;
-        private Texture2D doors;
-        private Texture2D corner;
-        private Texture2D side;
-        private Texture2D top;
-        private Texture2D middle;
-        private Texture2D floors;
-        private Texture2D lights;
         private List<Texture2D> wallList;
+        private Texture2D tlCorner;
+        private Texture2D trCorner;
+        private Texture2D blCorner;
+        private Texture2D brCorner;
+        private Texture2D topWall;
+        private Texture2D bottomWall;
+        private Texture2D leftWall;
+        private Texture2D rightWall;
+        private Texture2D horizontalWall;
+        private Texture2D verticalWall;
+        private Texture2D floor;
+        private Texture2D door;
         private List<Collectibles> collectibleList;
+        private Texture2D key;
+        private Texture2D lights;
         private Collectibles redKey;
 
         // Player texture
@@ -181,25 +187,42 @@ namespace Dull_Radiance
             // Fonts
             agencyFB = Content.Load<SpriteFont>("Agency FB");
 
-            // Load map related textures
-            corner = Content.Load<Texture2D>("L");
-            middle = Content.Load<Texture2D>("Middle");
-            side = Content.Load<Texture2D>("Side");
-            top = Content.Load<Texture2D>("Top");
-            floors = Content.Load<Texture2D>("Floor");
-            doors = Content.Load<Texture2D>("Door");
+            #region Map Textures
+            // Load all the wall types
+            tlCorner = Content.Load<Texture2D>("TL_CORNER");
+            trCorner = Content.Load<Texture2D>("TR_CORNER");
+            blCorner = Content.Load<Texture2D>("BL_CORNER");
+            brCorner = Content.Load<Texture2D>("BR_CORNER");
+            topWall = Content.Load<Texture2D>("TOP_WALL");
+            bottomWall = Content.Load<Texture2D>("BOTTOM_WALL");
+            leftWall = Content.Load<Texture2D>("LEFT_WALL");
+            rightWall = Content.Load<Texture2D>("RIGHT_WALL");
+            horizontalWall = Content.Load<Texture2D>("HORIZONTAL_WALL");
+            verticalWall = Content.Load<Texture2D>("VERTICAL_WALL");
+            floor = Content.Load<Texture2D>("FLOOR");
+            door = Content.Load<Texture2D>("DOOR");
 
-            // Add walls to list
+            // Add walls to list of texture2D
             wallList = new List<Texture2D>();
-            wallList.Add(corner);
-            wallList.Add(middle);
-            wallList.Add(side);
-            wallList.Add(top);
-            wallList.Add(floors);
+            wallList.Add(tlCorner);
+            wallList.Add(trCorner);
+            wallList.Add(blCorner);
+            wallList.Add(brCorner);
+            wallList.Add(topWall);
+            wallList.Add(bottomWall);
+            wallList.Add(leftWall);
+            wallList.Add(rightWall);
+            wallList.Add(horizontalWall);
+            wallList.Add(verticalWall);
+            wallList.Add(floor);
+            wallList.Add(door);
 
-            // Add collectables to list
+            // Load all the collectable types
+
+            // Add collectables to list of texture2D
             collectibleList = new List<Collectibles>();
             collectibleList.Add(redKey);
+            #endregion
 
             uiManager = new UIManager(hearts, player, inventory, collectibleList);
 
