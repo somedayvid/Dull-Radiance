@@ -189,18 +189,18 @@ namespace Dull_Radiance
 
             #region Map Textures
             // Load all the wall types
-            tlCorner = Content.Load<Texture2D>("TL_CORNER");
-            trCorner = Content.Load<Texture2D>("TR_CORNER");
-            blCorner = Content.Load<Texture2D>("BL_CORNER");
-            brCorner = Content.Load<Texture2D>("BR_CORNER");
-            topWall = Content.Load<Texture2D>("TOP_WALL");
-            bottomWall = Content.Load<Texture2D>("BOTTOM_WALL");
-            leftWall = Content.Load<Texture2D>("LEFT_WALL");
-            rightWall = Content.Load<Texture2D>("RIGHT_WALL");
-            horizontalWall = Content.Load<Texture2D>("HORIZONTAL_WALL");
-            verticalWall = Content.Load<Texture2D>("VERTICAL_WALL");
-            floor = Content.Load<Texture2D>("FLOOR");
-            door = Content.Load<Texture2D>("DOOR");
+            tlCorner = Content.Load<Texture2D>("L");
+            trCorner = Content.Load<Texture2D>("L");
+            blCorner = Content.Load<Texture2D>("L");
+            brCorner = Content.Load<Texture2D>("L");
+            topWall = Content.Load<Texture2D>("L");
+            bottomWall = Content.Load<Texture2D>("L");
+            leftWall = Content.Load<Texture2D>("L");
+            rightWall = Content.Load<Texture2D>("L");
+            horizontalWall = Content.Load<Texture2D>("L");
+            verticalWall = Content.Load<Texture2D>("L");
+            floor = Content.Load<Texture2D>("L");
+            door = Content.Load<Texture2D>("L");
 
             // Add walls to list of texture2D
             wallList = new List<Texture2D>();
@@ -390,6 +390,7 @@ namespace Dull_Radiance
 
                     // Test test test test test test test test test test test
                     mapMaker.DrawMap(_spriteBatch, wallList);
+                    
 
                     player.Draw(_spriteBatch);
                     uiManager.Draw(_spriteBatch);

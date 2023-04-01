@@ -14,6 +14,23 @@ using Microsoft.Xna.Framework.Content;
 namespace Dull_Radiance
 {
     #region ENUMS
+    public enum NewWall
+    {
+        TLCorner,
+        BLCorner,
+        TRCorner,
+        BRCorner,
+        TopWall,
+        BottomWall,
+        LeftWall,
+        RightWall,
+        Floor,
+        HorizontalWall,
+        VerticalWall,
+        BoxWall,
+        Door
+    }
+
     /// <summary>
     /// Non Collectible Wall|Floor|Intereactible types
     /// </summary>
@@ -58,6 +75,7 @@ namespace Dull_Radiance
         private double[,] doubleMap;
         private WallType[,] map;
         private StreamReader readMap;
+        private StreamReader reader;
         private string lineOfText;
         private Rectangle playerBounds;
         private KeyboardState kbState;
@@ -72,6 +90,8 @@ namespace Dull_Radiance
         private int playerX;
         private int playerY;
         List<Vector2> textureLocation;
+
+        private NewWall[,] newMap;
 
 
         /// <summary>
@@ -107,6 +127,8 @@ namespace Dull_Radiance
             LoadMap();
             //ConvertMap to enum map
             ConvertMap(doubleMap);
+
+            LoadTheMAP();
             //Tilesize to be multiply to change 
             int tileSize = 500;
             //Create rectangles for collision detection
@@ -119,6 +141,101 @@ namespace Dull_Radiance
         }
 
         #region MAP READING
+
+        public void LoadTheMAP()
+        {
+            try
+            {
+                // 
+                reader = new StreamReader("../../../WallType.txt");
+                string textLine = "";
+                textLine = reader.ReadLine();
+
+                // Initialize array to always be 29x52
+                newMap = new NewWall[30, 53];
+
+                // Skip every data containing '-' before it
+                while (textLine[0] == '-')
+                {
+                    textLine = reader.ReadLine();
+                }
+
+                int c = 0;
+
+                // 
+                while (textLine != null)
+                {
+                    // Split the csv data into an array
+                    string[] splitData = textLine.Split(',');
+
+                    // Loop through split data
+                    for (int i = 0; i < splitData.Length; i++)
+                    {
+                        // Parse string into int and save to map as WallType enum
+                        switch (int.Parse(splitData[i]))
+                        {
+                            case 1:
+                                newMap[c, i] = NewWall.TLCorner;
+                                break;
+                            case 3:
+                                newMap[c, i] = NewWall.TRCorner;
+                                break;
+                            case 17:
+                                newMap[c, i] = NewWall.BLCorner;
+                                break;
+                            case 19:
+                                newMap[c, i] = NewWall.BRCorner;
+                                break;
+                            case 2:
+                                newMap[c, i] = NewWall.TopWall;
+                                break;
+                            case 18:
+                                newMap[c, i] = NewWall.BottomWall;
+                                break;
+                            case 9:
+                                newMap[c, i] = NewWall.LeftWall;
+                                break;
+                            case 11:
+                                newMap[c, i] = NewWall.RightWall;
+                                break;
+                            case 30:
+                                newMap[c, i] = NewWall.Floor;
+                                break;
+                            case 10:
+                                newMap[c, i] = NewWall.HorizontalWall;
+                                break;
+                            case 34:
+                                newMap[c, i] = NewWall.VerticalWall;
+                                break;
+                            case 15:
+                                newMap[c, i] = NewWall.BoxWall;
+                                break;
+                            case 46:
+                                newMap[c, i] = NewWall.Door;
+                                break;
+                        }
+                    }
+
+                    // Increase column and read in new line
+                    c++;
+                    textLine = reader.ReadLine();
+                }
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine("Error: " + error.Message);
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Close();
+                }
+            }
+        }
+
+
+
         /// <summary>
         /// Using try|catch to safely load in map
         /// </summary>
@@ -293,14 +410,58 @@ namespace Dull_Radiance
             Vector2 origin = new Vector2(imageWidth / 2, imageHeight / 2);
 
             // Loop through 2D array
-            for (int row = 0; row < map.GetLength(1); row++)
+            for (int row = 0; row < newMap.GetLength(1); row++)
             {
-                for (int col = 0; col < map.GetLength(0); col++)
+                for (int col = 0; col < newMap.GetLength(0); col++)
                 {
                     // Check if given row and column match, if they do, draw corresponding tile
                     if (row == cord.X && col == cord.Y)
                     {
-                        // Switch through different tile
+                        // New map switch
+                        switch (newMap[row, col])
+                        {
+                            case NewWall.TLCorner:
+                                _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case NewWall.BLCorner:
+                                _sb.Draw(texture[1], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case NewWall.TRCorner:
+                                _sb.Draw(texture[2], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case NewWall.BRCorner:
+                                _sb.Draw(texture[3], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case NewWall.TopWall:
+                                _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case NewWall.BottomWall:
+                                _sb.Draw(texture[5], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case NewWall.LeftWall:
+                                _sb.Draw(texture[6], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case NewWall.RightWall:
+                                _sb.Draw(texture[7], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case NewWall.Floor:
+                                _sb.Draw(texture[8], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case NewWall.HorizontalWall:
+                                _sb.Draw(texture[9], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case NewWall.VerticalWall:
+                                _sb.Draw(texture[10], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case NewWall.BoxWall:
+                                _sb.Draw(texture[11], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                            case NewWall.Door:
+                                _sb.Draw(texture[12], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
+                                break;
+                        }
+
+                        /*// Switch through different tile
                         switch (map[row, col])
                         {
                             // _sb.Draw(texture[0], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), null, Color.White, 90, origin, SpriteEffects.None, 0f);
@@ -356,7 +517,7 @@ namespace Dull_Radiance
                             case WallType.LightSwitch:
                                 _sb.Draw(texture[4], new Rectangle(col * multiplerX, row * multiplerY, imageWidth, imageHeight), Color.White);
                                 break;
-                        }
+                        }*/
                     }
                 }
             }
