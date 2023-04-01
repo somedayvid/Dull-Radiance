@@ -45,6 +45,8 @@ namespace Dull_Radiance
         YDoor,          //Yellow Door
         MB              //Moving Block
     }
+
+    public enum Direction { Up, Down, Left, Right }
     #endregion
     /// <summary>
     /// Class focused around creating the 2D Array map for the player
@@ -207,9 +209,6 @@ namespace Dull_Radiance
         /// <param name="texture">List of texture to use</param>
         public void DrawMap(SpriteBatch _sb, List<Texture2D> texture)
         {
-            // Set texture location to the screen's location
-            textureLocation = DetermineStart(new Vector2(playerX, playerY));
-
             // Iterate through list of locations and draw
             for (int i = 0; i < textureLocation.Count; i++)
             {
@@ -297,78 +296,100 @@ namespace Dull_Radiance
         /// </summary>
         /// <param name="cord"></param>
         /// <returns></returns>
-        public List<Vector2> DetermineStart(Vector2 cord)
+        public List<Vector2> DetermineScreen(Direction direction)
         {
             // Variable field
-            List<Vector2> textureVector = new List<Vector2>();
+           // List<Vector2> textureVector = new List<Vector2>();
 
             // Down 3 => always see 3 down || 3
-            for (int i = 0; i < map.GetLength(0); i++)
-            //for (int i = (int)cord.Y - 1; i < (int)cord.Y + 2; i++)
+            /*for (int i = (int)startingPoint.Y - 1; i < (int)startingPoint.Y + 2; i++)
             {
                 // Across 5 => always see 5 across || 6
-                for (int j = 0; j < map.GetLength(1); j++)
+                for (int j = (int)startingPoint.X - 2; j < (int)startingPoint.X + 2; j++)
                 {
                     // Add the texture to the list
                     textureVector.Add(new Vector2(i, j));
                 }
+            }*/
+
+            // TESTING PURPOSES ONLY, USE CODE ABOVE
+            for (int q = 26; q < 30; q++)
+            {
+                for (int w = 0; w < 6; w++)
+                {
+                    textureLocation.Add(new Vector2(q, w));
+                }
             }
 
-            // Return the list
-            return textureVector;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void MoveTheMAP()
-        {
-            // Get the keyboard state
-            kbState = Keyboard.GetState();
-
-            // WASD movement
-            if (kbState.IsKeyDown(Keys.W))
+            switch (direction)
             {
-                if (CheckPlayerCollisions() == false)
-                {
+                case Direction.Up:
+                    for (int i = 0; i < textureLocation.Count; i++)
+                    {
+                        Vector2 temp = textureLocation[i];
+                        temp.X -= 1;
+                        textureLocation[i] = temp;
+                    }
+                    break;
+                case Direction.Down:
+                    for (int i = 0; i < textureLocation.Count; i++)
+                    {
+                        Vector2 temp = textureLocation[i];
+                        temp.X += 1;
+                        textureLocation[i] = temp;
+                    }
+                    break;
+                case Direction.Left:
+                    for (int i = 0; i < textureLocation.Count; i++)
+                    {
+                        Vector2 temp = textureLocation[i];
+                        temp.Y += 1;
+                        textureLocation[i] = temp;
+                    }
+                    break;
+                case Direction.Right:
                     for (int i = 0; i < textureLocation.Count; i++)
                     {
                         Vector2 temp = textureLocation[i];
                         temp.Y -= 1;
                         textureLocation[i] = temp;
                     }
-                }
+                    break;
             }
-            else if (kbState.IsKeyDown(Keys.A))
-            {
-                for (int i = 0; i < textureLocation.Count; i++)
-                {
-                    Vector2 temp = textureLocation[i];
-                    temp.X += 1;
-                    textureLocation[i] = temp;
-                }
-            }
-            else if (kbState.IsKeyDown(Keys.S))
-            {
-                for (int i = 0; i < textureLocation.Count; i++)
-                {
-                    Vector2 temp = textureLocation[i];
-                    temp.Y += 1;
-                    textureLocation[i] = temp;
-                }
-            }
-            else if (kbState.IsKeyDown(Keys.D))
-            {
-                for (int i = 0; i < textureLocation.Count; i++)
-                {
-                    Vector2 temp = textureLocation[i];
-                    temp.X -= 1;
-                    textureLocation[i] = temp;
-                }
-            }
+
+            // Return the list
+            return textureLocation;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public void DetectMOvement()
+        {
+            // Get the keyboard state
+            kbState = Keyboard.GetState();
 
+            // Check for single key presses
+            if (kbState.IsKeyDown(Keys.W) && prevState.IsKeyUp(Keys.W))
+            {
+                DetermineScreen(Direction.Up);
+            }
+            else if (kbState.IsKeyDown(Keys.A) && prevState.IsKeyUp(Keys.A))
+            {
+                DetermineScreen(Direction.Left);
+            }
+            else if (kbState.IsKeyDown(Keys.S) && prevState.IsKeyUp(Keys.S))
+            {
+                DetermineScreen(Direction.Down);
+            }
+            else if (kbState.IsKeyDown(Keys.D) && prevState.IsKeyUp(Keys.D))
+            {
+                DetermineScreen(Direction.Right);
+            }
+
+            // Set previous state to current
+            prevState = kbState;
+        }
 
         /// <summary>
         /// Loading in a specific area of the screen for the player to see

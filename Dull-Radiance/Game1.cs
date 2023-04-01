@@ -290,9 +290,6 @@ namespace Dull_Radiance
                     if (startButton.Click())
                     {
                         player.Reset();
-                        //Give player starting position
-                        //mapMaker.StartingPosition();
-                        mapMaker.DetermineStart(cord);
                         //Shift state
                         currentState = GameState.Game;
                     }
@@ -320,7 +317,7 @@ namespace Dull_Radiance
                     //How the map moves with the player
                     //mapMaker.MoveScreen();
                     //mapMaker.DrawMap(_spriteBatch, wallList);
-                    mapMaker.MoveTheMAP();
+                    mapMaker.DetectMOvement();
                     //Changed state based on events
 
                     if (kbState.IsKeyDown(Keys.P))
