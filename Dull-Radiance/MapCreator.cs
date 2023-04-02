@@ -91,7 +91,6 @@ namespace Dull_Radiance
 
             //Load Map
             LoadMap();
-            //textureLocation = new List<Vector2>();
 
             //Tilesize to be multiply to change 
             int tileSize = 500;
@@ -294,35 +293,14 @@ namespace Dull_Radiance
         }
 
         /// <summary>
-        /// Starts the start screen
+        /// Updates the Vector2s of the screen based on the direction
         /// </summary>
-        /// <param name="cord"></param>
-        /// <returns></returns>
+        /// <param name="direction">Direction user pressed</param>
+        /// <returns>An updated list with screen vector2</returns>
         public List<Vector2> DetermineScreen(Direction direction)
         {
-            // Variable field
-            // List<Vector2> textureVector = new List<Vector2>();
-
-            // Down 3 => always see 3 down || 3
-            /*for (int i = (int)startingPoint.Y - 1; i < (int)startingPoint.Y + 2; i++)
-            {
-                // Across 5 => always see 5 across || 6
-                for (int j = (int)startingPoint.X - 2; j < (int)startingPoint.X + 2; j++)
-                {
-                    // Add the texture to the list
-                    textureVector.Add(new Vector2(i, j));
-                }
-            }*/
-
-            // TESTING PURPOSES ONLY, USE CODE ABOVE
-            /*for (int q = 26; q < 30; q++)
-            {
-                for (int w = 0; w < 6; w++)
-                {
-                    textureLocation.Add(new Vector2(q, w));
-                }
-            }*/
-
+            // Switch based on the 4 cardinal directions
+            // Updates the entire list according to direction pressed
             switch (direction)
             {
                 case Direction.Up:
@@ -364,14 +342,15 @@ namespace Dull_Radiance
         }
 
         /// <summary>
-        /// 
+        /// Detect if any movement was present, if so, update the screen via DetermineScreen()
         /// </summary>
         public void DetectMOvement()
         {
             // Get the keyboard state
             kbState = Keyboard.GetState();
 
-            // Check for single key presses
+            // Check for single key presses and
+            // Call DetermineScreen() with corresponding direction
             if (kbState.IsKeyDown(Keys.W) && prevState.IsKeyUp(Keys.W))
             {
                 DetermineScreen(Direction.Up);
@@ -393,8 +372,12 @@ namespace Dull_Radiance
             prevState = kbState;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void StartScreen()
         {
+            // Initialize texture location
             textureLocation = new List<Vector2>();
 
             try
@@ -403,8 +386,10 @@ namespace Dull_Radiance
                 reader = new StreamReader("../../../StartCords.txt");
                 string lineOfText = "";
 
+                // Loop through saving each line into the list
                 while ((lineOfText = reader.ReadLine()!) != null)
                 {
+                    // Splits data and parse each value into the list
                     string[] splitData = lineOfText.Split(',');
                     textureLocation.Add(new Vector2(int.Parse(splitData[0]), int.Parse(splitData[1])));
                 }
@@ -423,7 +408,7 @@ namespace Dull_Radiance
                 }
             }
         }
-
+        #endregion
 
         /// <summary>
         /// Loading in a specific area of the screen for the player to see
@@ -543,7 +528,6 @@ namespace Dull_Radiance
                 #endregion
             }
         }
-        #endregion
 
         #region COLLECTABLE DRAWING
         /*
