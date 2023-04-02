@@ -91,6 +91,7 @@ namespace Dull_Radiance
 
             //Load Map
             LoadMap();
+            //textureLocation = new List<Vector2>();
 
             //Tilesize to be multiply to change 
             int tileSize = 500;
@@ -103,6 +104,7 @@ namespace Dull_Radiance
             playerX = 3;
             playerY = 2;
             textureLocation = new List<Vector2>();
+            StartScreen();
         }
 
         /// <summary>
@@ -299,7 +301,7 @@ namespace Dull_Radiance
         public List<Vector2> DetermineScreen(Direction direction)
         {
             // Variable field
-           // List<Vector2> textureVector = new List<Vector2>();
+            // List<Vector2> textureVector = new List<Vector2>();
 
             // Down 3 => always see 3 down || 3
             /*for (int i = (int)startingPoint.Y - 1; i < (int)startingPoint.Y + 2; i++)
@@ -313,13 +315,13 @@ namespace Dull_Radiance
             }*/
 
             // TESTING PURPOSES ONLY, USE CODE ABOVE
-            for (int q = 26; q < 30; q++)
+            /*for (int q = 26; q < 30; q++)
             {
                 for (int w = 0; w < 6; w++)
                 {
                     textureLocation.Add(new Vector2(q, w));
                 }
-            }
+            }*/
 
             switch (direction)
             {
@@ -343,7 +345,7 @@ namespace Dull_Radiance
                     for (int i = 0; i < textureLocation.Count; i++)
                     {
                         Vector2 temp = textureLocation[i];
-                        temp.Y += 1;
+                        temp.Y -= 1;
                         textureLocation[i] = temp;
                     }
                     break;
@@ -351,7 +353,7 @@ namespace Dull_Radiance
                     for (int i = 0; i < textureLocation.Count; i++)
                     {
                         Vector2 temp = textureLocation[i];
-                        temp.Y -= 1;
+                        temp.Y += 1;
                         textureLocation[i] = temp;
                     }
                     break;
@@ -390,6 +392,38 @@ namespace Dull_Radiance
             // Set previous state to current
             prevState = kbState;
         }
+
+        public void StartScreen()
+        {
+            textureLocation = new List<Vector2>();
+
+            try
+            {
+                // Initialize the reader and textLine
+                reader = new StreamReader("../../../StartCords.txt");
+                string lineOfText = "";
+
+                while ((lineOfText = reader.ReadLine()!) != null)
+                {
+                    string[] splitData = lineOfText.Split(',');
+                    textureLocation.Add(new Vector2(int.Parse(splitData[0]), int.Parse(splitData[1])));
+                }
+            }
+            catch (Exception error)
+            {
+                // Print error
+                Console.WriteLine("Error: " + error.Message);
+            }
+            finally
+            {
+                // Check if reader contains data, if so close it
+                if (reader != null)
+                {
+                    reader.Close();
+                }
+            }
+        }
+
 
         /// <summary>
         /// Loading in a specific area of the screen for the player to see
