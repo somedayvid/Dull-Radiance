@@ -16,16 +16,10 @@ namespace Dull_Radiance
         private Color color;
         public event AddToInventoryDelegate OnAddToInventory;
 
-        //Properties
-        /// <summary>
-        /// Receive X coordinate
-        /// </summary>
-        public int X { get; }
-        /// <summary>
-        /// Receive y coordinate
-        /// </summary>
-        public int Y { get; }
-
+        public Texture2D KeyTexture
+        {
+            get { return keyTexture; }
+        }
 
         public Collectibles(Texture2D keyTexture, Color color)
         {

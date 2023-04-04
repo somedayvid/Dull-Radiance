@@ -165,7 +165,7 @@ namespace Dull_Radiance
             key = Content.Load<Texture2D>("KEY");
             redKey = new Collectibles(key, Color.Red);
             hearts = new PlayerHealth(aliveHeart, deadHeart);
-            inventory = new Inventory();
+
 
             // Player
             playerTexture = Content.Load<Texture2D>("Player");
@@ -226,6 +226,8 @@ namespace Dull_Radiance
             collectibleList = new List<Collectibles>();
             collectibleList.Add(redKey);
             #endregion
+
+            inventory = new Inventory(collectibleList);
 
             uiManager = new UIManager(hearts, player, inventory, collectibleList);
 

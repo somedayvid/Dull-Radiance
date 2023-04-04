@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Dull_Radiance
 {
@@ -11,8 +14,10 @@ namespace Dull_Radiance
         /// <summary>
         /// A custom list with limited functionality to add and remove items 
         /// </summary>
-        private Collectibles[] inventory;
+        private List<Collectibles> inventory;
         private int maxCount;
+        private Texture2D inventorySlot;
+        private int count;
 
         public int MaxCount
         {
@@ -23,14 +28,19 @@ namespace Dull_Radiance
         {
             get { return inventory[index]; }
         }
+
+        public int Count
+        {
+            get { return count; }
+        }
         
         /// <summary>
         /// Initializes the array 
         /// </summary>
-        public Inventory()
+        public Inventory(List<Collectibles> collectiblesList)
         {
-            inventory = new Collectibles[5];
-            maxCount = 5;
+            inventory = new List<Collectibles>();
+            inventory.Add(collectiblesList[0]);
         } 
 
         /// <summary> 
@@ -56,6 +66,17 @@ namespace Dull_Radiance
         public void Remove(int index)
         {
             inventory[index] = null;
+        } 
+
+        public void Draw(SpriteBatch sb)
+        {
+            for (int i = 0; i < inventory.Count; i++)
+            {
+                sb.Draw(
+                    inventory[i].KeyTexture,
+                     new Rectangle(i * 110, 0, 100, 200),
+                     Color.White);
+            }
         }
     }
 }

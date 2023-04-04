@@ -76,13 +76,9 @@ namespace Dull_Radiance
         public void Draw(SpriteBatch sb)
         {
             hearts.Draw(sb);
-            //inventory.DrawInventory(sb);
-            //for (int i = 0; i < inventory.MaxCount; i++)
+            //if (inventory.Count > 0)
             //{
-            //    if (inventory[i] != null)
-            //    {
-            //        inventory[i].Draw(sb);
-            //    }
+            //    inventory.Draw(sb);
             //}
         }
 
