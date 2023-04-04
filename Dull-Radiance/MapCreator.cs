@@ -344,7 +344,7 @@ namespace Dull_Radiance
         /// <summary>
         /// Detect if any movement was present, if so, update the screen via DetermineScreen()
         /// </summary>
-        public void DetectMOvement()
+        public void DetectMovement()
         {
             // Get the keyboard state
             kbState = Keyboard.GetState();
