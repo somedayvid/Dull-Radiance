@@ -37,6 +37,7 @@ namespace Dull_Radiance
             this.hearts = hearts;
             this.player = player;
             this.collectibleList = collectibleList;
+            this.inventory = inventory;
 
             player.OnGameReset += hearts.Reset;
         }
@@ -76,10 +77,10 @@ namespace Dull_Radiance
         public void Draw(SpriteBatch sb)
         {
             hearts.Draw(sb);
-            //if (inventory.Count > 0)
-            //{
-            //    inventory.Draw(sb);
-            //}
+            if (inventory.Count > 0)
+            {
+                inventory.Draw(sb);
+            }
         }
 
         /// <summary>
