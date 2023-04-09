@@ -37,6 +37,7 @@ namespace Dull_Radiance
             this.hearts = hearts;
             this.player = player;
             this.collectibleList = collectibleList;
+            this.inventory = inventory;
 
             player.OnDamageTaken += hearts.TakeDamage;
             player.OnGameReset += hearts.Reset;
@@ -53,6 +54,10 @@ namespace Dull_Radiance
             if (SingleKeyPress(first, second, Keys.Q))
             {
                 hearts.TakeDamage();
+            }
+            if (SingleKeyPress(first, second, Keys.E))
+            {
+                inventory.Add(collectibleList[0]);
             }
         }
 
@@ -77,14 +82,7 @@ namespace Dull_Radiance
         public void Draw(SpriteBatch sb)
         {
             hearts.Draw(sb);
-            //inventory.DrawInventory(sb);
-            //for (int i = 0; i < inventory.MaxCount; i++)
-            //{
-            //    if (inventory[i] != null)
-            //    {
-            //        inventory[i].Draw(sb);
-            //    }
-            //}
+            inventory.Draw(sb);
         }
 
         /// <summary>

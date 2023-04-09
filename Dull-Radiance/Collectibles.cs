@@ -26,6 +26,11 @@ namespace Dull_Radiance
         /// </summary>
         public int Y { get; }
 
+        public Texture2D KeyTexture
+        {
+            get { return keyTexture; }
+        }
+
 
         public Collectibles(Texture2D keyTexture, Color color)
         {
