@@ -15,8 +15,6 @@ namespace Dull_Radiance
     /// </summary>
     internal class Player //: ICollideAndDraw
     {
-
-        public event DamageTakenDelegate OnDamageTaken;
         public event GameReset OnGameReset;
         //Fields
         private int windowWidth;
@@ -116,16 +114,6 @@ namespace Dull_Radiance
             //}
         }
         */
-
-        /// <summary>
-        /// When the player collides with something hazardous they will take dmg and alert event
-        /// </summary>
-        //TODO when player collides with enemy or environmental hazard
-        public void PlayerCollision()
-        {
-            //TODO alerts systems maybe get a screen  flash in here or smth 
-            OnDamageTaken();
-        }
 
         //public void PlayerHeal()
         //{

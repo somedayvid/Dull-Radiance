@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Dull_Radiance
 {
-    //TODO HOW TO COUPLE PLAYER CLASS HP TO THIS CLASS 
     /// <summary>
     /// A class which displays the hearts of the player character
     /// </summary>
@@ -74,23 +73,6 @@ namespace Dull_Radiance
 
             }
         }
-
-        /// <summary>
-        /// Raises currentHealth on healing damage and sets the heart in the array to true  to
-        /// indicate damage healed
-        /// </summary>
-        //public void Heal()
-        //{
-        //    try
-        //    {
-        //        healthbar[currentHealth] = true;
-        //        currentHealth++;
-        //    }
-        //    catch(IndexOutOfRangeException)
-        //    {
-
-        //    }
-        //}
 
         /// <summary>
         /// Resets the hearts display to its original stat 

@@ -39,7 +39,6 @@ namespace Dull_Radiance
             this.collectibleList = collectibleList;
             this.inventory = inventory;
 
-            player.OnDamageTaken += hearts.TakeDamage;
             player.OnGameReset += hearts.Reset;
         }
 

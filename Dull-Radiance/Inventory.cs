@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Dull_Radiance
 {
@@ -15,6 +18,8 @@ namespace Dull_Radiance
         /// </summary>
         private List<Collectibles> inventory;
         private int maxCount;
+        private Texture2D inventorySlot;
+        private int count;
 
         public int MaxCount
         {
@@ -25,11 +30,16 @@ namespace Dull_Radiance
         {
             get { return inventory[index]; }
         }
+
+        public int Count
+        {
+            get { return count; }
+        }
         
         /// <summary>
         /// Initializes the array 
         /// </summary>
-        public Inventory()
+        public Inventory(List<Collectibles> collectiblesList)
         {
             inventory = new List<Collectibles>();
             maxCount = 5;
