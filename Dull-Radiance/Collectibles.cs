@@ -14,17 +14,12 @@ namespace Dull_Radiance
         private Texture2D keyTexture;
         private Rectangle keyRect;
         private Color color;
-        public event AddToInventoryDelegate OnAddToInventory;
 
         //Properties
-        /// <summary>
-        /// Receive X coordinate
-        /// </summary>
-        public int X { get; }
-        /// <summary>
-        /// Receive y coordinate
-        /// </summary>
-        public int Y { get; }
+        public Color Color
+        {
+            get { return color; }
+        }
 
         public Texture2D KeyTexture
         {
@@ -35,6 +30,7 @@ namespace Dull_Radiance
         public Collectibles(Texture2D keyTexture, Color color)
         {
             this.keyTexture = keyTexture;
+            this.color = color;
         }
 
         public bool Intersects(Player player)

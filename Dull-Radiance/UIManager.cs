@@ -9,22 +9,21 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Dull_Radiance 
 {
-    public delegate void DamageTakenDelegate();
-    public delegate void GameReset();
-    public delegate void AddToInventoryDelegate();
-
     /// <summary>
     /// Consolidates all in game UI elements to the manager
     /// </summary>
+    public delegate void GameReset();
     internal class UIManager
     {
-        //fields
+        //fields for handled classes 
         private PlayerHealth hearts;
         private Player player;
         private Inventory inventory;
         private List<Collectibles> collectibleList;
 
-        //events
+        //fields
+        private int windowHeight;
+        private int windowWidth;
 
         /// <summary>
         /// Subscribes and initializes methods and variables
@@ -32,12 +31,16 @@ namespace Dull_Radiance
         /// <param name="hearts">Hearts UI</param>
         /// <param name="player">Player to work with hearts</param>
         /// <param name="inventory">Inventory UI</param>
-        public UIManager(PlayerHealth hearts, Player player, Inventory inventory, List<Collectibles> collectibleList)
+        public UIManager(PlayerHealth hearts, Player player, Inventory inventory, 
+            List<Collectibles> collectibleList, GraphicsDeviceManager graphics)
         {
             this.hearts = hearts;
             this.player = player;
             this.collectibleList = collectibleList;
             this.inventory = inventory;
+
+            windowHeight = graphics.PreferredBackBufferHeight;
+            windowWidth = graphics.PreferredBackBufferWidth;   
 
             player.OnGameReset += hearts.Reset;
         }
@@ -54,9 +57,21 @@ namespace Dull_Radiance
             {
                 hearts.TakeDamage();
             }
-            if (SingleKeyPress(first, second, Keys.E))
+            if (SingleKeyPress(first, second, Keys.D1))
             {
                 inventory.Add(collectibleList[0]);
+            }
+            if (SingleKeyPress(first, second, Keys.D2))
+            {
+                inventory.Add(collectibleList[1]);
+            }
+            if (SingleKeyPress(first, second, Keys.D3))
+            {
+                inventory.Add(collectibleList[2]);
+            }
+            if (SingleKeyPress(first, second, Keys.D4))
+            {
+                inventory.Add(collectibleList[3]);
             }
         }
 
@@ -80,8 +95,8 @@ namespace Dull_Radiance
         /// <param name="sb">Uses monogame library spritebatch</param>
         public void Draw(SpriteBatch sb)
         {
-            hearts.Draw(sb);
-            inventory.Draw(sb);
+            hearts.Draw(sb, windowWidth, windowHeight);
+            inventory.Draw(sb, windowWidth, windowHeight);
         }
 
         /// <summary>

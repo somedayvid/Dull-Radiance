@@ -5,48 +5,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Dull_Radiance
 {
+    /// <summary>
+    /// A custom list with limited functionality to add and remove items 
+    /// </summary>
     internal class Inventory
     {
-        /// <summary>
-        /// A custom list with limited functionality to add and remove items 
-        /// </summary>
+        //fields
         private List<Collectibles> inventory;
         private int maxCount;
-        private Texture2D inventorySlot;
         private int count;
-
-        public int MaxCount
-        {
-            get { return maxCount; }
-        }
-
-        public Collectibles this[int index]
-        {
-            get { return inventory[index]; }
-        }
-
-        public int Count
-        {
-            get { return count; }
-        }
         
         /// <summary>
-        /// Initializes the array 
+        /// Initializes a list representing the player's inventory 
         /// </summary>
         public Inventory(List<Collectibles> collectiblesList)
         {
             inventory = new List<Collectibles>();
             maxCount = 5;
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    inventory.Add(null);
-            //}
         }
 
         /// <summary> 
@@ -63,7 +42,25 @@ namespace Dull_Radiance
             //            break;
             //        }
             //    }
-            inventory.Add(item);
+            count++;
+            if (count <= maxCount)
+            {
+                inventory.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// Method which allows other classes to check if the inventory contains an item
+        /// </summary>
+        /// <param name="item">A specific item of the collectibles class which pairs with a door
+        /// in a dictionary</param>
+        /// <returns>A boolean on whether the item is within the list or not</returns>
+        public bool Contains(Collectibles item)
+        {
+            if(inventory.Contains(item)) 
+                return true;
+            else
+                return false;
         }
 
         /// <summary>
@@ -75,7 +72,13 @@ namespace Dull_Radiance
             inventory[index] = null;
         }
 
-        public void Draw(SpriteBatch sb)
+        /// <summary>
+        /// Draws the items in the inventory to the screen
+        /// </summary>
+        /// <param name="sb">Uses monogame library's spritebatch</param>
+        /// <param name="windowWidth">The width of the window</param>
+        /// <param name="windowHeight">The height of the window</param>
+        public void Draw(SpriteBatch sb, int windowWidth, int windowHeight)
         {
             for (int i = 0; i < inventory.Count; i++)
             {
@@ -83,8 +86,9 @@ namespace Dull_Radiance
                 {
                     sb.Draw(
                       inventory[i].KeyTexture,
-                      new Rectangle(i * 110, 0, 100, 100),
-                      Color.White);
+                      new Rectangle(i * windowWidth/32, windowHeight/18, windowWidth/32, 
+                        windowHeight/18),
+                      inventory[i].Color);
                 }
             }
         }

@@ -71,6 +71,9 @@ namespace Dull_Radiance
         private Texture2D key;
         private Texture2D lights;
         private Collectibles redKey;
+        private Collectibles greenKey;
+        private Collectibles blueKey;
+        private Collectibles purpleKey;
 
         // Player texture
         private Player player;
@@ -163,9 +166,17 @@ namespace Dull_Radiance
             aliveHeart = Content.Load<Texture2D>("LiveHeart");
             deadHeart = Content.Load<Texture2D>("DeadHeart");
             key = Content.Load<Texture2D>("KEY");
-            redKey = new Collectibles(key, Color.Red);
             hearts = new PlayerHealth(aliveHeart, deadHeart);
-
+            redKey = new Collectibles(key, Color.Salmon);
+            blueKey = new Collectibles(key, Color.LightBlue);
+            greenKey = new Collectibles(key, Color.ForestGreen);
+            purpleKey = new Collectibles(key, Color.PeachPuff);
+            // Add collectables to list of texture2D
+            collectibleList = new List<Collectibles>();
+            collectibleList.Add(redKey);
+            collectibleList.Add(blueKey);
+            collectibleList.Add(greenKey);
+            collectibleList.Add(purpleKey);
 
             // Player
             playerTexture = Content.Load<Texture2D>("Player");
@@ -220,16 +231,11 @@ namespace Dull_Radiance
             wallList.Add(boxWall);
             wallList.Add(door);
 
-            // Load all the collectable types
-
-            // Add collectables to list of texture2D
-            collectibleList = new List<Collectibles>();
-            collectibleList.Add(redKey);
             #endregion
 
             inventory = new Inventory(collectibleList);
 
-            uiManager = new UIManager(hearts, player, inventory, collectibleList);
+            uiManager = new UIManager(hearts, player, inventory, collectibleList, _graphics);
 
             // Button initializations
             startButton = new Button(
@@ -397,7 +403,8 @@ namespace Dull_Radiance
                     player.Draw(_spriteBatch);
                     uiManager.Draw(_spriteBatch);
                     _spriteBatch.DrawString(agencyFB,
-                        "PRESS Q TO TEST DMG TAKING",
+                        "PRESS Q TO TEST DMG TAKING\n" +
+                        "1 - 4 ADD KEYS",
                         new Vector2(windowWidth / 2, windowHeight / 2),
                         Color.White);
                     break;

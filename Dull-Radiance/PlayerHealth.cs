@@ -46,6 +46,7 @@ namespace Dull_Radiance
         /// </summary>
         /// <param name="liveHeart">Living heart texture</param>
         /// <param name="deadHeart">Dead heart textures</param>
+        /// <param name="graphics">Uses the already set window sizing to avoid hard coding</param>
         public PlayerHealth(Texture2D liveHeart, Texture2D deadHeart)
         {
             this.liveHeart = liveHeart;
@@ -56,7 +57,6 @@ namespace Dull_Radiance
             healthbar = new bool[maxHealth];
         }
 
-        //TODO correctly couple take damage and heal with the player's hp
         /// <summary>
         /// Lowers currentHealth on taking damage and sets the heart in the array to false  to
         /// indicate damage taken
@@ -91,22 +91,22 @@ namespace Dull_Radiance
         /// or false for dead heart
         /// </summary>
         /// <param name="sb">Spritebatch to draw</param>
-        public void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb, int windowWidth, int windowHeight)
         {
             for (int i = 0; i < healthbar.Length; i++)
             {
                 if (healthbar[i])
                 {
-                    sb.Draw(                                   //TODO DO NOT HARDCODE
+                    sb.Draw(                                   
                         liveHeart,
-                        new Rectangle(i * 110, 0, 100, 100),
+                      new Rectangle(i * windowWidth/32, 0, windowWidth/32, windowHeight/18),
                         Color.White);
                 }
                 else
                 {
                     sb.Draw(
                         deadHeart,
-                        new Rectangle(i * 110, 0, 100, 100),
+                      new Rectangle(i * windowWidth/32, 0, windowWidth/32, windowHeight/18),
                         Color.White);
                 }
             }
