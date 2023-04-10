@@ -404,7 +404,9 @@ namespace Dull_Radiance
                     uiManager.Draw(_spriteBatch);
                     _spriteBatch.DrawString(agencyFB,
                         "PRESS Q TO TEST DMG TAKING\n" +
-                        "1 - 4 ADD KEYS",
+                        "1 - 4 ADD KEYS\n" +
+                        "Try adding with 3 to max then press 5\n" +
+                        "DON'T TRY TO REMOVE ANYTHING ELSE ONLY KEY 3",
                         new Vector2(windowWidth / 2, windowHeight / 2),
                         Color.White);
                     break;
