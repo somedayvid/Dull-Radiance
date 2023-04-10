@@ -233,9 +233,9 @@ namespace Dull_Radiance
 
             #endregion
 
-            inventory = new Inventory(collectibleList);
+            inventory = new Inventory();
 
-            uiManager = new UIManager(hearts, player, inventory, collectibleList, _graphics);
+            uiManager = new UIManager(hearts, player, inventory, collectibleList, _graphics, agencyFB);
 
             // Button initializations
             startButton = new Button(

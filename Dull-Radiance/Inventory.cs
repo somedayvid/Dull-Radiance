@@ -22,10 +22,40 @@ namespace Dull_Radiance
         /// <summary>
         /// Initializes a list representing the player's inventory 
         /// </summary>
-        public Inventory(List<Collectibles> collectiblesList)
+        public Inventory()
         {
             inventory = new List<Collectibles>();
             maxCount = 5;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public void Update(GameTime gameTime, List<Collectibles> collectibleList, KeyboardState first, KeyboardState second)
+        {
+            MaxCapacity();
+            if (SingleKeyPress(first, second, Keys.D1))
+            {
+                inventory.Add(collectibleList[0]);
+            }
+            if (SingleKeyPress(first, second, Keys.D2))                             //testing inventory functionality
+            {
+                inventory.Add(collectibleList[1]);
+            }
+            if (SingleKeyPress(first, second, Keys.D3))
+            {
+                inventory.Add(collectibleList[2]);
+            }
+            if (SingleKeyPress(first, second, Keys.D4))
+            {
+                inventory.Add(collectibleList[3]);
+            }
+
+            if(SingleKeyPress(first, second, Keys.D5))
+            {
+                inventory.Remove(collectibleList[2]);
+            }
         }
 
         /// <summary> 
@@ -43,7 +73,7 @@ namespace Dull_Radiance
             //        }
             //    }
             count++;
-            if (count <= maxCount)
+            if(count <= maxCount)
             {
                 inventory.Add(item);
             }
@@ -64,12 +94,44 @@ namespace Dull_Radiance
         }
 
         /// <summary>
+        /// Checks if the inventory ever goes over max capacity
+        /// </summary>
+        /// <returns>Boolean that represents if the inventory has space for more items</returns>
+        public bool MaxCapacity()
+        {
+            if (count > maxCount)
+            {
+                count = 5;
+                return true;
+            }
+            else
+                return false;
+        }
+
+        /// <summary>
         /// Removes item at certain index
         /// </summary>
         /// <param name="index">Index of item to remove from inventory</param>
-        public void Remove(int index)
+        public void Remove(Collectibles item)
         {
-            inventory[index] = null;
+            inventory.RemoveAt(inventory.IndexOf(item));
+            count--;
+        }
+
+        /// <summary>
+        /// Draws a warning to the screen if the inventory is full
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="windowWidth"></param>
+        /// <param name="windowHeight"></param>
+        /// <param name="font"></param>
+        public void DrawWarning(SpriteBatch sb, int windowWidth, int windowHeight, SpriteFont font)
+        {
+            sb.DrawString(
+                font,
+                "I can't carry anymore stuff...",
+                new Vector2(windowWidth/2 - font.MeasureString("I can't carry anymore stuff...").X /2, windowHeight/4),
+                Color.White);
         }
 
         /// <summary>
@@ -86,10 +148,28 @@ namespace Dull_Radiance
                 {
                     sb.Draw(
                       inventory[i].KeyTexture,
-                      new Rectangle(i * windowWidth/32, windowHeight/18, windowWidth/32, 
-                        windowHeight/18),
+                      new Rectangle(i * windowWidth/32, windowHeight/18, 
+                        windowWidth/32, windowHeight/18),
                       inventory[i].Color);
                 }
+            }
+        }
+        //TODO remove once collision can be tested in game
+        /// <summary>
+        /// Single KeyPress Checker
+        /// </summary>
+        /// <param name="firstPress">KeyboardState firstPress</param>
+        /// <param name="secondPress">KeyBoardState secondPress</param>
+        /// <returns>bool if key is only active for 1 frame</returns>
+        public bool SingleKeyPress(KeyboardState firstPress, KeyboardState secondPress, Keys key)
+        {
+            if (firstPress.IsKeyDown(key) && secondPress.IsKeyUp(key))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

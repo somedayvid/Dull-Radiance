@@ -24,6 +24,7 @@ namespace Dull_Radiance
         //fields
         private int windowHeight;
         private int windowWidth;
+        private SpriteFont font;
 
         /// <summary>
         /// Subscribes and initializes methods and variables
@@ -31,13 +32,14 @@ namespace Dull_Radiance
         /// <param name="hearts">Hearts UI</param>
         /// <param name="player">Player to work with hearts</param>
         /// <param name="inventory">Inventory UI</param>
-        public UIManager(PlayerHealth hearts, Player player, Inventory inventory, 
-            List<Collectibles> collectibleList, GraphicsDeviceManager graphics)
+        public UIManager(PlayerHealth hearts, Player player, Inventory inventory,  
+            List<Collectibles> collectibleList, GraphicsDeviceManager graphics, SpriteFont font)
         {
             this.hearts = hearts;
             this.player = player;
             this.collectibleList = collectibleList;
             this.inventory = inventory;
+            this.font = font;
 
             windowHeight = graphics.PreferredBackBufferHeight;
             windowWidth = graphics.PreferredBackBufferWidth;   
@@ -57,22 +59,7 @@ namespace Dull_Radiance
             {
                 hearts.TakeDamage();
             }
-            if (SingleKeyPress(first, second, Keys.D1))
-            {
-                inventory.Add(collectibleList[0]);
-            }
-            if (SingleKeyPress(first, second, Keys.D2))
-            {
-                inventory.Add(collectibleList[1]);
-            }
-            if (SingleKeyPress(first, second, Keys.D3))
-            {
-                inventory.Add(collectibleList[2]);
-            }
-            if (SingleKeyPress(first, second, Keys.D4))
-            {
-                inventory.Add(collectibleList[3]);
-            }
+            inventory.Update(gameTime, collectibleList, first, second);
         }
 
         /*
@@ -97,6 +84,10 @@ namespace Dull_Radiance
         {
             hearts.Draw(sb, windowWidth, windowHeight);
             inventory.Draw(sb, windowWidth, windowHeight);
+            if (inventory.MaxCapacity() /*&& player.Intersects() collectible*/)
+            {
+                inventory.DrawWarning(sb, windowWidth, windowHeight, font);
+            }
         }
 
         /// <summary>

@@ -100,7 +100,6 @@ namespace Dull_Radiance
             Movement();
         }
 
-        /*
         /// <summary>
         /// Check for player intersecting with an object
         /// </summary>
@@ -113,7 +112,7 @@ namespace Dull_Radiance
             //     happening
             //}
         }
-        */
+        
 
         //public void PlayerHeal()
         //{
