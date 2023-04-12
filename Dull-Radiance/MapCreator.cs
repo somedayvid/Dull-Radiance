@@ -236,8 +236,8 @@ namespace Dull_Radiance
 
             // TODO: determine offset and use that to draw the tile
             // TODO: fix tile calculations to (xOffset - col) * imageWidth
-            int xOffset = 0;
-            int yOffset = 0;
+            int xOffset = (int)cord.X;
+            int yOffset = (int)cord.Y;
 
             // Loop through 2D array
             for (int col = 0; col <= map.GetLength(0); col++)
