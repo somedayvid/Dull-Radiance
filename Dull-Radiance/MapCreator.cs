@@ -356,6 +356,28 @@ namespace Dull_Radiance
             // Get the keyboard state
             kbState = Keyboard.GetState();
 
+            if (player.CheckPosition() == "up")
+            {
+                DetermineScreen(Direction.Up);
+                yOffset--;
+            }
+            if (player.CheckPosition() == "left")
+            {
+                DetermineScreen(Direction.Left);
+                xOffset--;
+            }
+            if (player.CheckPosition() == "down")
+            {
+                DetermineScreen(Direction.Down);
+                yOffset++;
+            }
+            if (player.CheckPosition() == "right")
+            {
+                DetermineScreen(Direction.Right);
+                xOffset++;
+            }
+
+            /*
             // Check for single key presses and
             // Call DetermineScreen() with corresponding direction
             if (kbState.IsKeyDown(Keys.W) && prevState.IsKeyUp(Keys.W))
@@ -377,7 +399,7 @@ namespace Dull_Radiance
             {
                 DetermineScreen(Direction.Right);
                 xOffset++;
-            }
+            }*/
 
             // Set previous state to current
             prevState = kbState;
