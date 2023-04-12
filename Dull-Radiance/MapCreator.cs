@@ -94,7 +94,7 @@ namespace Dull_Radiance
             LoadMap();
 
             // Tile size and offset value initalization 
-            tileSize = 500;
+            tileSize = 400;
             yOffset = 26;
             xOffset = 0;
 
@@ -365,7 +365,7 @@ namespace Dull_Radiance
             else if (kbState.IsKeyDown(Keys.A) && prevState.IsKeyUp(Keys.A))
             {
                 DetermineScreen(Direction.Left);
-                xOffset++;
+                xOffset--;
             }
             else if (kbState.IsKeyDown(Keys.S) && prevState.IsKeyUp(Keys.S))
             {
@@ -375,7 +375,7 @@ namespace Dull_Radiance
             else if (kbState.IsKeyDown(Keys.D) && prevState.IsKeyUp(Keys.D))
             {
                 DetermineScreen(Direction.Right);
-                xOffset--;
+                xOffset++;
             }
 
             // Set previous state to current
