@@ -223,7 +223,7 @@ namespace Dull_Radiance
                     new Vector2(
                         textureLocation[i].X,
                         textureLocation[i].Y));
-                //System.Diagnostics.Debug.WriteLine("Tile " + i + ": " + textureLocation[i]);
+                System.Diagnostics.Debug.WriteLine("Tile " + i + ": " + textureLocation[i]);
             }
         }
 
@@ -255,6 +255,7 @@ namespace Dull_Radiance
                                     (imageHeight * col) - (yOffset * imageHeight),
                                     imageWidth, imageHeight);
 
+                        System.Diagnostics.Debug.WriteLine("------------------------------------");
                         System.Diagnostics.Debug.WriteLine(rectToDraw);
 
                         // Determine the wall type and draw it
@@ -368,18 +369,22 @@ namespace Dull_Radiance
             if (kbState.IsKeyDown(Keys.W) && prevState.IsKeyUp(Keys.W))
             {
                 DetermineScreen(Direction.Up);
+                xOffset--;
             }
             else if (kbState.IsKeyDown(Keys.A) && prevState.IsKeyUp(Keys.A))
             {
                 DetermineScreen(Direction.Left);
+                yOffset++;
             }
             else if (kbState.IsKeyDown(Keys.S) && prevState.IsKeyUp(Keys.S))
             {
                 DetermineScreen(Direction.Down);
+                xOffset++;
             }
             else if (kbState.IsKeyDown(Keys.D) && prevState.IsKeyUp(Keys.D))
             {
                 DetermineScreen(Direction.Right);
+                yOffset--;
             }
 
             // Set previous state to current
