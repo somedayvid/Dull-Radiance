@@ -43,14 +43,6 @@ namespace Dull_Radiance
         /// <param name="item">Item to add to the inventory</param>
         public void Add(Collectibles item)
         {
-            //    for (int i = 0; i < maxCount; i++)
-            //    {
-            //        if (inventory[i] == null)
-            //        {
-            //            inventory[i] = item;
-            //            break;
-            //        }
-            //    }
             count++;
             if(count <= maxCount)
             {
