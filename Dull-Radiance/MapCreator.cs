@@ -59,17 +59,17 @@ namespace Dull_Radiance
         private WallType[,] map;
         private KeyboardState kbState;
         private KeyboardState prevState;
-        private Rectangle playerBounds;
+        
         private Rectangle box;
-        private int playerX;
-        private int playerY;
-        private int cordX;
-        private int cordY;
-        private int[,] playerRowLoad;
-        private int[,] playerColLoad;
+        
+        
+        
         List<Vector2> textureLocation;
+        private Vector2 playerLocation;
+
         private int xOffset;
         private int yOffset;
+        private Player player;
         #endregion
 
         /// <summary>
@@ -89,8 +89,6 @@ namespace Dull_Radiance
         /// <param name="player"></param>
         public MapCreator(int windowWidth, int windowHeight, Player player)
         {
-            Rectangle playerBounds = player.Bounds;
-
             //Load Map
             LoadMap();
 
@@ -99,17 +97,17 @@ namespace Dull_Radiance
             yOffset = 26;
             xOffset = 0;
 
-            //Create rectangles for collision detection
-            Rectangles = CreateMapRectangles(windowWidth, windowHeight, tileSize, map);
+            //Create player for collision
+            this.player = player;
+            playerLocation = new Vector2(2, 27);
 
             //Create box that player can't leave
             box = new Rectangle(windowWidth / 2 - 250, windowHeight / 2 - 250, 500, 500);
-            playerX = 3;
-            playerY = 2;
+            
             textureLocation = new List<Vector2>();
             StartScreen();
         }
-
+        
         /// <summary>
         /// Load the map
         /// </summary>
@@ -324,6 +322,8 @@ namespace Dull_Radiance
                         textureLocation[i] = temp;
                     }
                     // do offset math
+
+                    playerLocation.Y--;
                     break;
                 case Direction.Down:
                     for (int i = 0; i < textureLocation.Count; i++)
@@ -332,6 +332,8 @@ namespace Dull_Radiance
                         temp.X += 1;
                         textureLocation[i] = temp;
                     }
+
+                    playerLocation.Y++;
                     break;
                 case Direction.Left:
                     for (int i = 0; i < textureLocation.Count; i++)
@@ -340,6 +342,9 @@ namespace Dull_Radiance
                         temp.Y -= 1;
                         textureLocation[i] = temp;
                     }
+
+
+                    playerLocation.X--;
                     break;
                 case Direction.Right:
                     for (int i = 0; i < textureLocation.Count; i++)
@@ -348,6 +353,9 @@ namespace Dull_Radiance
                         temp.Y += 1;
                         textureLocation[i] = temp;
                     }
+
+
+                    playerLocation.X++;
                     break;
             }
 
@@ -368,18 +376,22 @@ namespace Dull_Radiance
             if (kbState.IsKeyDown(Keys.W) && prevState.IsKeyUp(Keys.W))
             {
                 DetermineScreen(Direction.Up);
+                
             }
             else if (kbState.IsKeyDown(Keys.A) && prevState.IsKeyUp(Keys.A))
             {
                 DetermineScreen(Direction.Left);
+               
             }
             else if (kbState.IsKeyDown(Keys.S) && prevState.IsKeyUp(Keys.S))
             {
                 DetermineScreen(Direction.Down);
+                
             }
             else if (kbState.IsKeyDown(Keys.D) && prevState.IsKeyUp(Keys.D))
             {
                 DetermineScreen(Direction.Right);
+             
             }
 
             // Set previous state to current
@@ -387,7 +399,7 @@ namespace Dull_Radiance
         }
 
         /// <summary>
-        /// 
+        /// The opening screen of the game
         /// </summary>
         public void StartScreen()
         {
@@ -438,8 +450,42 @@ namespace Dull_Radiance
         */
         #endregion
 
+        public void PlayerMoved()
+        {
+            if (player.X > 800)
+            {
+                playerLocation.X++;
+                player.X = 200;
+            }
+            else if (player.Y > PlayerMoved)
+        }
 
-        #region COLLISION
+        #region Revitalized Collision
+
+        
+        public bool CheckCollision(Player player)
+        {
+            //if (textureLocation[2,0] or [2,2] or [1,1] or [1,3] in map is wall)
+            // dont allow map to move
+        }
+        
+        
+
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+        //Code Graveyard
+        #region Inaccurate / Ineffective COLLISION
+        /*
         /// <summary>
         /// 
         /// </summary>
@@ -493,6 +539,7 @@ namespace Dull_Radiance
 
             return false;
         }
+        */
         #endregion
     }
 }

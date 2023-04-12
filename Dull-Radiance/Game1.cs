@@ -337,6 +337,9 @@ namespace Dull_Radiance
                         currentState = GameState.GameOver;
                     }
 
+                    //Move Player
+                    player.Movement();
+
                     break;
 
                 // Pause
@@ -398,10 +401,11 @@ namespace Dull_Radiance
 
                     // Test test test test test test test test test test test
                     mapMaker.DrawMap(_spriteBatch, wallList);
-                    
 
                     player.Draw(_spriteBatch);
+
                     uiManager.Draw(_spriteBatch);
+
                     _spriteBatch.DrawString(agencyFB,
                         "PRESS Q TO TEST DMG TAKING\n" +
                         "1 - 4 ADD KEYS\n" +
@@ -436,6 +440,7 @@ namespace Dull_Radiance
             base.Draw(gameTime);
         }
 
+        #region Single Presses
         /// <summary>
         /// Single KeyPress Checker
         /// </summary>
@@ -471,5 +476,7 @@ namespace Dull_Radiance
                 return false;
             }
         }
+
+        #endregion
     }
 }

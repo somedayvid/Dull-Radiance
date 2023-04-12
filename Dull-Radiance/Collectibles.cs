@@ -33,6 +33,7 @@ namespace Dull_Radiance
             this.color = color;
         }
 
+        /*
         public bool Intersects(Player player)
         {
             if (keyRect.Intersects(player.Bounds))
@@ -43,6 +44,7 @@ namespace Dull_Radiance
             { 
                 return false; }
         }
+        */
 
         /// <summary>
         /// Draw Object to Screen
