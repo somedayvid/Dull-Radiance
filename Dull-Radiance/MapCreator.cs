@@ -96,6 +96,8 @@ namespace Dull_Radiance
 
             //Tilesize to be multiply to change 
             int tileSize = 500;
+            yOffset = 26;
+            xOffset = 0;
 
             //Create rectangles for collision detection
             Rectangles = CreateMapRectangles(windowWidth, windowHeight, tileSize, map);
