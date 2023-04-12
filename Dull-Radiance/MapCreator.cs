@@ -82,7 +82,7 @@ namespace Dull_Radiance
         }
 
         /// <summary>
-        /// Deafult constructor
+        /// Parameterized constructor
         /// </summary>
         /// <param name="windowWidth"></param>
         /// <param name="windowHeight"></param>
@@ -90,10 +90,13 @@ namespace Dull_Radiance
         public MapCreator(int windowWidth, int windowHeight, Player player)
         {
             //Load Map
+            Rectangle playerBounds = player.Bounds;
+
+            // Load Map
             LoadMap();
 
-            //Tilesize to be multiply to change 
-            int tileSize = 500;
+            // Tile size and offset value initalization 
+            tileSize = 500;
             yOffset = 26;
             xOffset = 0;
 
@@ -101,9 +104,13 @@ namespace Dull_Radiance
             this.player = player;
             playerLocation = new Vector2(2, 27);
 
-            //Create box that player can't leave
+            /*//Create box that player can't leave
             box = new Rectangle(windowWidth / 2 - 250, windowHeight / 2 - 250, 500, 500);
             
+            playerX = 3;
+            playerY = 2;*/
+
+            // Initialize textureLocation and start the screen view
             textureLocation = new List<Vector2>();
             StartScreen();
         }
@@ -221,7 +228,7 @@ namespace Dull_Radiance
                     new Vector2(
                         textureLocation[i].X,
                         textureLocation[i].Y));
-                //System.Diagnostics.Debug.WriteLine("Tile " + i + ": " + textureLocation[i]);
+                System.Diagnostics.Debug.WriteLine("Tile " + i + ": " + textureLocation[i]);
             }
         }
 
@@ -233,13 +240,6 @@ namespace Dull_Radiance
         /// <param name="cord">Cordinate of tile</param>
         public void DrawTile(SpriteBatch _sb, List<Texture2D> texture, Vector2 cord)
         {
-            // Variable Field
-            int imageWidth = 500;
-            int imageHeight = 500;
-
-            // TODO: determine offset and use that to draw the tile
-            // TODO: fix tile calculations to (xOffset - col) * imageWidth
-
             // Loop through 2D array
             for (int col = 0; col <= map.GetLength(0); col++)
             {
@@ -248,11 +248,13 @@ namespace Dull_Radiance
                     // Check if given row and column match, if they do, draw corresponding tile
                     if (col == cord.X && row == cord.Y)
                     {
+                        // Create rectangle to draw converted to screen display
                         Rectangle rectToDraw = new Rectangle(
-                                    (imageWidth * row) - (xOffset * imageWidth),
-                                    (imageHeight * col) - (yOffset * imageHeight),
-                                    imageWidth, imageHeight);
+                                    (tileSize * row) - (xOffset * tileSize),
+                                    (tileSize * col) - (yOffset * tileSize),
+                                    tileSize, tileSize);
 
+                        System.Diagnostics.Debug.WriteLine("------------------------------------");
                         System.Diagnostics.Debug.WriteLine(rectToDraw);
 
                         // Determine the wall type and draw it
@@ -322,8 +324,6 @@ namespace Dull_Radiance
                         textureLocation[i] = temp;
                     }
                     // do offset math
-
-                    playerLocation.Y--;
                     break;
                 case Direction.Down:
                     for (int i = 0; i < textureLocation.Count; i++)
@@ -332,8 +332,6 @@ namespace Dull_Radiance
                         temp.X += 1;
                         textureLocation[i] = temp;
                     }
-
-                    playerLocation.Y++;
                     break;
                 case Direction.Left:
                     for (int i = 0; i < textureLocation.Count; i++)
@@ -342,9 +340,6 @@ namespace Dull_Radiance
                         temp.Y -= 1;
                         textureLocation[i] = temp;
                     }
-
-
-                    playerLocation.X--;
                     break;
                 case Direction.Right:
                     for (int i = 0; i < textureLocation.Count; i++)
@@ -353,9 +348,6 @@ namespace Dull_Radiance
                         temp.Y += 1;
                         textureLocation[i] = temp;
                     }
-
-
-                    playerLocation.X++;
                     break;
             }
 
@@ -376,22 +368,22 @@ namespace Dull_Radiance
             if (kbState.IsKeyDown(Keys.W) && prevState.IsKeyUp(Keys.W))
             {
                 DetermineScreen(Direction.Up);
-                
+                yOffset--;
             }
             else if (kbState.IsKeyDown(Keys.A) && prevState.IsKeyUp(Keys.A))
             {
                 DetermineScreen(Direction.Left);
-               
+                xOffset++;
             }
             else if (kbState.IsKeyDown(Keys.S) && prevState.IsKeyUp(Keys.S))
             {
                 DetermineScreen(Direction.Down);
-                
+                yOffset++;
             }
             else if (kbState.IsKeyDown(Keys.D) && prevState.IsKeyUp(Keys.D))
             {
                 DetermineScreen(Direction.Right);
-             
+                xOffset--;
             }
 
             // Set previous state to current
@@ -399,7 +391,7 @@ namespace Dull_Radiance
         }
 
         /// <summary>
-        /// The opening screen of the game
+        /// Pulls the start screen data from a text file and saves it into a list
         /// </summary>
         public void StartScreen()
         {
