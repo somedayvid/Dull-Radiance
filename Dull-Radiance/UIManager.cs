@@ -45,6 +45,7 @@ namespace Dull_Radiance
             windowWidth = graphics.PreferredBackBufferWidth;   
 
             player.OnGameReset += hearts.Reset;
+            player.OnGameReset += inventory.Reset;
         }
 
         /// <summary>
@@ -104,10 +105,7 @@ namespace Dull_Radiance
         {
             hearts.Draw(sb, windowWidth, windowHeight);
             inventory.Draw(sb, windowWidth, windowHeight);
-            if (inventory.MaxCapacity() /*&& player.Intersects() collectible*/)
-            {
-                inventory.DrawWarning(sb, windowWidth, windowHeight, font);
-            }
+            inventory.DrawWarning(sb, windowWidth, windowHeight, font, player, collectibleList);
         }
 
         /// <summary>

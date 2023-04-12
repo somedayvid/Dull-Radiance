@@ -103,14 +103,15 @@ namespace Dull_Radiance
         /// <summary>
         /// Check for player intersecting with an object
         /// </summary>
-        /// <param name="player">Player player</param>
-        public void Intersects(Player player)
+        /// <param name="collectible">Item</param>
+        public bool Intersects(Collectibles collectible)
         {
-            //Intersection code
-            //if (this.Intersects(playerRect))
-            //{
-            //     happening
-            //}
+            if (playerRect.Intersects(collectible.KeyRect))
+            {
+                return true;
+            }
+            else
+                return false;
         }
         
 

@@ -89,6 +89,21 @@ namespace Dull_Radiance
             count--;
         }
 
+
+        public void ResetRemove(int index)
+        {
+            inventory.RemoveAt(index);
+        }
+
+        public void Reset()
+        {
+            for (int i = 0; i < count; i++)
+            {
+                this.ResetRemove(0);
+            }
+            count = 0;
+        }
+
         /// <summary>
         /// Draws a warning to the screen if the inventory is full
         /// </summary>
@@ -96,13 +111,19 @@ namespace Dull_Radiance
         /// <param name="windowWidth"></param>
         /// <param name="windowHeight"></param>
         /// <param name="font"></param>
-        public void DrawWarning(SpriteBatch sb, int windowWidth, int windowHeight, SpriteFont font)
+        public void DrawWarning(SpriteBatch sb, int windowWidth, int windowHeight, SpriteFont font, Player player, List<Collectibles> collectiblesList)
         {
-            sb.DrawString(
-                font,
-                "I can't carry anymore stuff...",
-                new Vector2(windowWidth/2 - font.MeasureString("I can't carry anymore stuff...").X /2, windowHeight/4),
-                Color.White);
+            foreach (Collectibles item in collectiblesList)
+            {
+                if (this.MaxCapacity() && item.KeyRect.Intersects(player.Bounds))
+                {
+                    sb.DrawString(
+                    font,
+                    "I can't carry anymore stuff...",
+                    new Vector2(windowWidth / 2 - font.MeasureString("I can't carry anymore stuff...").X / 2, windowHeight / 4),
+                    Color.White);
+                }
+            }
         }
 
         /// <summary>
@@ -123,24 +144,6 @@ namespace Dull_Radiance
                         windowWidth/32, windowHeight/18),
                       inventory[i].Color);
                 }
-            }
-        }
-        //TODO remove once collision can be tested in game
-        /// <summary>
-        /// Single KeyPress Checker
-        /// </summary>
-        /// <param name="firstPress">KeyboardState firstPress</param>
-        /// <param name="secondPress">KeyBoardState secondPress</param>
-        /// <returns>bool if key is only active for 1 frame</returns>
-        public bool SingleKeyPress(KeyboardState firstPress, KeyboardState secondPress, Keys key)
-        {
-            if (firstPress.IsKeyDown(key) && secondPress.IsKeyUp(key))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
     }
