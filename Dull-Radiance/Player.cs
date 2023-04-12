@@ -55,6 +55,11 @@ namespace Dull_Radiance
            
         }
 
+        public Rectangle PlayerRect
+        {
+            get { return playerRect; }
+        }
+
         //Constructors
         /// <summary>
         /// Initializes the player's initial position and starting stats

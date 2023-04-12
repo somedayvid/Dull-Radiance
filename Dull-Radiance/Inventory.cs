@@ -70,7 +70,7 @@ namespace Dull_Radiance
         /// <returns>Boolean that represents if the inventory has space for more items</returns>
         public bool MaxCapacity()
         {
-            if (count == maxCount)
+            if (count >= maxCount)
             {
                 count = 5;
                 return true;
@@ -89,18 +89,13 @@ namespace Dull_Radiance
             count--;
         }
 
-
-        public void ResetRemove(int index)
-        {
-            inventory.RemoveAt(index);
-        }
-
+        /// <summary>
+        /// Resets the inventory by dropping the old one and setting the inventory's list as 
+        /// an empty one
+        /// </summary>
         public void Reset()
         {
-            for (int i = 0; i < count; i++)
-            {
-                this.ResetRemove(0);
-            }
+            this.inventory = new List<Collectibles>();
             count = 0;
         }
 
@@ -115,7 +110,7 @@ namespace Dull_Radiance
         {
             foreach (Collectibles item in collectiblesList)
             {
-                if (this.MaxCapacity() && item.KeyRect.Intersects(player.Bounds))
+                if (this.MaxCapacity() /*&& item.KeyRect.Intersects(player.PlayerRect)*/) //uncomment once can test in world
                 {
                     sb.DrawString(
                     font,

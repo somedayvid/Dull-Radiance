@@ -64,22 +64,9 @@ namespace Dull_Radiance
             {
                 inventory.Add(collectibleList[0]);
             }
-            if (SingleKeyPress(first, second, Keys.D2))                             //testing inventory functionality
-            {
-                inventory.Add(collectibleList[1]);
-            }
-            if (SingleKeyPress(first, second, Keys.D3))
-            {
-                inventory.Add(collectibleList[2]);
-            }
-            if (SingleKeyPress(first, second, Keys.D4))
-            {
-                inventory.Add(collectibleList[3]);
-            }
-
             if (SingleKeyPress(first, second, Keys.D5))
             {
-                inventory.Remove(collectibleList[2]);
+                inventory.Remove(collectibleList[0]);
             }
         }
 
