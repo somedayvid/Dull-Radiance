@@ -339,6 +339,7 @@ namespace Dull_Radiance
 
                     //Move Player
                     player.Movement();
+                    player.CheckPosition();
 
                     break;
 

@@ -60,7 +60,7 @@ namespace Dull_Radiance
         private KeyboardState kbState;
         private KeyboardState prevState;
         
-        private Rectangle box;
+        //private Rectangle box;
         
         
         
@@ -94,13 +94,14 @@ namespace Dull_Radiance
             LoadMap();
 
             // Tile size and offset value initalization 
-            tileSize = 500;
+            tileSize = 400;
             yOffset = 26;
             xOffset = 0;
 
             //Create player for collision
             this.player = player;
             playerLocation = new Vector2(2, 27);
+            //box = new Rectangle(400, 400, tileSize,tileSize);
 
             // Initialize textureLocation and start the screen view
             textureLocation = new List<Vector2>();
