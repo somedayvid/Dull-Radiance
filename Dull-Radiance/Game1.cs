@@ -70,10 +70,8 @@ namespace Dull_Radiance
         private List<Collectibles> collectibleList;
         private Texture2D key;
         private Texture2D lights;
-        private Collectibles redKey;
+        private Collectibles yellowKey;
         private Collectibles greenKey;
-        private Collectibles blueKey;
-        private Collectibles purpleKey;
 
         // Player texture
         private Player player;
@@ -167,16 +165,12 @@ namespace Dull_Radiance
             deadHeart = Content.Load<Texture2D>("DeadHeart");
             key = Content.Load<Texture2D>("KEY");
             hearts = new PlayerHealth(aliveHeart, deadHeart);
-            redKey = new Collectibles(key, Color.Salmon);
-            blueKey = new Collectibles(key, Color.LightBlue);
-            greenKey = new Collectibles(key, Color.ForestGreen);
-            purpleKey = new Collectibles(key, Color.PeachPuff);
+            yellowKey = new Collectibles(key, Color.White);
             // Add collectables to list of texture2D
             collectibleList = new List<Collectibles>();
-            collectibleList.Add(redKey);
-            collectibleList.Add(blueKey);
-            collectibleList.Add(greenKey);
-            collectibleList.Add(purpleKey);
+            collectibleList.Add(yellowKey);
+            collectibleList.Add(yellowKey);
+            collectibleList.Add(yellowKey);
 
             // Player
             playerTexture = Content.Load<Texture2D>("Player");
@@ -409,9 +403,7 @@ namespace Dull_Radiance
 
                     _spriteBatch.DrawString(agencyFB,
                         "PRESS Q TO TEST DMG TAKING\n" +
-                        "1 - 4 ADD KEYS\n" +
-                        "Try adding with 3 to max then press 5\n" +
-                        "DON'T TRY TO REMOVE ANYTHING ELSE ONLY KEY 3",
+                        "Try adding with 1 to max then press 5\n",
                         new Vector2(windowWidth / 2, windowHeight / 2),
                         Color.White);
                     break;

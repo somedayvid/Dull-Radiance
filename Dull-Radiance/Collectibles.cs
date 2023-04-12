@@ -25,6 +25,10 @@ namespace Dull_Radiance
         {
             get { return keyTexture; }
         }
+        public Rectangle KeyRect
+        {
+            get { return keyRect; }
+        }
 
 
         public Collectibles(Texture2D keyTexture, Color color)
@@ -32,19 +36,6 @@ namespace Dull_Radiance
             this.keyTexture = keyTexture;
             this.color = color;
         }
-
-        /*
-        public bool Intersects(Player player)
-        {
-            if (keyRect.Intersects(player.Bounds))
-            {
-                return true;
-            }
-            else
-            { 
-                return false; }
-        }
-        */
 
         /// <summary>
         /// Draw Object to Screen

@@ -45,6 +45,7 @@ namespace Dull_Radiance
             windowWidth = graphics.PreferredBackBufferWidth;   
 
             player.OnGameReset += hearts.Reset;
+            player.OnGameReset += inventory.Reset;
         }
 
         /// <summary>
@@ -63,22 +64,9 @@ namespace Dull_Radiance
             {
                 inventory.Add(collectibleList[0]);
             }
-            if (SingleKeyPress(first, second, Keys.D2))                             //testing inventory functionality
-            {
-                inventory.Add(collectibleList[1]);
-            }
-            if (SingleKeyPress(first, second, Keys.D3))
-            {
-                inventory.Add(collectibleList[2]);
-            }
-            if (SingleKeyPress(first, second, Keys.D4))
-            {
-                inventory.Add(collectibleList[3]);
-            }
-
             if (SingleKeyPress(first, second, Keys.D5))
             {
-                inventory.Remove(collectibleList[2]);
+                inventory.Remove(collectibleList[0]);
             }
         }
 
@@ -104,10 +92,7 @@ namespace Dull_Radiance
         {
             hearts.Draw(sb, windowWidth, windowHeight);
             inventory.Draw(sb, windowWidth, windowHeight);
-            if (inventory.MaxCapacity() /*&& player.Intersects() collectible*/)
-            {
-                inventory.DrawWarning(sb, windowWidth, windowHeight, font);
-            }
+            inventory.DrawWarning(sb, windowWidth, windowHeight, font, player, collectibleList);
         }
 
         /// <summary>

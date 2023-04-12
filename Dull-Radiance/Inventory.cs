@@ -70,7 +70,7 @@ namespace Dull_Radiance
         /// <returns>Boolean that represents if the inventory has space for more items</returns>
         public bool MaxCapacity()
         {
-            if (count == maxCount)
+            if (count >= maxCount)
             {
                 count = 5;
                 return true;
@@ -90,19 +90,35 @@ namespace Dull_Radiance
         }
 
         /// <summary>
+        /// Resets the inventory by dropping the old one and setting the inventory's list as 
+        /// an empty one
+        /// </summary>
+        public void Reset()
+        {
+            this.inventory = new List<Collectibles>();
+            count = 0;
+        }
+
+        /// <summary>
         /// Draws a warning to the screen if the inventory is full
         /// </summary>
         /// <param name="sb"></param>
         /// <param name="windowWidth"></param>
         /// <param name="windowHeight"></param>
         /// <param name="font"></param>
-        public void DrawWarning(SpriteBatch sb, int windowWidth, int windowHeight, SpriteFont font)
+        public void DrawWarning(SpriteBatch sb, int windowWidth, int windowHeight, SpriteFont font, Player player, List<Collectibles> collectiblesList)
         {
-            sb.DrawString(
-                font,
-                "I can't carry anymore stuff...",
-                new Vector2(windowWidth/2 - font.MeasureString("I can't carry anymore stuff...").X /2, windowHeight/4),
-                Color.White);
+            foreach (Collectibles item in collectiblesList)
+            {
+                if (this.MaxCapacity() /*&& item.KeyRect.Intersects(player.PlayerRect)*/) //uncomment once can test in world
+                {
+                    sb.DrawString(
+                    font,
+                    "I can't carry anymore stuff...",
+                    new Vector2(windowWidth / 2 - font.MeasureString("I can't carry anymore stuff...").X / 2, windowHeight / 4),
+                    Color.White);
+                }
+            }
         }
 
         /// <summary>
@@ -123,24 +139,6 @@ namespace Dull_Radiance
                         windowWidth/32, windowHeight/18),
                       inventory[i].Color);
                 }
-            }
-        }
-        //TODO remove once collision can be tested in game
-        /// <summary>
-        /// Single KeyPress Checker
-        /// </summary>
-        /// <param name="firstPress">KeyboardState firstPress</param>
-        /// <param name="secondPress">KeyBoardState secondPress</param>
-        /// <returns>bool if key is only active for 1 frame</returns>
-        public bool SingleKeyPress(KeyboardState firstPress, KeyboardState secondPress, Keys key)
-        {
-            if (firstPress.IsKeyDown(key) && secondPress.IsKeyUp(key))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
     }

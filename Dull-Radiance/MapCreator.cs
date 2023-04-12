@@ -366,7 +366,7 @@ namespace Dull_Radiance
             else if (kbState.IsKeyDown(Keys.A) && prevState.IsKeyUp(Keys.A))
             {
                 DetermineScreen(Direction.Left);
-                xOffset++;
+                xOffset--;
             }
             else if (kbState.IsKeyDown(Keys.S) && prevState.IsKeyUp(Keys.S))
             {
@@ -376,7 +376,7 @@ namespace Dull_Radiance
             else if (kbState.IsKeyDown(Keys.D) && prevState.IsKeyUp(Keys.D))
             {
                 DetermineScreen(Direction.Right);
-                xOffset--;
+                xOffset++;
             }
 
             // Set previous state to current
