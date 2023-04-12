@@ -351,33 +351,33 @@ namespace Dull_Radiance
         /// <summary>
         /// Detect if any movement was present, if so, update the screen via DetermineScreen()
         /// </summary>
-        public void DetectMovement()
+        public void DetectMovement(Player player)
         {
             // Get the keyboard state
             kbState = Keyboard.GetState();
 
-            if (player.CheckPosition() == "up")
+            if (player.CheckPosition() == 2)
             {
                 DetermineScreen(Direction.Up);
                 yOffset--;
             }
-            if (player.CheckPosition() == "left")
+            if (player.CheckPosition() == 1)
             {
                 DetermineScreen(Direction.Left);
                 xOffset--;
             }
-            if (player.CheckPosition() == "down")
+            if (player.CheckPosition() == 4)
             {
                 DetermineScreen(Direction.Down);
                 yOffset++;
             }
-            if (player.CheckPosition() == "right")
+            if (player.CheckPosition() == 3)
             {
                 DetermineScreen(Direction.Right);
                 xOffset++;
             }
 
-            /*
+            
             // Check for single key presses and
             // Call DetermineScreen() with corresponding direction
             if (kbState.IsKeyDown(Keys.W) && prevState.IsKeyUp(Keys.W))
@@ -399,7 +399,7 @@ namespace Dull_Radiance
             {
                 DetermineScreen(Direction.Right);
                 xOffset++;
-            }*/
+            }
 
             // Set previous state to current
             prevState = kbState;

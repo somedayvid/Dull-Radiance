@@ -319,7 +319,8 @@ namespace Dull_Radiance
                     //How the map moves with the player
                     //mapMaker.MoveScreen();
                     //mapMaker.DrawMap(_spriteBatch, wallList);
-                    mapMaker.DetectMovement();
+                    player.CheckPosition();
+                    mapMaker.DetectMovement(player);
                     //Changed state based on events
 
                     if (kbState.IsKeyDown(Keys.P))
@@ -333,7 +334,6 @@ namespace Dull_Radiance
 
                     //Move Player
                     player.Movement();
-                    player.CheckPosition();
 
                     break;
 

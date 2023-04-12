@@ -154,29 +154,36 @@ namespace Dull_Radiance
             }
         }
 
-        public string CheckPosition()
+        public int CheckPosition()
         {
+            //Left
             if (playerRect.X < theBox.X)
             {
                 playerRect.X = theBox.X + theBox.Width - 20;
-                return "left";
+                return 1;
             }
-            if (playerRect.Y < theBox.Y)
+            //Up
+            else if (playerRect.Y < theBox.Y)
             {
                 playerRect.Y = theBox.Y + theBox.Height - 20;
-                return "up";
+                return 2;
             }
-            if (playerRect.X > theBox.X + theBox.Width)
+            //Right
+            else if (playerRect.X > theBox.X + theBox.Width)
             {
                 playerRect.X = theBox.X + 20;
-                return "right";
+                return 3;
             }
-            if (playerRect.Y > theBox.Y + theBox.Height)
+            //Down
+            else if (playerRect.Y > theBox.Y + theBox.Height)
             {
                 playerRect.Y = theBox.Y + 20;
-                return "down";
+                return 4;
             }
-            return "";
+            else
+            {
+                return 0;
+            }
         }
 
         // Method to update player object's bounds based on current position
