@@ -68,6 +68,8 @@ namespace Dull_Radiance
         private int[,] playerRowLoad;
         private int[,] playerColLoad;
         List<Vector2> textureLocation;
+        private int xOffset;
+        private int yOffset;
         #endregion
 
         /// <summary>
@@ -219,6 +221,7 @@ namespace Dull_Radiance
                     new Vector2(
                         textureLocation[i].X,
                         textureLocation[i].Y));
+                //System.Diagnostics.Debug.WriteLine("Tile " + i + ": " + textureLocation[i]);
             }
         }
 
@@ -236,8 +239,6 @@ namespace Dull_Radiance
 
             // TODO: determine offset and use that to draw the tile
             // TODO: fix tile calculations to (xOffset - col) * imageWidth
-            int xOffset = (int)cord.X;
-            int yOffset = (int)cord.Y;
 
             // Loop through 2D array
             for (int col = 0; col <= map.GetLength(0); col++)
@@ -247,47 +248,54 @@ namespace Dull_Radiance
                     // Check if given row and column match, if they do, draw corresponding tile
                     if (col == cord.X && row == cord.Y)
                     {
+                        Rectangle rectToDraw = new Rectangle(
+                                    (imageWidth * row) - (xOffset * imageWidth),
+                                    (imageHeight * col) - (yOffset * imageHeight),
+                                    imageWidth, imageHeight);
+
+                        System.Diagnostics.Debug.WriteLine(rectToDraw);
+
                         // Determine the wall type and draw it
                         switch (map[col, row])
                         {
                             case WallType.TLCorner:
-                                _sb.Draw(texture[0], new Rectangle(row * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[0], rectToDraw, Color.White);
                                 break;
                             case WallType.TRCorner:
-                                _sb.Draw(texture[1], new Rectangle(row * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[1], rectToDraw, Color.White);
                                 break;
                             case WallType.BLCorner:
-                                _sb.Draw(texture[2], new Rectangle(row * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[2], rectToDraw, Color.White);
                                 break;
                             case WallType.BRCorner:
-                                _sb.Draw(texture[3], new Rectangle(row * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[3], rectToDraw, Color.White);
                                 break;
                             case WallType.TopWall:
-                                _sb.Draw(texture[4], new Rectangle(row * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[4], rectToDraw, Color.White);
                                 break;
                             case WallType.BottomWall:
-                                _sb.Draw(texture[5], new Rectangle(row * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[5], rectToDraw, Color.White);
                                 break;
                             case WallType.LeftWall:
-                                _sb.Draw(texture[6], new Rectangle(row * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[6], rectToDraw, Color.White);
                                 break;
                             case WallType.RightWall:
-                                _sb.Draw(texture[7], new Rectangle(row * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[7], rectToDraw, Color.White);
                                 break;
                             case WallType.Floor:
-                                _sb.Draw(texture[8], new Rectangle(row * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[8], rectToDraw, Color.White);
                                 break;
                             case WallType.HorizontalWall:
-                                _sb.Draw(texture[9], new Rectangle(row * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[9], rectToDraw, Color.White);
                                 break;
                             case WallType.VerticalWall:
-                                _sb.Draw(texture[10], new Rectangle(row * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[10], rectToDraw, Color.White);
                                 break;
                             case WallType.BoxWall:
-                                _sb.Draw(texture[11], new Rectangle(row * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[11], rectToDraw, Color.White);
                                 break;
                             case WallType.Door:
-                                _sb.Draw(texture[12], new Rectangle(row * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[12], rectToDraw, Color.White);
                                 break;
                         }
                     }
@@ -313,6 +321,7 @@ namespace Dull_Radiance
                         temp.X -= 1;
                         textureLocation[i] = temp;
                     }
+                    // do offset math
                     break;
                 case Direction.Down:
                     for (int i = 0; i < textureLocation.Count; i++)
