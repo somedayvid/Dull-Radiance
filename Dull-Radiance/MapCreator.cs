@@ -236,7 +236,7 @@ namespace Dull_Radiance
 
             // TODO: determine offset and use that to draw the tile
             // TODO: fix tile calculations to (xOffset - col) * imageWidth
-            int xOffset = 0;
+            int xOffset = (int)cord.X;
             int yOffset = 0;
 
             // Loop through 2D array
@@ -251,16 +251,16 @@ namespace Dull_Radiance
                         switch (map[col, row])
                         {
                             case WallType.TLCorner:
-                                _sb.Draw(texture[0], new Rectangle(row * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[0], new Rectangle((xOffset - col) * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
                                 break;
                             case WallType.TRCorner:
-                                _sb.Draw(texture[1], new Rectangle(row * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[1], new Rectangle((xOffset - col) * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
                                 break;
                             case WallType.BLCorner:
-                                _sb.Draw(texture[2], new Rectangle(row * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[2], new Rectangle((xOffset - col) * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
                                 break;
                             case WallType.BRCorner:
-                                _sb.Draw(texture[3], new Rectangle(row * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
+                                _sb.Draw(texture[3], new Rectangle((xOffset - col) * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
                                 break;
                             case WallType.TopWall:
                                 _sb.Draw(texture[4], new Rectangle(row * imageWidth, col * imageHeight, imageWidth, imageHeight), Color.White);
