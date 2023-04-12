@@ -26,7 +26,7 @@ namespace Dull_Radiance
         private Texture2D playerTexture;
         private Rectangle playerRect;
 
-
+        private Rectangle theBox;
 
         //gameplay fields
         private int playerSpeed;
@@ -72,13 +72,14 @@ namespace Dull_Radiance
             //height = windowHeight/60;
             //width = windowWidth/34;
 
-            //this.playerTexture = playerTexture;
+            //Incredibly important rect deciding how far the player can move before getting teleported back
+            theBox = new Rectangle(740, 300, 300, 300);
 
             playerRect = new Rectangle(windowWidth/2 - width/2, windowHeight/2 - height/2, width, height);
 
             playerSpeed = 5;
-            height = 320;
-            width = 320;
+            height = 280;
+            width = 280;
             this.playerTexture = playerTexture;
 
             //playerRect = new Rectangle(960, 540, width, height);
@@ -151,6 +152,31 @@ namespace Dull_Radiance
             {
                 playerRect.Y += playerSpeed;
             }
+        }
+
+        public string CheckPosition()
+        {
+            if (playerRect.X < theBox.X)
+            {
+                playerRect.X = theBox.X + theBox.Width - 20;
+                return "left";
+            }
+            if (playerRect.Y < theBox.Y)
+            {
+                playerRect.Y = theBox.Y + theBox.Height - 20;
+                return "up";
+            }
+            if (playerRect.X > theBox.X + theBox.Width)
+            {
+                playerRect.X = theBox.X + 20;
+                return "right";
+            }
+            if (playerRect.Y > theBox.Y + theBox.Height)
+            {
+                playerRect.Y = theBox.Y + 20;
+                return "down";
+            }
+            return "";
         }
 
         // Method to update player object's bounds based on current position
