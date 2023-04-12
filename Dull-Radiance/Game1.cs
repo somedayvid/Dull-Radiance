@@ -125,9 +125,9 @@ namespace Dull_Radiance
             _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
             windowHeight = _graphics.PreferredBackBufferHeight;
             windowWidth = _graphics.PreferredBackBufferWidth;
-            //_graphics.IsFullScreen = true;
-            _graphics.PreferredBackBufferHeight = 1000;
-            _graphics.PreferredBackBufferWidth = 2000;
+            _graphics.IsFullScreen = true;
+            //_graphics.PreferredBackBufferHeight = 1000;
+            //_graphics.PreferredBackBufferWidth = 2000;
             _graphics.ApplyChanges();
             base.Initialize();
 
@@ -331,6 +331,9 @@ namespace Dull_Radiance
                         currentState = GameState.GameOver;
                     }
 
+                    //Move Player
+                    player.Movement();
+
                     break;
 
                 // Pause
@@ -392,10 +395,11 @@ namespace Dull_Radiance
 
                     // Test test test test test test test test test test test
                     mapMaker.DrawMap(_spriteBatch, wallList);
-                    
 
                     player.Draw(_spriteBatch);
+
                     uiManager.Draw(_spriteBatch);
+
                     _spriteBatch.DrawString(agencyFB,
                         "PRESS Q TO TEST DMG TAKING\n" +
                         "1 - 4 ADD KEYS\n" +
@@ -430,6 +434,7 @@ namespace Dull_Radiance
             base.Draw(gameTime);
         }
 
+        #region Single Presses
         /// <summary>
         /// Single KeyPress Checker
         /// </summary>
@@ -465,5 +470,7 @@ namespace Dull_Radiance
                 return false;
             }
         }
+
+        #endregion
     }
 }

@@ -21,17 +21,15 @@ namespace Dull_Radiance
         private int windowHeight;
         private int width;
         private int height;
+
+        //Player Creation Properties
         private Texture2D playerTexture;
-        private Rectangle bounds;
+        private Rectangle playerRect;
+
 
 
         //gameplay fields
         private int playerSpeed;
-        //private bool playerAlive;
-
-        //private Texture2D playerTexture;
-        private Rectangle playerRect;
-
         private KeyboardState KBState;
 
         //private PlayerHealth hearts;
@@ -44,7 +42,7 @@ namespace Dull_Radiance
         public int X
         {
             get { return playerRect.X; }
-            //set { playerRect.X = value; }
+            set { playerRect.X = value; }
         }
 
         /// <summary>
@@ -53,14 +51,8 @@ namespace Dull_Radiance
         public int Y
         {
             get { return playerRect.Y; }
-            //set { playerRect.Y = value; }
-        }
-        
-
-        public Rectangle Bounds
-        {
-            get { return bounds; }
-            set { bounds = value; }
+            set { playerRect.Y = value; }
+           
         }
 
         //Constructors
@@ -77,7 +69,7 @@ namespace Dull_Radiance
 
             //this.playerTexture = playerTexture;
 
-            //playerRect = new Rectangle(windowWidth/2 - width/2, windowHeight/2 - height/2, width, height);
+            playerRect = new Rectangle(windowWidth/2 - width/2, windowHeight/2 - height/2, width, height);
 
             playerSpeed = 5;
             height = 320;
@@ -87,7 +79,7 @@ namespace Dull_Radiance
             //playerRect = new Rectangle(960, 540, width, height);
 
             // Set initial bounds for player object
-            bounds = new Rectangle(0, 0, 320, 320);
+            //bounds = new Rectangle(0, 0, 320, 320);
         }
 
         //Methods
@@ -100,21 +92,6 @@ namespace Dull_Radiance
             Movement();
         }
 
-        /// <summary>
-        /// Check for player intersecting with an object
-        /// </summary>
-        /// <param name="collectible">Item</param>
-        public bool Intersects(Collectibles collectible)
-        {
-            if (playerRect.Intersects(collectible.KeyRect))
-            {
-                return true;
-            }
-            else
-                return false;
-        }
-        
-
         //public void PlayerHeal()
         //{
         //    OnHeal();
@@ -126,7 +103,7 @@ namespace Dull_Radiance
         public void Reset()
         {
             OnGameReset();
-            bounds = new Rectangle(
+            playerRect = new Rectangle(
                 windowWidth / 2 - (width / 2), 
                 windowHeight / 2 - (height / 2), 
                 width, height);
@@ -140,7 +117,7 @@ namespace Dull_Radiance
         {
             sb.Draw(
                 playerTexture,
-                bounds,
+                playerRect,
                 Color.White);
         }
 
@@ -153,35 +130,29 @@ namespace Dull_Radiance
             KBState = Keyboard.GetState();
 
             //Movement
-            if (KBState.IsKeyDown(Keys.A) || KBState.IsKeyDown(Keys.Left))
+            if (KBState.IsKeyDown(Keys.Left) || KBState.IsKeyDown(Keys.Left))
             {
-                bounds.X -= playerSpeed;
+                playerRect.X -= playerSpeed;
             }
-            if (KBState.IsKeyDown(Keys.D) || KBState.IsKeyDown(Keys.Right))
+            if (KBState.IsKeyDown(Keys.Right) || KBState.IsKeyDown(Keys.Right))
             {
-                bounds.X += playerSpeed;
+                playerRect.X += playerSpeed;
             }
-            if (KBState.IsKeyDown(Keys.W) || KBState.IsKeyDown(Keys.Up))
+            if (KBState.IsKeyDown(Keys.Up) || KBState.IsKeyDown(Keys.Up))
             {
-                bounds.Y -= playerSpeed;
+                playerRect.Y -= playerSpeed;
             }
-            if (KBState.IsKeyDown(Keys.S) || KBState.IsKeyDown(Keys.Down))
+            if (KBState.IsKeyDown(Keys.Down) || KBState.IsKeyDown(Keys.Down))
             {
-                bounds.Y += playerSpeed;
+                playerRect.Y += playerSpeed;
             }
-        }
-
-        // Method to check collision with another object's bounds
-        public bool Intersects(Rectangle otherBounds)
-        {
-            return bounds.Intersects(otherBounds);
         }
 
         // Method to update player object's bounds based on current position
         public void UpdateBounds(int x, int y)
         {
-            bounds.X = x;
-            bounds.Y = y;
+            playerRect.X = x;
+            playerRect.Y = y;
         }
     }
 }
