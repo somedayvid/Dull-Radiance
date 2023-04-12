@@ -72,6 +72,7 @@ namespace Dull_Radiance
         private Texture2D lights;
         private Collectibles yellowKey;
         private Collectibles greenKey;
+        private Texture2D shadow;
 
         // Player texture
         private Player player;
@@ -161,6 +162,7 @@ namespace Dull_Radiance
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Ui elements
+            shadow = Content.Load<Texture2D>("shadow");
             aliveHeart = Content.Load<Texture2D>("LiveHeart");
             deadHeart = Content.Load<Texture2D>("DeadHeart");
             key = Content.Load<Texture2D>("KEY");
@@ -203,11 +205,11 @@ namespace Dull_Radiance
             bottomWall = Content.Load<Texture2D>("T_B");
             leftWall = Content.Load<Texture2D>("T_L");
             rightWall = Content.Load<Texture2D>("T_R");
-            floor = Content.Load<Texture2D>("T_F");
+            floor = Content.Load<Texture2D>("Floor");
             horizontalWall = Content.Load<Texture2D>("T_H");
             verticalWall = Content.Load<Texture2D>("T_V");
             boxWall = Content.Load<Texture2D>("T_BOX");
-            door = Content.Load<Texture2D>("T_D");
+            door = Content.Load<Texture2D>("Door");
 
             // Add walls to list of texture2D
             wallList = new List<Texture2D>();
@@ -398,6 +400,10 @@ namespace Dull_Radiance
                     mapMaker.DrawMap(_spriteBatch, wallList);
 
                     player.Draw(_spriteBatch);
+
+                    // Shadow outline VERY temporary
+                    _spriteBatch.Draw(shadow, new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
+
 
                     uiManager.Draw(_spriteBatch);
 
