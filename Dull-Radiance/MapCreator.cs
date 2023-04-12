@@ -60,14 +60,8 @@ namespace Dull_Radiance
         private KeyboardState kbState;
         private KeyboardState prevState;
         private Rectangle playerBounds;
-        private Rectangle box;
-        private int playerX;
-        private int playerY;
-        private int cordX;
-        private int cordY;
-        private int[,] playerRowLoad;
-        private int[,] playerColLoad;
         List<Vector2> textureLocation;
+        private int tileSize;
         private int xOffset;
         private int yOffset;
         #endregion
@@ -82,7 +76,7 @@ namespace Dull_Radiance
         }
 
         /// <summary>
-        /// Deafult constructor
+        /// Parameterized constructor
         /// </summary>
         /// <param name="windowWidth"></param>
         /// <param name="windowHeight"></param>
@@ -91,21 +85,23 @@ namespace Dull_Radiance
         {
             Rectangle playerBounds = player.Bounds;
 
-            //Load Map
+            // Load Map
             LoadMap();
 
-            //Tilesize to be multiply to change 
-            int tileSize = 500;
+            // Tile size and offset value initalization 
+            tileSize = 500;
             yOffset = 26;
             xOffset = 0;
 
             //Create rectangles for collision detection
             Rectangles = CreateMapRectangles(windowWidth, windowHeight, tileSize, map);
 
-            //Create box that player can't leave
+            /*//Create box that player can't leave
             box = new Rectangle(windowWidth / 2 - 250, windowHeight / 2 - 250, 500, 500);
             playerX = 3;
-            playerY = 2;
+            playerY = 2;*/
+
+            // Initialize textureLocation and start the screen view
             textureLocation = new List<Vector2>();
             StartScreen();
         }
@@ -235,13 +231,6 @@ namespace Dull_Radiance
         /// <param name="cord">Cordinate of tile</param>
         public void DrawTile(SpriteBatch _sb, List<Texture2D> texture, Vector2 cord)
         {
-            // Variable Field
-            int imageWidth = 500;
-            int imageHeight = 500;
-
-            // TODO: determine offset and use that to draw the tile
-            // TODO: fix tile calculations to (xOffset - col) * imageWidth
-
             // Loop through 2D array
             for (int col = 0; col <= map.GetLength(0); col++)
             {
@@ -250,10 +239,11 @@ namespace Dull_Radiance
                     // Check if given row and column match, if they do, draw corresponding tile
                     if (col == cord.X && row == cord.Y)
                     {
+                        // Create rectangle to draw converted to screen display
                         Rectangle rectToDraw = new Rectangle(
-                                    (imageWidth * row) - (xOffset * imageWidth),
-                                    (imageHeight * col) - (yOffset * imageHeight),
-                                    imageWidth, imageHeight);
+                                    (tileSize * row) - (xOffset * tileSize),
+                                    (tileSize * col) - (yOffset * tileSize),
+                                    tileSize, tileSize);
 
                         System.Diagnostics.Debug.WriteLine("------------------------------------");
                         System.Diagnostics.Debug.WriteLine(rectToDraw);
@@ -392,7 +382,7 @@ namespace Dull_Radiance
         }
 
         /// <summary>
-        /// 
+        /// Pulls the start screen data from a text file and saves it into a list
         /// </summary>
         public void StartScreen()
         {
