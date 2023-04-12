@@ -66,6 +66,7 @@ namespace Dull_Radiance
         
         List<Vector2> textureLocation;
         private Vector2 playerLocation;
+        private int tileSize;
 
         private int xOffset;
         private int yOffset;
@@ -88,10 +89,7 @@ namespace Dull_Radiance
         /// <param name="windowHeight"></param>
         /// <param name="player"></param>
         public MapCreator(int windowWidth, int windowHeight, Player player)
-        {
-            //Load Map
-            Rectangle playerBounds = player.Bounds;
-
+        { 
             // Load Map
             LoadMap();
 
@@ -103,12 +101,6 @@ namespace Dull_Radiance
             //Create player for collision
             this.player = player;
             playerLocation = new Vector2(2, 27);
-
-            /*//Create box that player can't leave
-            box = new Rectangle(windowWidth / 2 - 250, windowHeight / 2 - 250, 500, 500);
-            
-            playerX = 3;
-            playerY = 2;*/
 
             // Initialize textureLocation and start the screen view
             textureLocation = new List<Vector2>();
@@ -449,19 +441,18 @@ namespace Dull_Radiance
                 playerLocation.X++;
                 player.X = 200;
             }
-            else if (player.Y > PlayerMoved)
+            //else if (player.Y > PlayerMoved)
         }
 
         #region Revitalized Collision
 
-        
+        /*
         public bool CheckCollision(Player player)
         {
             //if (textureLocation[2,0] or [2,2] or [1,1] or [1,3] in map is wall)
             // dont allow map to move
         }
-        
-        
+        */
 
         #endregion
 
