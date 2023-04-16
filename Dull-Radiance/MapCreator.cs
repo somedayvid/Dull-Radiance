@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using static System.Net.WebRequestMethods;
 using System.Reflection;
 using Microsoft.Xna.Framework.Content;
+//using System.Drawing;
 
 namespace Dull_Radiance
 {
@@ -355,7 +356,7 @@ namespace Dull_Radiance
         {
             // Get the keyboard state
             kbState = Keyboard.GetState();
-
+            #region
             if (player.CheckPosition() == 2)
             {
                 DetermineScreen(Direction.Up);
@@ -376,14 +377,24 @@ namespace Dull_Radiance
                 DetermineScreen(Direction.Right);
                 xOffset++;
             }
+            #endregion
 
-            
+            int playerX = (int)playerLocation.X;
+            int playerY = (int)playerLocation.Y;
             // Check for single key presses and
             // Call DetermineScreen() with corresponding direction
+            // Check for single key presses and call DetermineScreen() with corresponding direction
             if (kbState.IsKeyDown(Keys.W) && prevState.IsKeyUp(Keys.W))
             {
-                DetermineScreen(Direction.Up);
-                yOffset--;
+                if (yOffset >= 0 && map[yOffset - 1, xOffset] != WallType.Floor)
+                {
+                }
+                else
+                {
+                    playerY--;
+                    DetermineScreen(Direction.Up);
+                    yOffset--;
+                }
             }
             else if (kbState.IsKeyDown(Keys.A) && prevState.IsKeyUp(Keys.A))
             {
@@ -392,8 +403,15 @@ namespace Dull_Radiance
             }
             else if (kbState.IsKeyDown(Keys.S) && prevState.IsKeyUp(Keys.S))
             {
-                DetermineScreen(Direction.Down);
-                yOffset++;
+                if (yOffset >= 0 && map[yOffset + 1, xOffset] != WallType.Floor)
+                {
+                }
+                else
+                {
+                    playerY++;
+                    DetermineScreen(Direction.Down);
+                    yOffset++;
+                }
             }
             else if (kbState.IsKeyDown(Keys.D) && prevState.IsKeyUp(Keys.D))
             {
@@ -481,9 +499,22 @@ namespace Dull_Radiance
 
 
 
+        /*private bool IsFloorTile(Vector2 tilePosition)
+        {
+            // Check if the tile at the given position is a floor tile
 
 
+        }*/
 
+        public bool CheckSurrunding()
+        {
+            if(yOffset >= 0 && map[xOffset, yOffset - 1] != WallType.Floor)
+            {
+                return true;
+            }
+
+            return false;
+        }
 
 
 
