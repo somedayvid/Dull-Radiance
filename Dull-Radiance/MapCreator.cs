@@ -60,12 +60,13 @@ namespace Dull_Radiance
         private WallType[,] map;
         private KeyboardState kbState;
         private KeyboardState prevState;
-        
+
         //private Rectangle box;
-        
-        
-        
+
+
+
         List<Vector2> textureLocation;
+        List<Vector2> collisionTile;
         private Vector2 playerLocation;
         private int tileSize;
 
@@ -90,7 +91,7 @@ namespace Dull_Radiance
         /// <param name="windowHeight"></param>
         /// <param name="player"></param>
         public MapCreator(int windowWidth, int windowHeight, Player player)
-        { 
+        {
             // Load Map
             LoadMap();
 
@@ -107,8 +108,11 @@ namespace Dull_Radiance
             // Initialize textureLocation and start the screen view
             textureLocation = new List<Vector2>();
             StartScreen();
+
+            collisionTile = new List<Vector2>();
+            CollideLoad();
         }
-        
+
         /// <summary>
         /// Load the map
         /// </summary>
@@ -385,37 +389,39 @@ namespace Dull_Radiance
             // Check for single key presses and call DetermineScreen() with corresponding direction
             if (kbState.IsKeyDown(Keys.W) && prevState.IsKeyUp(Keys.W))
             {
-                if (yOffset >= 0 && map[ - 1, x] != WallType.Floor)
+                if (CheckCollision(Direction.Up) == false)
                 {
-                }
-                else
-                {
-                    playerY--;
                     DetermineScreen(Direction.Up);
+                    UpdateCollisionTile(Direction.Up);
                     yOffset--;
                 }
             }
             else if (kbState.IsKeyDown(Keys.A) && prevState.IsKeyUp(Keys.A))
             {
-                DetermineScreen(Direction.Left);
-                xOffset--;
+                if (CheckCollision(Direction.Left) == false)
+                {
+                    DetermineScreen(Direction.Left);
+                    UpdateCollisionTile(Direction.Left);
+                    xOffset--;
+                }
             }
             else if (kbState.IsKeyDown(Keys.S) && prevState.IsKeyUp(Keys.S))
             {
-                if (yOffset >= 0 && map[yOffset + 1, xOffset] != WallType.Floor)
+                if (CheckCollision(Direction.Down) == false)
                 {
-                }
-                else
-                {
-                    playerY++;
                     DetermineScreen(Direction.Down);
+                    UpdateCollisionTile(Direction.Down);
                     yOffset++;
                 }
             }
             else if (kbState.IsKeyDown(Keys.D) && prevState.IsKeyUp(Keys.D))
             {
-                DetermineScreen(Direction.Right);
-                xOffset++;
+                if (CheckCollision(Direction.Right) == false)
+                {
+                    DetermineScreen(Direction.Right);
+                    UpdateCollisionTile(Direction.Right);
+                    xOffset++;
+                }
             }
 
             // Set previous state to current
@@ -457,6 +463,122 @@ namespace Dull_Radiance
             }
         }
         #endregion
+
+        #region Jason's collision
+        public void CollideLoad()
+        {
+            // Initialize texture location
+            collisionTile = new List<Vector2>();
+
+            try
+            {
+                // Initialize the reader and textLine
+                reader = new StreamReader("../../../CollisionTiles.txt");
+                string lineOfText = "";
+
+                // Loop through saving each line into the list
+                while ((lineOfText = reader.ReadLine()!) != null)
+                {
+                    // Splits data and parse each value into the list
+                    string[] splitData = lineOfText.Split(',');
+                    collisionTile.Add(new Vector2(int.Parse(splitData[0]), int.Parse(splitData[1])));
+                }
+            }
+            catch (Exception error)
+            {
+                // Print error
+                System.Diagnostics.Debug.WriteLine("Error: " + error.Message);
+            }
+            finally
+            {
+                // Check if reader contains data, if so close it
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+
+        public bool CheckCollision(Direction direction)
+        {
+            Vector2 Top = collisionTile[0];
+            Vector2 Left = collisionTile[1];
+            Vector2 Right = collisionTile[2];
+            Vector2 Down = collisionTile[3];
+
+            switch (direction)
+            {
+                case Direction.Up:
+                    if (map[(int)Top.X, (int)Top.Y] == WallType.Floor)
+                    {
+                        return false;
+                    }
+                    break;
+                case Direction.Down:
+                    if (map[(int)Down.X, (int)Down.Y] == WallType.Floor)
+                    {
+                        return false;
+                    }
+                    break;
+                case Direction.Left:
+                    if (map[(int)Left.X, (int)Left.Y] == WallType.Floor)
+                    {
+                        return false;
+                    }
+                    break;
+                case Direction.Right:
+                    if (map[(int)Right.X, (int)Right.Y] == WallType.Floor)
+                    {
+                        return false;
+                    }
+                    break;
+            }
+
+            return true;
+        }
+
+
+        public void UpdateCollisionTile(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Up:
+                    for (int i = 0; i < collisionTile.Count; i++)
+                    {
+                        Vector2 temp = collisionTile[i];
+                        temp.X -= 1;
+                        collisionTile[i] = temp;
+                    }
+                    break;
+                case Direction.Down:
+                    for (int i = 0; i < collisionTile.Count; i++)
+                    {
+                        Vector2 temp = collisionTile[i];
+                        temp.X += 1;
+                        collisionTile[i] = temp;
+                    }
+                    break;
+                case Direction.Left:
+                    for (int i = 0; i < collisionTile.Count; i++)
+                    {
+                        Vector2 temp = collisionTile[i];
+                        temp.Y -= 1;
+                        collisionTile[i] = temp;
+                    }
+                    break;
+                case Direction.Right:
+                    for (int i = 0; i < collisionTile.Count; i++)
+                    {
+                        Vector2 temp = collisionTile[i];
+                        temp.Y += 1;
+                        collisionTile[i] = temp;
+                    }
+                    break;
+            }
+        }
+        #endregion
+
+
+
 
         #region COLLECTABLE DRAWING
         /*
@@ -503,7 +625,7 @@ namespace Dull_Radiance
 
         public bool CheckSurrunding()
         {
-            if(yOffset >= 0 && map[xOffset, yOffset - 1] != WallType.Floor)
+            if (yOffset >= 0 && map[xOffset, yOffset - 1] != WallType.Floor)
             {
                 return true;
             }
