@@ -132,7 +132,7 @@ namespace Dull_Radiance
             _graphics.ApplyChanges();
             base.Initialize();
 
-            //huh comments
+            // buttonList with all buttons
             buttonList = new List<Button>
             {
                 startButton,
@@ -143,7 +143,7 @@ namespace Dull_Radiance
                 titleReturn
             };
 
-            //Screen where
+            // Screen list with all screens
             screensList = new List<Screens>
             {
                 title,
@@ -152,7 +152,7 @@ namespace Dull_Radiance
                 pause
             };
 
-            //Intialize 2d Map
+            // Intialize 2D map
             mapMaker = new MapCreator(windowWidth, windowHeight, player);
             cord = new Vector2(800, 800);
         }
@@ -212,27 +212,29 @@ namespace Dull_Radiance
             door = Content.Load<Texture2D>("Door");
 
             // Add walls to list of texture2D
-            wallList = new List<Texture2D>();
-            wallList.Add(tlCorner);
-            wallList.Add(trCorner);
-            wallList.Add(blCorner);
-            wallList.Add(brCorner);
-            wallList.Add(topWall);
-            wallList.Add(bottomWall);
-            wallList.Add(leftWall);
-            wallList.Add(rightWall);
-            wallList.Add(floor);
-            wallList.Add(horizontalWall);
-            wallList.Add(verticalWall);
-            wallList.Add(boxWall);
-            wallList.Add(door);
-
+            wallList = new List<Texture2D>
+            {
+                tlCorner,
+                trCorner,
+                blCorner,
+                brCorner,
+                topWall,
+                bottomWall,
+                leftWall,
+                rightWall,
+                floor,
+                horizontalWall,
+                verticalWall,
+                boxWall,
+                door
+            };
             #endregion
 
             inventory = new Inventory();
 
             uiManager = new UIManager(hearts, player, inventory, collectibleList, _graphics, agencyFB);
 
+            #region Buttons
             // Button initializations
             startButton = new Button(
                 windowWidth / 10,                           // Width
@@ -272,6 +274,7 @@ namespace Dull_Radiance
                 buttonTexture,
                 _graphics,
                 agencyFB);
+            #endregion
         }
 
         protected override void Update(GameTime gameTime)
@@ -279,9 +282,11 @@ namespace Dull_Radiance
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            // Get keyboard and mouse state
             kbState = Keyboard.GetState();
             mState = Mouse.GetState();
 
+            // Update each button
             foreach (Button button in buttonList)
             {
                 button.ButtonsUpdate(gameTime);
@@ -294,7 +299,6 @@ namespace Dull_Radiance
                     if (startButton.Click())
                     {
                         player.Reset();
-                        //Shift state
                         currentState = GameState.Game;
                     }
                     if (controlsButton.Click())
@@ -318,13 +322,10 @@ namespace Dull_Radiance
                     //player.Movement();
                     uiManager.Update(gameTime, kbState, prevkbState);
 
-                    //How the map moves with the player
-                    //mapMaker.MoveScreen();
-                    //mapMaker.DrawMap(_spriteBatch, wallList);
                     player.CheckPosition();
                     mapMaker.DetectMovement(player);
-                    //Changed state based on events
 
+                    //Changed state based on events
                     if (kbState.IsKeyDown(Keys.P))
                     {
                         currentState = GameState.Pause;
@@ -336,7 +337,6 @@ namespace Dull_Radiance
 
                     //Move Player
                     player.Movement();
-
                     break;
 
                 // Pause
@@ -367,10 +367,12 @@ namespace Dull_Radiance
                     }
                     break;
             }
-            base.Update(gameTime);
 
-            prevkbState = Keyboard.GetState();
-            prevmState = Mouse.GetState();
+            // Set previous keyboard and mouse state to current
+            prevkbState = kbState;
+            prevmState = mState;
+
+            base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -394,9 +396,10 @@ namespace Dull_Radiance
 
                 // Game
                 case GameState.Game:
+                    // 
                     play.ScreenDraw(_spriteBatch);
 
-                    // Test test test test test test test test test test test
+                    // Draw map using mapMaker class
                     mapMaker.DrawMap(_spriteBatch, wallList);
 
                     player.Draw(_spriteBatch);
@@ -404,7 +407,7 @@ namespace Dull_Radiance
                     // Shadow outline VERY temporary
                     _spriteBatch.Draw(shadow, new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
 
-
+                    // 
                     uiManager.Draw(_spriteBatch);
 
                     _spriteBatch.DrawString(agencyFB,

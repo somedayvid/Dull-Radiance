@@ -222,7 +222,6 @@ namespace Dull_Radiance
                     new Vector2(
                         textureLocation[i].X,
                         textureLocation[i].Y));
-                System.Diagnostics.Debug.WriteLine("Tile " + i + ": " + textureLocation[i]);
             }
         }
 
@@ -242,14 +241,11 @@ namespace Dull_Radiance
                     // Check if given row and column match, if they do, draw corresponding tile
                     if (col == cord.X && row == cord.Y)
                     {
-                        // Create rectangle to draw converted to screen display
+                        // Create rectangle to draw map, convert map to screen cords
                         Rectangle rectToDraw = new Rectangle(
-                                    (tileSize * row) - (xOffset * tileSize),
-                                    (tileSize * col) - (yOffset * tileSize),
-                                    tileSize, tileSize);
-
-                        System.Diagnostics.Debug.WriteLine("------------------------------------");
-                        System.Diagnostics.Debug.WriteLine(rectToDraw);
+                            (tileSize * row) - (xOffset * tileSize),
+                            (tileSize * col) - (yOffset * tileSize),
+                            tileSize, tileSize);
 
                         // Determine the wall type and draw it
                         switch (map[col, row])
@@ -317,7 +313,6 @@ namespace Dull_Radiance
                         temp.X -= 1;
                         textureLocation[i] = temp;
                     }
-                    // do offset math
                     break;
                 case Direction.Down:
                     for (int i = 0; i < textureLocation.Count; i++)
@@ -350,7 +345,7 @@ namespace Dull_Radiance
         }
 
         /// <summary>
-        /// Detect if any movement was present, if so, update the screen via DetermineScreen()
+        /// Updates screen and offset values based on player position
         /// </summary>
         public void DetectMovement(Player player)
         {
@@ -448,30 +443,28 @@ namespace Dull_Radiance
             catch (Exception error)
             {
                 // Print error
-                Console.WriteLine("Error: " + error.Message);
+                System.Diagnostics.Debug.WriteLine("Error: " + error.Message);
             }
             finally
             {
                 // Check if reader contains data, if so close it
                 if (reader != null)
-                {
                     reader.Close();
-                }
             }
         }
         #endregion
 
         #region COLLECTABLE DRAWING
         /*
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="_sb"></param>
-    /// <param name="texture"></param>
-    public void DrawCollectable(SpriteBatch _sb, List<Texture2D> texture)
-    {
-
-    }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_sb"></param>
+        /// <param name="texture"></param>
+        public void DrawCollectable(SpriteBatch _sb, List<Texture2D> texture)
+        {
+            
+        }
         */
         #endregion
 
@@ -486,7 +479,6 @@ namespace Dull_Radiance
         }
 
         #region Revitalized Collision
-
         /*
         public bool CheckCollision(Player player)
         {
@@ -494,7 +486,6 @@ namespace Dull_Radiance
             // dont allow map to move
         }
         */
-
         #endregion
 
 
@@ -520,7 +511,6 @@ namespace Dull_Radiance
 
 
 
-        //Code Graveyard
         #region Inaccurate / Ineffective COLLISION
         /*
         /// <summary>
