@@ -376,12 +376,15 @@ namespace Dull_Radiance
 
             int playerX = (int)playerLocation.X;
             int playerY = (int)playerLocation.Y;
+
+            int x = 2;
+
             // Check for single key presses and
             // Call DetermineScreen() with corresponding direction
             // Check for single key presses and call DetermineScreen() with corresponding direction
             if (kbState.IsKeyDown(Keys.W) && prevState.IsKeyUp(Keys.W))
             {
-                if (yOffset >= 0 && map[yOffset - 1, xOffset] != WallType.Floor)
+                if (yOffset >= 0 && map[yOffset - 1, x] != WallType.Floor)
                 {
                 }
                 else
