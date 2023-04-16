@@ -377,6 +377,7 @@ namespace Dull_Radiance
             int playerX = (int)playerLocation.X;
             int playerY = (int)playerLocation.Y;
 
+            int y = 26;
             int x = 2;
 
             // Check for single key presses and
@@ -384,7 +385,7 @@ namespace Dull_Radiance
             // Check for single key presses and call DetermineScreen() with corresponding direction
             if (kbState.IsKeyDown(Keys.W) && prevState.IsKeyUp(Keys.W))
             {
-                if (yOffset >= 0 && map[yOffset - 1, x] != WallType.Floor)
+                if (yOffset >= 0 && map[ - 1, x] != WallType.Floor)
                 {
                 }
                 else
@@ -509,67 +510,5 @@ namespace Dull_Radiance
 
             return false;
         }
-
-
-
-
-
-        #region Inaccurate / Ineffective COLLISION
-        /*
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="windowWidth"></param>
-        /// <param name="windowHeight"></param>
-        /// <param name="tileSize"></param>
-        /// <param name="map"></param>
-        /// <returns></returns>
-        public Rectangle[,] CreateMapRectangles(int windowWidth, int windowHeight, int tileSize, WallType[,] map)
-        {
-            int mapWidth = map.GetLength(1);
-            int mapHeight = map.GetLength(0);
-            Rectangle[,] rectangles = new Rectangle[mapHeight, mapWidth];
-            for (int col = 0; col < mapHeight; col++)
-            {
-                for (int row = 0; row < mapWidth; row++)
-                {
-                    int x = row * tileSize;
-                    int y = col * tileSize;
-                    int width = tileSize;
-                    int height = tileSize;
-                    // If the current point on the map is a wall or interactable object,
-                    // create a rectangle that represents its position and size
-                    if (map[col, row] != WallType.Floor)
-                    {
-                        rectangles[col, row] = new Rectangle(x, y, width, height);
-                    }
-                }
-            }
-            return rectangles;
-        }
-
-        /// <summary>
-        /// Checks player collison
-        /// </summary>
-        /// <returns>Returns true if they collide</returns>
-        public bool CheckPlayerCollisions()
-        {
-            for (int row = 0; row < Rectangles.GetLength(0); row++)
-            {
-                for (int col = 0; col < Rectangles.GetLength(1); col++)
-                {
-                    Rectangle tileBounds = Rectangles[row, col];
-
-                    if (tileBounds != null && tileBounds.Intersects(playerBounds))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-        */
-        #endregion
     }
 }
