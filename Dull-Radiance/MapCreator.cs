@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using static System.Net.WebRequestMethods;
 using System.Reflection;
 using Microsoft.Xna.Framework.Content;
+//using System.Drawing;
 
 namespace Dull_Radiance
 {
@@ -59,12 +60,13 @@ namespace Dull_Radiance
         private WallType[,] map;
         private KeyboardState kbState;
         private KeyboardState prevState;
-        
+
         //private Rectangle box;
-        
-        
-        
+
+
+
         List<Vector2> textureLocation;
+        List<Vector2> collisionTile;
         private Vector2 playerLocation;
         private int tileSize;
 
@@ -89,7 +91,7 @@ namespace Dull_Radiance
         /// <param name="windowHeight"></param>
         /// <param name="player"></param>
         public MapCreator(int windowWidth, int windowHeight, Player player)
-        { 
+        {
             // Load Map
             LoadMap();
 
@@ -106,8 +108,14 @@ namespace Dull_Radiance
             // Initialize textureLocation and start the screen view
             textureLocation = new List<Vector2>();
             StartScreen();
+
+            collisionTile = new List<Vector2>();
+            CollideLoad();
         }
-        
+
+
+
+        #region Map
         /// <summary>
         /// Load the map
         /// </summary>
@@ -204,7 +212,41 @@ namespace Dull_Radiance
             }
         }
 
-        #region MAP DRAWING
+        /// <summary>
+        /// Pulls the start screen data from a text file and saves it into a list
+        /// </summary>
+        private void StartScreen()
+        {
+            // Initialize texture location
+            textureLocation = new List<Vector2>();
+
+            try
+            {
+                // Initialize the reader and textLine
+                reader = new StreamReader("../../../StartCords.txt");
+                string lineOfText = "";
+
+                // Loop through saving each line into the list
+                while ((lineOfText = reader.ReadLine()!) != null)
+                {
+                    // Splits data and parse each value into the list
+                    string[] splitData = lineOfText.Split(',');
+                    textureLocation.Add(new Vector2(int.Parse(splitData[0]), int.Parse(splitData[1])));
+                }
+            }
+            catch (Exception error)
+            {
+                // Print error
+                System.Diagnostics.Debug.WriteLine("Error: " + error.Message);
+            }
+            finally
+            {
+                // Check if reader contains data, if so close it
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
         /// <summary>
         /// Determines which texture to draw base on the enum value
         /// </summary>
@@ -221,7 +263,6 @@ namespace Dull_Radiance
                     new Vector2(
                         textureLocation[i].X,
                         textureLocation[i].Y));
-                System.Diagnostics.Debug.WriteLine("Tile " + i + ": " + textureLocation[i]);
             }
         }
 
@@ -231,7 +272,7 @@ namespace Dull_Radiance
         /// <param name="_sb">Sprite batch</param>
         /// <param name="texture">Texture to draw</param>
         /// <param name="cord">Cordinate of tile</param>
-        public void DrawTile(SpriteBatch _sb, List<Texture2D> texture, Vector2 cord)
+        private void DrawTile(SpriteBatch _sb, List<Texture2D> texture, Vector2 cord)
         {
             // Loop through 2D array
             for (int col = 0; col <= map.GetLength(0); col++)
@@ -241,14 +282,11 @@ namespace Dull_Radiance
                     // Check if given row and column match, if they do, draw corresponding tile
                     if (col == cord.X && row == cord.Y)
                     {
-                        // Create rectangle to draw converted to screen display
+                        // Create rectangle to draw map, convert map to screen cords
                         Rectangle rectToDraw = new Rectangle(
-                                    (tileSize * row) - (xOffset * tileSize),
-                                    (tileSize * col) - (yOffset * tileSize),
-                                    tileSize, tileSize);
-
-                        System.Diagnostics.Debug.WriteLine("------------------------------------");
-                        System.Diagnostics.Debug.WriteLine(rectToDraw);
+                            (tileSize * row) - (xOffset * tileSize),
+                            (tileSize * col) - (yOffset * tileSize),
+                            tileSize, tileSize);
 
                         // Determine the wall type and draw it
                         switch (map[col, row])
@@ -297,13 +335,89 @@ namespace Dull_Radiance
                 }
             }
         }
+        #endregion
+
+        #region Movement
+        /// <summary>
+        /// Updates screen and offset values based on player position
+        /// </summary>
+        public void DetectMovement(Player player)
+        {
+            // Get the keyboard state
+            kbState = Keyboard.GetState();
+            #region Will's stuff
+            if (player.CheckPosition() == 2)
+            {
+                UpdateScreenTile(Direction.Up);
+                yOffset--;
+            }
+            if (player.CheckPosition() == 1)
+            {
+                UpdateScreenTile(Direction.Left);
+                xOffset--;
+            }
+            if (player.CheckPosition() == 4)
+            {
+                UpdateScreenTile(Direction.Down);
+                yOffset++;
+            }
+            if (player.CheckPosition() == 3)
+            {
+                UpdateScreenTile(Direction.Right);
+                xOffset++;
+            }
+            #endregion
+
+            // Check for single key presses
+            // Check if the direction is a floor tile
+            // Update the screen, collision tiles, and offset
+            if (kbState.IsKeyDown(Keys.W) && prevState.IsKeyUp(Keys.W))
+            {
+                if (CheckCollision(Direction.Up) == false)
+                {
+                    UpdateScreenTile(Direction.Up);
+                    UpdateCollisionTile(Direction.Up);
+                    yOffset--;
+                }
+            }
+            else if (kbState.IsKeyDown(Keys.A) && prevState.IsKeyUp(Keys.A))
+            {
+                if (CheckCollision(Direction.Left) == false)
+                {
+                    UpdateScreenTile(Direction.Left);
+                    UpdateCollisionTile(Direction.Left);
+                    xOffset--;
+                }
+            }
+            else if (kbState.IsKeyDown(Keys.S) && prevState.IsKeyUp(Keys.S))
+            {
+                if (CheckCollision(Direction.Down) == false)
+                {
+                    UpdateScreenTile(Direction.Down);
+                    UpdateCollisionTile(Direction.Down);
+                    yOffset++;
+                }
+            }
+            else if (kbState.IsKeyDown(Keys.D) && prevState.IsKeyUp(Keys.D))
+            {
+                if (CheckCollision(Direction.Right) == false)
+                {
+                    UpdateScreenTile(Direction.Right);
+                    UpdateCollisionTile(Direction.Right);
+                    xOffset++;
+                }
+            }
+
+            // Set previous state to current
+            prevState = kbState;
+        }
 
         /// <summary>
         /// Updates the Vector2s of the screen based on the direction
         /// </summary>
         /// <param name="direction">Direction user pressed</param>
         /// <returns>An updated list with screen vector2</returns>
-        public List<Vector2> DetermineScreen(Direction direction)
+        private List<Vector2> UpdateScreenTile(Direction direction)
         {
             // Switch based on the 4 cardinal directions
             // Updates the entire list according to direction pressed
@@ -316,7 +430,6 @@ namespace Dull_Radiance
                         temp.X -= 1;
                         textureLocation[i] = temp;
                     }
-                    // do offset math
                     break;
                 case Direction.Down:
                     for (int i = 0; i < textureLocation.Count; i++)
@@ -349,74 +462,64 @@ namespace Dull_Radiance
         }
 
         /// <summary>
-        /// Detect if any movement was present, if so, update the screen via DetermineScreen()
+        /// Updates the collisionTile list based on direction moved
         /// </summary>
-        public void DetectMovement(Player player)
+        /// <param name="direction"></param>
+        private void UpdateCollisionTile(Direction direction)
         {
-            // Get the keyboard state
-            kbState = Keyboard.GetState();
-
-            if (player.CheckPosition() == "up")
+            // Switch based on direction
+            // Updates the collisionTile  
+            switch (direction)
             {
-                DetermineScreen(Direction.Up);
-                yOffset--;
+                case Direction.Up:
+                    for (int i = 0; i < collisionTile.Count; i++)
+                    {
+                        Vector2 temp = collisionTile[i];
+                        temp.X -= 1;
+                        collisionTile[i] = temp;
+                    }
+                    break;
+                case Direction.Down:
+                    for (int i = 0; i < collisionTile.Count; i++)
+                    {
+                        Vector2 temp = collisionTile[i];
+                        temp.X += 1;
+                        collisionTile[i] = temp;
+                    }
+                    break;
+                case Direction.Left:
+                    for (int i = 0; i < collisionTile.Count; i++)
+                    {
+                        Vector2 temp = collisionTile[i];
+                        temp.Y -= 1;
+                        collisionTile[i] = temp;
+                    }
+                    break;
+                case Direction.Right:
+                    for (int i = 0; i < collisionTile.Count; i++)
+                    {
+                        Vector2 temp = collisionTile[i];
+                        temp.Y += 1;
+                        collisionTile[i] = temp;
+                    }
+                    break;
             }
-            if (player.CheckPosition() == "left")
-            {
-                DetermineScreen(Direction.Left);
-                xOffset--;
-            }
-            if (player.CheckPosition() == "down")
-            {
-                DetermineScreen(Direction.Down);
-                yOffset++;
-            }
-            if (player.CheckPosition() == "right")
-            {
-                DetermineScreen(Direction.Right);
-                xOffset++;
-            }
-
-            
-            // Check for single key presses and
-            // Call DetermineScreen() with corresponding direction
-            if (kbState.IsKeyDown(Keys.W) && prevState.IsKeyUp(Keys.W))
-            {
-                DetermineScreen(Direction.Up);
-                yOffset--;
-            }
-            else if (kbState.IsKeyDown(Keys.A) && prevState.IsKeyUp(Keys.A))
-            {
-                DetermineScreen(Direction.Left);
-                xOffset--;
-            }
-            else if (kbState.IsKeyDown(Keys.S) && prevState.IsKeyUp(Keys.S))
-            {
-                DetermineScreen(Direction.Down);
-                yOffset++;
-            }
-            else if (kbState.IsKeyDown(Keys.D) && prevState.IsKeyUp(Keys.D))
-            {
-                DetermineScreen(Direction.Right);
-                xOffset++;
-            }
-
-            // Set previous state to current
-            prevState = kbState;
         }
+        #endregion
 
+        #region Collision
         /// <summary>
-        /// Pulls the start screen data from a text file and saves it into a list
+        /// Load the collision tiles from a text file
         /// </summary>
-        public void StartScreen()
+        private void CollideLoad()
         {
             // Initialize texture location
-            textureLocation = new List<Vector2>();
+            collisionTile = new List<Vector2>();
 
             try
             {
                 // Initialize the reader and textLine
-                reader = new StreamReader("../../../StartCords.txt");
+                reader = new StreamReader("../../../CollisionTiles.txt");
                 string lineOfText = "";
 
                 // Loop through saving each line into the list
@@ -424,38 +527,98 @@ namespace Dull_Radiance
                 {
                     // Splits data and parse each value into the list
                     string[] splitData = lineOfText.Split(',');
-                    textureLocation.Add(new Vector2(int.Parse(splitData[0]), int.Parse(splitData[1])));
+                    collisionTile.Add(new Vector2(int.Parse(splitData[0]), int.Parse(splitData[1])));
                 }
             }
             catch (Exception error)
             {
                 // Print error
-                Console.WriteLine("Error: " + error.Message);
+                System.Diagnostics.Debug.WriteLine("Error: " + error.Message);
             }
             finally
             {
                 // Check if reader contains data, if so close it
                 if (reader != null)
-                {
                     reader.Close();
-                }
             }
+        }
+
+        /// <summary>
+        /// Checks the direction the player is moving and updates the collision tile
+        /// </summary>
+        /// <param name="direction">The direction the key is pressed</param>
+        /// <returns>True if the tile is not floor</returns>
+        private bool CheckCollision(Direction direction)
+        {
+            // Get the collision tile
+            Vector2 Top = collisionTile[0];
+            Vector2 Left = collisionTile[1];
+            Vector2 Right = collisionTile[2];
+            Vector2 Down = collisionTile[3];
+
+            // Switch based on direction
+            // Only return false if the tile in which you pressed is a floor
+            switch (direction)
+            {
+                case Direction.Up:
+                    if (map[(int)Top.X, (int)Top.Y] == WallType.Floor)
+                    {
+                        return false;
+                    }
+                    break;
+                case Direction.Down:
+                    if (map[(int)Down.X, (int)Down.Y] == WallType.Floor)
+                    {
+                        return false;
+                    }
+                    break;
+                case Direction.Left:
+                    if (map[(int)Left.X, (int)Left.Y] == WallType.Floor)
+                    {
+                        return false;
+                    }
+                    break;
+                case Direction.Right:
+                    if (map[(int)Right.X, (int)Right.Y] == WallType.Floor)
+                    {
+                        return false;
+                    }
+                    break;
+            }
+
+            // The tile was not a floor => true
+            return true;
         }
         #endregion
 
         #region COLLECTABLE DRAWING
         /*
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="_sb"></param>
-    /// <param name="texture"></param>
-    public void DrawCollectable(SpriteBatch _sb, List<Texture2D> texture)
-    {
-
-    }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="_sb"></param>
+        /// <param name="texture"></param>
+        public void DrawCollectable(SpriteBatch _sb, List<Texture2D> texture)
+        {
+            
+        }
         */
         #endregion
+
+
+
+
+
+
+
+
+        #region Everything after here is useless
+        #endregion
+
+
+
+
+
 
         public void PlayerMoved()
         {
@@ -468,7 +631,6 @@ namespace Dull_Radiance
         }
 
         #region Revitalized Collision
-
         /*
         public bool CheckCollision(Player player)
         {
@@ -476,76 +638,25 @@ namespace Dull_Radiance
             // dont allow map to move
         }
         */
-
         #endregion
 
 
 
-
-
-
-
-
-
-
-
-        //Code Graveyard
-        #region Inaccurate / Ineffective COLLISION
-        /*
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="windowWidth"></param>
-        /// <param name="windowHeight"></param>
-        /// <param name="tileSize"></param>
-        /// <param name="map"></param>
-        /// <returns></returns>
-        public Rectangle[,] CreateMapRectangles(int windowWidth, int windowHeight, int tileSize, WallType[,] map)
+        /*private bool IsFloorTile(Vector2 tilePosition)
         {
-            int mapWidth = map.GetLength(1);
-            int mapHeight = map.GetLength(0);
-            Rectangle[,] rectangles = new Rectangle[mapHeight, mapWidth];
-            for (int col = 0; col < mapHeight; col++)
-            {
-                for (int row = 0; row < mapWidth; row++)
-                {
-                    int x = row * tileSize;
-                    int y = col * tileSize;
-                    int width = tileSize;
-                    int height = tileSize;
-                    // If the current point on the map is a wall or interactable object,
-                    // create a rectangle that represents its position and size
-                    if (map[col, row] != WallType.Floor)
-                    {
-                        rectangles[col, row] = new Rectangle(x, y, width, height);
-                    }
-                }
-            }
-            return rectangles;
-        }
+            // Check if the tile at the given position is a floor tile
 
-        /// <summary>
-        /// Checks player collison
-        /// </summary>
-        /// <returns>Returns true if they collide</returns>
-        public bool CheckPlayerCollisions()
+
+        }*/
+
+        public bool CheckSurrunding()
         {
-            for (int row = 0; row < Rectangles.GetLength(0); row++)
+            if (yOffset >= 0 && map[xOffset, yOffset - 1] != WallType.Floor)
             {
-                for (int col = 0; col < Rectangles.GetLength(1); col++)
-                {
-                    Rectangle tileBounds = Rectangles[row, col];
-
-                    if (tileBounds != null && tileBounds.Intersects(playerBounds))
-                    {
-                        return true;
-                    }
-                }
+                return true;
             }
 
             return false;
         }
-        */
-        #endregion
     }
 }
