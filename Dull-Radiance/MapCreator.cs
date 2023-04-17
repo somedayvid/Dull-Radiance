@@ -356,22 +356,22 @@ namespace Dull_Radiance
             // Get the keyboard state
             kbState = Keyboard.GetState();
 
-            if (player.CheckPosition() == 2)
+            if (player.CheckPosition() == "up")
             {
                 DetermineScreen(Direction.Up);
                 yOffset--;
             }
-            if (player.CheckPosition() == 1)
+            if (player.CheckPosition() == "left")
             {
                 DetermineScreen(Direction.Left);
                 xOffset--;
             }
-            if (player.CheckPosition() == 4)
+            if (player.CheckPosition() == "down")
             {
                 DetermineScreen(Direction.Down);
                 yOffset++;
             }
-            if (player.CheckPosition() == 3)
+            if (player.CheckPosition() == "right")
             {
                 DetermineScreen(Direction.Right);
                 xOffset++;
