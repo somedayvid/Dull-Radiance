@@ -322,8 +322,11 @@ namespace Dull_Radiance
                     //player.Movement();
                     uiManager.Update(gameTime, kbState, prevkbState);
 
+                    //Move Player
+                    player.Movement();
+                    //Player Movement + Tile Movement
                     string result = player.CheckPosition();
-                    mapMaker.DetectMovement(player,result);
+                    mapMaker.DetectMovement(result);
 
                     //Changed state based on events
                     if (kbState.IsKeyDown(Keys.P))
@@ -335,8 +338,7 @@ namespace Dull_Radiance
                         currentState = GameState.GameOver;
                     }
 
-                    //Move Player
-                    player.Movement();
+                    
                     break;
 
                 // Pause

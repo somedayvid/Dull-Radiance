@@ -77,7 +77,7 @@ namespace Dull_Radiance
 
             playerRect = new Rectangle(windowWidth/2 - width/2, windowHeight/2 - height/2, width, height);
 
-            playerSpeed = 5;
+            playerSpeed = 6;
             height = 280;
             width = 280;
             this.playerTexture = playerTexture;
@@ -163,7 +163,7 @@ namespace Dull_Radiance
             //Left
             if (playerRect.X < theBox.X)
             {
-                playerRect.X = theBox.X + theBox.Width - 20;
+                playerRect.X = theBox.X + theBox.Width - 40;
                 return "left";
             }
             //Up
@@ -175,7 +175,7 @@ namespace Dull_Radiance
             //Right
             else if (playerRect.X > theBox.X + theBox.Width)
             {
-                playerRect.X = theBox.X + 20;
+                playerRect.X = theBox.X + 40;
                 return "right";
             }
             //Down

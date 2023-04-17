@@ -341,38 +341,51 @@ namespace Dull_Radiance
         /// <summary>
         /// Updates screen and offset values based on player position
         /// </summary>
-        public void DetectMovement(Player player, string result)
+        public void DetectMovement(string result)
         {
             // Get the keyboard state
             kbState = Keyboard.GetState();
-            
+
             if (result == "up")
             {
-                UpdateScreenTile(Direction.Up);
-                UpdateCollisionTile(Direction.Up);
-                yOffset--;
+                if (CheckCollision(Direction.Up) == false)
+                {
+                    UpdateScreenTile(Direction.Up);
+                    UpdateCollisionTile(Direction.Up);
+                    yOffset--;
+                }
             }
-            else if (result == "left")
+            if (result == "left")
             {
-                UpdateScreenTile(Direction.Left);
-                UpdateCollisionTile(Direction.Left);
-                xOffset--;
+                if (CheckCollision(Direction.Left) == false)
+                {
+                    UpdateScreenTile(Direction.Left);
+                    UpdateCollisionTile(Direction.Left);
+                    xOffset--;
+                }
             }
-            else if (result == "down")
+            if (result == "down")
             {
-                UpdateScreenTile(Direction.Down);
-                UpdateCollisionTile(Direction.Down);
-                yOffset++;
+                if (CheckCollision(Direction.Down) == false)
+                {
+                    UpdateScreenTile(Direction.Down);
+                    UpdateCollisionTile(Direction.Down);
+                    yOffset++;
+                }
             }
-            else if (result == "right")
+            if (result == "right")
             {
-                UpdateScreenTile(Direction.Right);
-                UpdateCollisionTile(Direction.Right);
-                xOffset++;
+                if (CheckCollision(Direction.Right) == false) 
+                {
+                    UpdateScreenTile(Direction.Right);
+                    UpdateCollisionTile(Direction.Right);
+                    xOffset++;
+                }
             }
 
-
+            
             #region GOD Mode
+            
 
             // Check for single key presses
             // Check if the direction is a floor tile
@@ -417,7 +430,9 @@ namespace Dull_Radiance
             // Set previous state to current
             prevState = kbState;
 
+            
             #endregion
+
         }
 
         /// <summary>
