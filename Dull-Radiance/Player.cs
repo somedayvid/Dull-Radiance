@@ -13,7 +13,7 @@ namespace Dull_Radiance
     /// <summary>
     /// The main player class
     /// </summary>
-    internal class Player //: ICollideAndDraw
+    internal class Player
     {
         public event GameReset OnGameReset;
         //Fields

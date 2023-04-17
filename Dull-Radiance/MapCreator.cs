@@ -61,9 +61,6 @@ namespace Dull_Radiance
         private KeyboardState kbState;
         private KeyboardState prevState;
 
-        //private Rectangle box;
-
-
 
         List<Vector2> textureLocation;
         List<Vector2> collisionTile;
@@ -73,16 +70,9 @@ namespace Dull_Radiance
         private int xOffset;
         private int yOffset;
         private Player player;
-        #endregion
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public Rectangle[,] Rectangles
-        {
-            get;
-            private set;
-        }
+        private Inventory inventory;
+        #endregion
 
         /// <summary>
         /// Parameterized constructor
@@ -111,6 +101,9 @@ namespace Dull_Radiance
 
             collisionTile = new List<Vector2>();
             CollideLoad();
+
+            //Initialize Inventory
+            inventory = new Inventory();
         }
 
 
@@ -589,6 +582,10 @@ namespace Dull_Radiance
                     {
                         return false;
                     }
+                    else if (inventory.))
+                    //{
+                    //    return false;
+                    //}
                     break;
                 case Direction.Down:
                     if (map[(int)Down.X, (int)Down.Y] == WallType.Floor)
@@ -628,59 +625,5 @@ namespace Dull_Radiance
         }
         */
         #endregion
-
-
-
-
-
-
-
-
-        #region Everything after here is useless
-        #endregion
-
-
-
-
-
-
-        public void PlayerMoved()
-        {
-            if (player.X > 800)
-            {
-                playerLocation.X++;
-                player.X = 200;
-            }
-            //else if (player.Y > PlayerMoved)
-        }
-
-        #region Revitalized Collision
-        /*
-        public bool CheckCollision(Player player)
-        {
-            //if (textureLocation[2,0] or [2,2] or [1,1] or [1,3] in map is wall)
-            // dont allow map to move
-        }
-        */
-        #endregion
-
-
-
-        /*private bool IsFloorTile(Vector2 tilePosition)
-        {
-            // Check if the tile at the given position is a floor tile
-
-
-        }*/
-
-        public bool CheckSurrunding()
-        {
-            if (yOffset >= 0 && map[xOffset, yOffset - 1] != WallType.Floor)
-            {
-                return true;
-            }
-
-            return false;
-        }
     }
 }

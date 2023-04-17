@@ -328,6 +328,9 @@ namespace Dull_Radiance
                     string result = player.CheckPosition();
                     mapMaker.DetectMovement(result);
 
+
+
+
                     //Changed state based on events
                     if (kbState.IsKeyDown(Keys.P))
                     {
@@ -337,8 +340,6 @@ namespace Dull_Radiance
                     {
                         currentState = GameState.GameOver;
                     }
-
-                    
                     break;
 
                 // Pause
