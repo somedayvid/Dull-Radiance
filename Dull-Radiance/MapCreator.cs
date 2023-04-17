@@ -385,7 +385,7 @@ namespace Dull_Radiance
 
             
             #region GOD Mode
-            
+            /*
 
             // Check for single key presses
             // Check if the direction is a floor tile
@@ -427,6 +427,7 @@ namespace Dull_Radiance
                 }
             }
 
+            */
             // Set previous state to current
             prevState = kbState;
 

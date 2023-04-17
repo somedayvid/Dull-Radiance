@@ -136,19 +136,19 @@ namespace Dull_Radiance
             KBState = Keyboard.GetState();
 
             //Movement
-            if (KBState.IsKeyDown(Keys.Left) || KBState.IsKeyDown(Keys.Left))
+            if (KBState.IsKeyDown(Keys.A))
             {
                 playerRect.X -= playerSpeed;
             }
-            if (KBState.IsKeyDown(Keys.Right) || KBState.IsKeyDown(Keys.Right))
+            if (KBState.IsKeyDown(Keys.D))
             {
                 playerRect.X += playerSpeed;
             }
-            if (KBState.IsKeyDown(Keys.Up) || KBState.IsKeyDown(Keys.Up))
+            if (KBState.IsKeyDown(Keys.W))
             {
                 playerRect.Y -= playerSpeed;
             }
-            if (KBState.IsKeyDown(Keys.Down) || KBState.IsKeyDown(Keys.Down))
+            if (KBState.IsKeyDown(Keys.S))
             {
                 playerRect.Y += playerSpeed;
             }
