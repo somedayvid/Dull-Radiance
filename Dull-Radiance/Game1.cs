@@ -322,8 +322,8 @@ namespace Dull_Radiance
                     //player.Movement();
                     uiManager.Update(gameTime, kbState, prevkbState);
 
-                    player.CheckPosition();
-                    mapMaker.DetectMovement(player);
+                    string result = player.CheckPosition();
+                    mapMaker.DetectMovement(player,result);
 
                     //Changed state based on events
                     if (kbState.IsKeyDown(Keys.P))

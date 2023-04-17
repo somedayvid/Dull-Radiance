@@ -341,32 +341,38 @@ namespace Dull_Radiance
         /// <summary>
         /// Updates screen and offset values based on player position
         /// </summary>
-        public void DetectMovement(Player player)
+        public void DetectMovement(Player player, string result)
         {
             // Get the keyboard state
             kbState = Keyboard.GetState();
-            #region Will's stuff
-            if (player.CheckPosition() == 2)
+            
+            if (result == "up")
             {
                 UpdateScreenTile(Direction.Up);
+                UpdateCollisionTile(Direction.Up);
                 yOffset--;
             }
-            if (player.CheckPosition() == 1)
+            else if (result == "left")
             {
                 UpdateScreenTile(Direction.Left);
+                UpdateCollisionTile(Direction.Left);
                 xOffset--;
             }
-            if (player.CheckPosition() == 4)
+            else if (result == "down")
             {
                 UpdateScreenTile(Direction.Down);
+                UpdateCollisionTile(Direction.Down);
                 yOffset++;
             }
-            if (player.CheckPosition() == 3)
+            else if (result == "right")
             {
                 UpdateScreenTile(Direction.Right);
+                UpdateCollisionTile(Direction.Right);
                 xOffset++;
             }
-            #endregion
+
+
+            #region GOD Mode
 
             // Check for single key presses
             // Check if the direction is a floor tile
@@ -410,6 +416,8 @@ namespace Dull_Radiance
 
             // Set previous state to current
             prevState = kbState;
+
+            #endregion
         }
 
         /// <summary>
