@@ -117,7 +117,8 @@ namespace Dull_Radiance
             try
             {
                 // Initialize the reader and textLine
-                reader = new StreamReader("../../../WallType.txt");
+                // reader = new StreamReader("../../../WallType.txt");
+                reader = new StreamReader("../../../MazeMap.txt");
                 string textLine = "";
                 textLine = reader.ReadLine();
 
