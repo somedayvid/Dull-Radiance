@@ -32,7 +32,9 @@ namespace Dull_Radiance
         HorizontalWall,
         VerticalWall,
         BoxWall,
-        Door //Should be door
+        Door, //Should be door
+        Void,
+        End
     }
 
     /// <summary>
@@ -210,6 +212,12 @@ namespace Dull_Radiance
                             case 46: //Door
                                 map[c, i] = WallType.Door; //Temporary floor
                                 break;
+                            case 32:
+                                map[c, i] = WallType.Void;
+                                break;
+                            case 47:
+                                map[c, i] = WallType.End;
+                                break;
                         }
                     }
 
@@ -350,6 +358,12 @@ namespace Dull_Radiance
                                 break;
                             case WallType.Door:
                                 _sb.Draw(texture[12], rectToDraw, Color.White);
+                                break;
+                            case WallType.Void:
+                                _sb.Draw(texture[13], rectToDraw, Color.White);
+                                break;
+                            case WallType.End:
+                                _sb.Draw(texture[14], rectToDraw, Color.White);
                                 break;
                         }
                     }
