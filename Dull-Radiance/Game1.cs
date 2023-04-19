@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Threading;
+using System.Xml.Schema;
 
 /* Game: Dull Radience
  * Dev Team: Rice Bowls
@@ -111,7 +113,14 @@ namespace Dull_Radiance
         // UI elements
         private Texture2D aliveHeart;
         private Texture2D deadHeart;
-        private double timer;
+        private int minuteTimer;
+        private int secondTimer;
+        private int millisecondTimer;
+        private string time;
+        private bool isSuccessful;
+        private int elapsedMinute;
+        private int elapsedSecond;
+        private int elapsedMillisecond;
         #endregion
 
         public Game1()
@@ -127,12 +136,21 @@ namespace Dull_Radiance
             //Commments
             _graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+            //_graphics.IsFullScreen = true;
+            _graphics.PreferredBackBufferHeight = 1000;
+            _graphics.PreferredBackBufferWidth = 2000;
+            _graphics.ApplyChanges();
             windowHeight = _graphics.PreferredBackBufferHeight;
             windowWidth = _graphics.PreferredBackBufferWidth;
-            _graphics.IsFullScreen = true;
-            //_graphics.PreferredBackBufferHeight = 1000;
-            //_graphics.PreferredBackBufferWidth = 2000;
-            _graphics.ApplyChanges();
+
+            minuteTimer = 5;
+            secondTimer = 0;
+            millisecondTimer = 0;
+            time = "";
+            isSuccessful = false;
+            elapsedMinute = 0;
+            elapsedSecond = 0;
+            elapsedMillisecond = 0;
             base.Initialize();
 
             // buttonList with all buttons
@@ -156,7 +174,7 @@ namespace Dull_Radiance
             };
 
             // Intialize 2D map
-            mapMaker = new MapCreator(windowWidth, windowHeight, player);
+            mapMaker = new MapCreator(player);
             cord = new Vector2(800, 800);
         }
 
@@ -165,7 +183,6 @@ namespace Dull_Radiance
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Ui elements
-            timer = 300000; // 5 minutes
             shadow = Content.Load<Texture2D>("shadow");
             aliveHeart = Content.Load<Texture2D>("LiveHeart");
             deadHeart = Content.Load<Texture2D>("DeadHeart");
@@ -307,7 +324,9 @@ namespace Dull_Radiance
                     if (startButton.Click())
                     {
                         player.Reset();
+                        ResetSuccess();
                         ResetTimer();
+                        mapMaker.ResetMap();
                         currentState = GameState.Game;
                     }
                     if (controlsButton.Click())
@@ -327,8 +346,33 @@ namespace Dull_Radiance
                         currentState = GameState.Title;
                     }
                     break;
+
                 case GameState.Game:
-                    timer -= gameTime.ElapsedGameTime.Milliseconds;
+                    // Update countdown timer
+                    millisecondTimer -= gameTime.ElapsedGameTime.Milliseconds;
+                    if (millisecondTimer < 0)
+                    {
+                        millisecondTimer = 1000;
+                        secondTimer--;
+                    }
+                    if (secondTimer < 0)
+                    {
+                        secondTimer = 60;
+                        minuteTimer--;
+                    }
+
+                    // Update elapsed timer
+                    elapsedMillisecond += gameTime.ElapsedGameTime.Milliseconds;
+                    if (elapsedMillisecond >= 1000)
+                    {
+                        elapsedMillisecond = 0;
+                        elapsedSecond++;
+                    }
+                    if (elapsedSecond > 60)
+                    {
+                        elapsedSecond = 0;
+                        elapsedMinute++;
+                    }
 
                     //player.Movement();
                     uiManager.Update(gameTime, kbState, prevkbState);
@@ -349,7 +393,6 @@ namespace Dull_Radiance
                         mapMaker.RemoveKey();
                     }
 
-
                     //Changed state based on events
                     if (kbState.IsKeyDown(Keys.P))
                     {
@@ -358,14 +401,17 @@ namespace Dull_Radiance
                     if (hearts.CurrentHealth == 0)
                     {
                         currentState = GameState.GameOver;
+                        isSuccessful = false;
                     }
                     if (mapMaker.IsKeyCollected() == true)
                     {
                         currentState = GameState.GameOver;
+                        isSuccessful = true;
                     }
-                    if (timer <= 0)
+                    if (minuteTimer < 0)
                     {
                         currentState = GameState.GameOver;
+                        isSuccessful = false;
                     }
                     break;
 
@@ -437,7 +483,7 @@ namespace Dull_Radiance
                     // Shadow outline VERY temporary
                     _spriteBatch.Draw(shadow, new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
 
-                    // 
+                    // Draw UI
                     uiManager.Draw(_spriteBatch);
 
                     _spriteBatch.DrawString(agencyFB,
@@ -446,7 +492,15 @@ namespace Dull_Radiance
                         new Vector2(windowWidth / 2, windowHeight / 2),
                         Color.White);
 
-                    _spriteBatch.DrawString(agencyFB, "Timer: " + timer / 1000, new Vector2(0, 0), Color.White);
+                    // Draw timer
+                    time = $"Timer: {minuteTimer:0}:{secondTimer:00}:{millisecondTimer:000}";
+                    _spriteBatch.DrawString(
+                        agencyFB,
+                        time,
+                        new Vector2(
+                            windowWidth / 2 - 132,
+                            agencyFB.MeasureString(time).Y / 4),
+                        Color.White);
                     break;
 
                 // Pause
@@ -460,13 +514,31 @@ namespace Dull_Radiance
                 // Game over
                 // TODO: replace temp with actual game over screen
                 case GameState.GameOver:
+
                     play.ScreenDraw(_spriteBatch);
-                    _spriteBatch.DrawString(
-                        agencyFB,
-                        "Game over! PRESS ENTER TO GO TO TITLE",
-                        new Vector2(windowWidth / 2, windowHeight / 2),
-                        Color.White);
-                    _spriteBatch.DrawString(agencyFB, "Elapsed Time: " + timer / 1000, new Vector2(0, 0), Color.White);
+
+                    if (isSuccessful == true)
+                    {
+                        _spriteBatch.DrawString(
+                            agencyFB, 
+                            $"{elapsedMinute:0}:{elapsedSecond:00}:{elapsedMillisecond:00}", 
+                            new Vector2(0, 0), 
+                            Color.White);
+
+                        _spriteBatch.DrawString(
+                            agencyFB,
+                            "You won! PRESS ENTER TO GO TO TITLE", 
+                            new Vector2(windowWidth / 2, windowHeight / 2), 
+                            Color.White);
+                    }
+                    else
+                    {
+                        _spriteBatch.DrawString(
+                            agencyFB,
+                            "Game over! PRESS ENTER TO GO TO TITLE",
+                            new Vector2(windowWidth / 2, windowHeight / 2),
+                            Color.White);
+                    }
                     break;
             }
 
@@ -475,11 +547,27 @@ namespace Dull_Radiance
             base.Draw(gameTime);
         }
 
+        /// <summary>
+        /// Resets the timer back to default values
+        /// </summary>
         public void ResetTimer()
         {
-            timer = 300000; // 5 minutes
+            minuteTimer = 5;
+            secondTimer = 0;
+            millisecondTimer = 0;
+
+            elapsedMinute = 0;
+            elapsedSecond = 0;
+            elapsedMillisecond = 0;
         }
 
+        /// <summary>
+        /// Resets the success bool to false
+        /// </summary>
+        public void ResetSuccess()
+        {
+            isSuccessful = false;
+        }
         #region Single Presses
         /// <summary>
         /// Single KeyPress Checker

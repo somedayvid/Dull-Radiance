@@ -85,7 +85,7 @@ namespace Dull_Radiance
         /// <param name="windowWidth"></param>
         /// <param name="windowHeight"></param>
         /// <param name="player"></param>
-        public MapCreator(int windowWidth, int windowHeight, Player player)
+        public MapCreator(Player player)
         {
             // Load Map
             LoadMap();
@@ -146,8 +146,8 @@ namespace Dull_Radiance
             try
             {
                 // Initialize the reader and textLine
-                reader = new StreamReader("../../../WallType.txt");
-                //reader = new StreamReader("../../../MazeMap.txt");
+                //reader = new StreamReader("../../../WallType.txt");
+                reader = new StreamReader("../../../MazeMap.txt");
                 string textLine = "";
                 textLine = reader.ReadLine();
 
@@ -698,7 +698,9 @@ namespace Dull_Radiance
         public bool IsKeyCollected()
         {
             Vector2 end = new Vector2(5, 2);
+            //Vector2 end = new Vector2(27, 5);
 
+            // Check if the player is on the key
             if (textureLocation[8] == end)
             {
                 return true;
@@ -707,5 +709,14 @@ namespace Dull_Radiance
             return false;
         }
         #endregion
+
+
+        /// <summary>
+        /// Resets the map for next play through
+        /// </summary>
+        public void ResetMap()
+        {
+            
+        }
     }
 }
