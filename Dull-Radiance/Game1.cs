@@ -346,6 +346,10 @@ namespace Dull_Radiance
                     {
                         currentState = GameState.GameOver;
                     }
+                    if (mapMaker.isKeyCollected() == true)
+                    {
+                        currentState = GameState.GameOver;
+                    }
                     break;
 
                 // Pause
