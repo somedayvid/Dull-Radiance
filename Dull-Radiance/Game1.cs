@@ -356,7 +356,7 @@ namespace Dull_Radiance
                     {
                         currentState = GameState.GameOver;
                     }
-                    if (mapMaker.isKeyCollected() == true)
+                    if (mapMaker.IsKeyCollected() == true)
                     {
                         currentState = GameState.GameOver;
                     }
