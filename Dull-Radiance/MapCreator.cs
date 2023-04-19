@@ -32,7 +32,7 @@ namespace Dull_Radiance
         HorizontalWall,
         VerticalWall,
         BoxWall,
-        Door
+        Door //Should be door
     }
 
     /// <summary>
@@ -179,8 +179,8 @@ namespace Dull_Radiance
                             case 15:
                                 map[c, i] = WallType.BoxWall;
                                 break;
-                            case 46:
-                                map[c, i] = WallType.Door;
+                            case 46: //Door
+                                map[c, i] = WallType.Door; //Temporary floor
                                 break;
                         }
                     }
@@ -338,6 +338,8 @@ namespace Dull_Radiance
         {
             // Get the keyboard state
             kbState = Keyboard.GetState();
+
+            
 
             if (result == "up")
             {
@@ -573,37 +575,43 @@ namespace Dull_Radiance
             Vector2 Right = collisionTile[2];
             Vector2 Down = collisionTile[3];
 
+            bool checkForKey = inventory.IsCount;
+
             // Switch based on direction
             // Only return false if the tile in which you pressed is a floor
             switch (direction)
             {
                 case Direction.Up:
-                    if (map[(int)Top.X, (int)Top.Y] == WallType.Floor)
+                    if (map[(int)Top.X, (int)Top.Y] == WallType.Floor || 
+                        (map[(int)Top.X, (int)Top.Y] == WallType.Door && checkForKey))
                     {
                         return false;
                     }
-                    else if (inventory.))
-                    //{
-                    //    return false;
-                    //}
+                   
                     break;
                 case Direction.Down:
-                    if (map[(int)Down.X, (int)Down.Y] == WallType.Floor)
+                    if (map[(int)Down.X, (int)Down.Y] == WallType.Floor ||
+                        (map[(int)Down.X, (int)Down.Y] == WallType.Door && checkForKey))
                     {
                         return false;
                     }
+                    
                     break;
                 case Direction.Left:
-                    if (map[(int)Left.X, (int)Left.Y] == WallType.Floor)
+                    if (map[(int)Left.X, (int)Left.Y] == WallType.Floor ||
+                        (map[(int)Left.X, (int)Left.Y] == WallType.Door && checkForKey))
                     {
                         return false;
                     }
+                   
                     break;
                 case Direction.Right:
-                    if (map[(int)Right.X, (int)Right.Y] == WallType.Floor)
+                    if (map[(int)Right.X, (int)Right.Y] == WallType.Floor ||
+                        (map[(int)Right.X, (int)Right.Y] == WallType.Door && checkForKey))
                     {
                         return false;
                     }
+                  
                     break;
             }
 

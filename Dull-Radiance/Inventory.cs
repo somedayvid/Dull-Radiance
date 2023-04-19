@@ -44,6 +44,7 @@ namespace Dull_Radiance
         public void Add(Collectibles item)
         {
             count++;
+
             if(count <= maxCount)
             {
                 inventory.Add(item);
@@ -58,11 +59,29 @@ namespace Dull_Radiance
         /// <returns>A boolean on whether the item is within the list or not</returns>
         public bool Contains(Collectibles item)
         {
-            if(inventory.Contains(item)) 
+            if (inventory.Contains(item))
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
+
+        
+        public bool IsCount
+        {
+            get
+            {
+                if (count > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+        
 
         /// <summary>
         /// Checks if the inventory ever goes over max capacity
