@@ -334,6 +334,16 @@ namespace Dull_Radiance
                     string result = player.CheckPosition();
                     mapMaker.DetectMovement(result);
 
+                    //Add Key / Remove key
+                    if (kbState.IsKeyDown(Keys.D1) && prevkbState.IsKeyUp(Keys.D1))
+                    {
+                        mapMaker.AddKey();
+                    }
+                    if (kbState.IsKeyDown(Keys.D5) && prevkbState.IsKeyUp(Keys.D5))
+                    {
+                        mapMaker.RemoveKey();
+                    }
+
 
 
 

@@ -74,6 +74,9 @@ namespace Dull_Radiance
         private Player player;
 
         private Inventory inventory;
+
+        private int keys;
+        private bool checkForKey;
         #endregion
 
         /// <summary>
@@ -106,9 +109,33 @@ namespace Dull_Radiance
 
             //Initialize Inventory
             inventory = new Inventory();
+
+            keys = 0;
+            checkForKey = false;
         }
 
+        /// <summary>
+        /// Add A key
+        /// </summary>
+        public void AddKey()
+        {
+            if (keys < 5)
+            {
+                keys++;
+                //System.Diagnostics.Debug.WriteLine(keys);
+            }
+        }
 
+        /// <summary>
+        /// Remove A Key
+        /// </summary>
+        public void RemoveKey()
+        {
+            if (keys > 0)
+            {
+                keys--;
+            }
+        }
 
         #region Map
         /// <summary>
@@ -119,8 +146,8 @@ namespace Dull_Radiance
             try
             {
                 // Initialize the reader and textLine
-                // reader = new StreamReader("../../../WallType.txt");
-                reader = new StreamReader("../../../MazeMap.txt");
+                 reader = new StreamReader("../../../WallType.txt");
+                //reader = new StreamReader("../../../MazeMap.txt");
                 string textLine = "";
                 textLine = reader.ReadLine();
 
@@ -354,7 +381,7 @@ namespace Dull_Radiance
             // Get the keyboard state
             kbState = Keyboard.GetState();
 
-
+            
 
             if (result == "up")
             {
@@ -385,7 +412,7 @@ namespace Dull_Radiance
             }
             if (result == "right")
             {
-                if (CheckCollision(Direction.Right) == false)
+                if (CheckCollision(Direction.Right) == false) 
                 {
                     UpdateScreenTile(Direction.Right);
                     UpdateCollisionTile(Direction.Right);
@@ -393,7 +420,7 @@ namespace Dull_Radiance
                 }
             }
 
-
+            
             #region GOD Mode
             /*
 
@@ -441,7 +468,7 @@ namespace Dull_Radiance
             // Set previous state to current
             prevState = kbState;
 
-
+            
             #endregion
 
         }
@@ -591,47 +618,46 @@ namespace Dull_Radiance
             Vector2 Down = collisionTile[3];
 
             //Check for player having key
-            //bool checkForKey = inventory.IsCount;
+            if (keys > 0)
+            {
+                checkForKey = true;
+            }
 
             // Switch based on direction
             // Only return false if the tile in which you pressed is a floor
             switch (direction)
             {
                 case Direction.Up:
-                    if (map[(int)Top.X, (int)Top.Y] == WallType.Floor ||
-                        map[(int)Top.X, (int)Top.Y] == WallType.End ||
-                        (map[(int)Top.X, (int)Top.Y] == WallType.Door))// && checkForKey))
+                    if (map[(int)Top.X, (int)Top.Y] == WallType.Floor || 
+                        (map[(int)Top.X, (int)Top.Y] == WallType.Door && checkForKey))
                     {
                         return false;
                     }
-
+                   
                     break;
                 case Direction.Down:
                     if (map[(int)Down.X, (int)Down.Y] == WallType.Floor ||
-                        map[(int)Down.X, (int)Down.Y] == WallType.End ||
-                        (map[(int)Down.X, (int)Down.Y] == WallType.Door))// && checkForKey))
+                        (map[(int)Down.X, (int)Down.Y] == WallType.Door && checkForKey))
                     {
                         return false;
                     }
-
+                    
                     break;
                 case Direction.Left:
                     if (map[(int)Left.X, (int)Left.Y] == WallType.Floor ||
-                        map[(int)Left.X, (int)Left.Y] == WallType.End ||
-                        (map[(int)Left.X, (int)Left.Y] == WallType.Door))// && checkForKey))
+                        (map[(int)Left.X, (int)Left.Y] == WallType.Door && checkForKey))
                     {
                         return false;
                     }
-
+                   
                     break;
                 case Direction.Right:
                     if (map[(int)Right.X, (int)Right.Y] == WallType.Floor ||
-                        map[(int)Right.X, (int)Right.Y] == WallType.End ||
-                        (map[(int)Right.X, (int)Right.Y] == WallType.Door))// && checkForKey))
+                        (map[(int)Right.X, (int)Right.Y] == WallType.Door && checkForKey))
                     {
                         return false;
                     }
-
+                  
                     break;
             }
 
@@ -641,21 +667,17 @@ namespace Dull_Radiance
         #endregion
 
         #region COLLECTABLE DRAWING
+        /*
         /// <summary>
-        /// Determine if player is on the end tile
+        /// 
         /// </summary>
-        /// <returns>True if player is on end tile</returns>
-        public bool isKeyCollected()
+        /// <param name="_sb"></param>
+        /// <param name="texture"></param>
+        public void DrawCollectable(SpriteBatch _sb, List<Texture2D> texture)
         {
-            Vector2 end = new Vector2(5, 2);
-
-            if (textureLocation[8] == end)
-            {
-                return true;
-            }
-
-            return false;
+            
         }
+        */
         #endregion
     }
 }

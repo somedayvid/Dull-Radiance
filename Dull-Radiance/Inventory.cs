@@ -18,7 +18,15 @@ namespace Dull_Radiance
         private List<Collectibles> inventory;
         private int maxCount;
         private int count;
-        
+
+        public int Count
+        {
+            get
+            {
+                return count;
+            }
+        }
+
         /// <summary>
         /// Initializes a list representing the player's inventory 
         /// </summary>
@@ -70,17 +78,7 @@ namespace Dull_Radiance
         }
 
         
-        public bool IsCount
-        {
-            get
-            {
-                if (count > 0)
-                {
-                    return true;
-                }
-                return false;
-            }
-        }
+        
         
 
         /// <summary>
