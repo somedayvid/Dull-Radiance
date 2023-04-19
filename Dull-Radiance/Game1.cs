@@ -73,6 +73,8 @@ namespace Dull_Radiance
         private Collectibles yellowKey;
         private Collectibles greenKey;
         private Texture2D shadow;
+        private Texture2D voidTile;
+        private Texture2D keyTile;
 
         // Player texture
         private Player player;
@@ -205,11 +207,13 @@ namespace Dull_Radiance
             bottomWall = Content.Load<Texture2D>("T_B");
             leftWall = Content.Load<Texture2D>("T_L");
             rightWall = Content.Load<Texture2D>("T_R");
-            floor = Content.Load<Texture2D>("Floor");
+            floor = Content.Load<Texture2D>("T_F");
             horizontalWall = Content.Load<Texture2D>("T_H");
             verticalWall = Content.Load<Texture2D>("T_V");
             boxWall = Content.Load<Texture2D>("T_BOX");
             door = Content.Load<Texture2D>("Door");
+            voidTile = Content.Load<Texture2D>("void");
+            keyTile = Content.Load<Texture2D>("keyTile");
 
             // Add walls to list of texture2D
             wallList = new List<Texture2D>
@@ -226,7 +230,9 @@ namespace Dull_Radiance
                 horizontalWall,
                 verticalWall,
                 boxWall,
-                door
+                door,
+                voidTile,
+                keyTile
             };
             #endregion
 
