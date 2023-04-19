@@ -111,6 +111,7 @@ namespace Dull_Radiance
         // UI elements
         private Texture2D aliveHeart;
         private Texture2D deadHeart;
+        private double timer;
         #endregion
 
         public Game1()
@@ -128,9 +129,9 @@ namespace Dull_Radiance
             _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
             windowHeight = _graphics.PreferredBackBufferHeight;
             windowWidth = _graphics.PreferredBackBufferWidth;
-            //_graphics.IsFullScreen = true;
-            _graphics.PreferredBackBufferHeight = 1000;
-            _graphics.PreferredBackBufferWidth = 2000;
+            _graphics.IsFullScreen = true;
+            //_graphics.PreferredBackBufferHeight = 1000;
+            //_graphics.PreferredBackBufferWidth = 2000;
             _graphics.ApplyChanges();
             base.Initialize();
 
@@ -164,6 +165,7 @@ namespace Dull_Radiance
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Ui elements
+            timer = 300000; // 5 minutes
             shadow = Content.Load<Texture2D>("shadow");
             aliveHeart = Content.Load<Texture2D>("LiveHeart");
             deadHeart = Content.Load<Texture2D>("DeadHeart");
@@ -325,6 +327,8 @@ namespace Dull_Radiance
                     }
                     break;
                 case GameState.Game:
+                    timer -= gameTime.ElapsedGameTime.Milliseconds;
+
                     //player.Movement();
                     uiManager.Update(gameTime, kbState, prevkbState);
 
@@ -345,8 +349,6 @@ namespace Dull_Radiance
                     }
 
 
-
-
                     //Changed state based on events
                     if (kbState.IsKeyDown(Keys.P))
                     {
@@ -357,6 +359,10 @@ namespace Dull_Radiance
                         currentState = GameState.GameOver;
                     }
                     if (mapMaker.IsKeyCollected() == true)
+                    {
+                        currentState = GameState.GameOver;
+                    }
+                    if (timer <= 0)
                     {
                         currentState = GameState.GameOver;
                     }
@@ -438,6 +444,8 @@ namespace Dull_Radiance
                         "Try adding with 1 to max then press 5\n",
                         new Vector2(windowWidth / 2, windowHeight / 2),
                         Color.White);
+
+                    _spriteBatch.DrawString(agencyFB, "Timer: " + timer / 1000, new Vector2(0, 0), Color.White);
                     break;
 
                 // Pause
