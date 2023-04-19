@@ -690,7 +690,11 @@ namespace Dull_Radiance
         }
         #endregion
 
-        #region COLLECTABLE DRAWING
+        #region collectable
+        /// <summary>
+        /// Checks if the key is collected
+        /// </summary>
+        /// <returns>True if player is on key</returns>
         public bool IsKeyCollected()
         {
             Vector2 end = new Vector2(5, 2);

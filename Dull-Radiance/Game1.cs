@@ -307,6 +307,7 @@ namespace Dull_Radiance
                     if (startButton.Click())
                     {
                         player.Reset();
+                        ResetTimer();
                         currentState = GameState.Game;
                     }
                     if (controlsButton.Click())
@@ -465,12 +466,18 @@ namespace Dull_Radiance
                         "Game over! PRESS ENTER TO GO TO TITLE",
                         new Vector2(windowWidth / 2, windowHeight / 2),
                         Color.White);
+                    _spriteBatch.DrawString(agencyFB, "Elapsed Time: " + timer / 1000, new Vector2(0, 0), Color.White);
                     break;
             }
 
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public void ResetTimer()
+        {
+            timer = 300000; // 5 minutes
         }
 
         #region Single Presses
