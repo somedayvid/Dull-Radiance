@@ -28,6 +28,7 @@ namespace Dull_Radiance
     public enum GameState
     {
         Title,
+        Difficulty, 
         Pause,
         Game,
         Instructions,
@@ -101,6 +102,9 @@ namespace Dull_Radiance
         private List<Button> buttonList;
         private Button startButton;
         private Button quitButton;
+        private Button difficulty1;
+        private Button difficulty2;
+        private Button difficulty3;
         private Button controlsButton;
         private Button resumeButton;
         private Button titleReturn;
@@ -279,6 +283,27 @@ namespace Dull_Radiance
                 _graphics,
                 agencyFB);
 
+            difficulty1 = new Button(
+                windowWidth / 10,
+                windowHeight / 2 + windowHeight / 36,
+                buttonTexture,
+                _graphics,
+                agencyFB);
+
+            difficulty2 = new Button(
+                windowWidth / 10,
+                windowHeight / 2 + windowHeight / 36,
+                buttonTexture,
+                _graphics,
+                agencyFB);
+
+            difficulty3 = new Button(
+                windowWidth / 10,
+                windowHeight / 2 + windowHeight / 36,
+                buttonTexture,
+                _graphics,
+                agencyFB);
+
             quitButton = new Button(
                 windowWidth / 10,
                 windowHeight / 2 + windowHeight / 6 + windowHeight / 36,
@@ -342,6 +367,15 @@ namespace Dull_Radiance
                     {
                         Exit();
                     }
+                    break;
+
+                // Difficulty
+                case GameState.Difficulty:
+                    if (difficulty1.Click())
+                    {
+
+                    }
+
                     break;
 
                 // Instructions
