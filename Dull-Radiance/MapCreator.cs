@@ -11,7 +11,7 @@ namespace Dull_Radiance
     /// <summary>
     /// Enum for all the various wall types
     /// </summary>
-    public enum WallType
+    internal enum WallType
     {
         TLCorner,
         BLCorner,
@@ -31,21 +31,9 @@ namespace Dull_Radiance
     }
 
     /// <summary>
-    /// Collectible|Movable Type of Object
-    /// </summary>
-    public enum CollectibleType
-    {
-        GKey,           //Green Key
-        GDoor,          //Green Door
-        YKey,           //Yellow Key
-        YDoor,          //Yellow Door
-        MB              //Moving Block
-    }
-
-    /// <summary>
     /// Carindal direction
     /// </summary>
-    public enum Direction { Up, Down, Left, Right }
+    internal enum Direction { Up, Down, Left, Right }
 
     public enum Difficulty { Broken, Normal, Hard, Insane }
     #endregion
@@ -94,6 +82,29 @@ namespace Dull_Radiance
         }
 
         #region Map
+        /// <summary>
+        /// Determine the mode the map will load with
+        /// </summary>
+        /// <param name="difficulty">The difficulty</param>
+        public void DifficultySelection(Difficulty difficulty)
+        {
+            switch (difficulty)
+            {
+                case Difficulty.Broken:
+                    LoadMap(Difficulty.Broken);
+                    break;
+                case Difficulty.Normal:
+                    LoadMap(Difficulty.Normal);
+                    break;
+                case Difficulty.Hard:
+                    LoadMap(Difficulty.Hard);
+                    break;
+                case Difficulty.Insane:
+                    LoadMap(Difficulty.Insane);
+                    break;
+            }
+        }
+
         /// <summary>
         /// Load the map
         /// </summary>
@@ -663,28 +674,5 @@ namespace Dull_Radiance
             }
         }
         #endregion
-
-        /// <summary>
-        /// Determine the mode the map will load with
-        /// </summary>
-        /// <param name="difficulty">The difficulty</param>
-        public void DifficultySelection(Difficulty difficulty)
-        {
-            switch (difficulty)
-            {
-                case Difficulty.Broken:
-                    LoadMap(Difficulty.Broken);
-                    break;
-                case Difficulty.Normal:
-                    LoadMap(Difficulty.Normal);
-                    break;
-                case Difficulty.Hard:
-                    LoadMap(Difficulty.Hard);
-                    break;
-                case Difficulty.Insane:
-                    LoadMap(Difficulty.Insane);
-                    break;
-            }
-        }
     }
 }

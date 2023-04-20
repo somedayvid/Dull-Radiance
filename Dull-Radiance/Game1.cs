@@ -365,6 +365,7 @@ namespace Dull_Radiance
                     break;
 
                 case GameState.Game:
+                    #region Game UI
                     // Update countdown timer
                     millisecondTimer -= gameTime.ElapsedGameTime.Milliseconds;
                     if (millisecondTimer < 0)
@@ -391,12 +392,12 @@ namespace Dull_Radiance
                         elapsedMinute++;
                     }
 
-                    //player.Movement();
+                    // Update UI elements
                     uiManager.Update(gameTime, kbState, prevkbState);
+                    #endregion
 
-                    //Move Player
+                    // Move Player
                     player.Movement();
-                    //Player Movement + Tile Movement
                     string result = player.CheckPosition();
                     mapMaker.DetectMovement(result);
 
