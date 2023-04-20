@@ -53,6 +53,7 @@ namespace Dull_Radiance
         private WallType[,] map;
         private List<Vector2> textureLocation;
         private List<Vector2> collisionTile;
+        private bool godMode;
 
         // Tile size and offset value
         private int tileSize;
@@ -69,6 +70,8 @@ namespace Dull_Radiance
         /// </summary>
         public MapCreator()
         {
+            godMode = false;
+
             // Tile size and offset value initalization 
             tileSize = 400;
             yOffset = 26;
@@ -86,21 +89,37 @@ namespace Dull_Radiance
         /// Determine the mode the map will load with
         /// </summary>
         /// <param name="difficulty">The difficulty</param>
-        public void DifficultySelection(Difficulty difficulty)
+        public void DifficultySelection(Difficulty difficulty, bool godMaker)
         {
             switch (difficulty)
             {
                 case Difficulty.Broken:
                     LoadMap(Difficulty.Broken);
+                    if (godMaker == true)
+                    {
+                        godMode = true;
+                    }
                     break;
                 case Difficulty.Normal:
                     LoadMap(Difficulty.Normal);
+                    if (godMaker == true)
+                    {
+                        godMode = true;
+                    }
                     break;
                 case Difficulty.Hard:
                     LoadMap(Difficulty.Hard);
+                    if (godMaker == true)
+                    {
+                        godMode = true;
+                    }
                     break;
                 case Difficulty.Insane:
                     LoadMap(Difficulty.Insane);
+                    if (godMaker == true)
+                    {
+                        godMode = true;
+                    }
                     break;
             }
         }
@@ -369,6 +388,7 @@ namespace Dull_Radiance
             CollideLoad();
             yOffset = 26;
             xOffset = 0;
+            godMode = false;
         }
         #endregion
 

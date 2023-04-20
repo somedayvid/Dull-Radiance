@@ -384,7 +384,7 @@ namespace Dull_Radiance
 
                 case GameState.Selector:
                     // Button stuff to determine difficulty
-                    mapMaker.DifficultySelection(Difficulty.Normal);
+                    mapMaker.DifficultySelection(Difficulty.Normal, false);
 
                     // Final enter press to start game
                     if (kbState.IsKeyDown(Keys.Enter))
