@@ -266,7 +266,6 @@ namespace Dull_Radiance
             #endregion
 
             inventory = new Inventory();
-
             uiManager = new UIManager(hearts, player, inventory, collectibleList, _graphics, agencyFB);
 
             #region Buttons
@@ -375,12 +374,20 @@ namespace Dull_Radiance
                     break;
 
                 case GameState.Selector:
+                    
+
+
+
+
                     // Button stuff to determine difficulty
-                    mapMaker.DifficultySelection(Difficulty.Normal, false);
+                    //mapMaker.DifficultySelection(Difficulty.Normal, false);
 
                     // Final enter press to start game
                     if (kbState.IsKeyDown(Keys.Enter))
                     {
+                        // Button stuff to determine difficulty
+                        mapMaker.DifficultySelection(Difficulty.Normal, false);
+
                         // Start game => reset values to default
                         player.Reset();
                         ResetSuccess();
@@ -388,7 +395,10 @@ namespace Dull_Radiance
                         mapMaker.ResetMap();
                         currentState = GameState.Game;
                     }
-                    if (difficulty1.Click())
+
+
+
+                    /*if (difficulty1.Click())
                     {
                         // Start game => reset values to default
                         player.Reset();
@@ -416,7 +426,7 @@ namespace Dull_Radiance
                         ResetTimer();
                         mapMaker.ResetMap();
                         currentState = GameState.Game;
-                    }
+                    }*/
                     break;
 
                 case GameState.Game:
