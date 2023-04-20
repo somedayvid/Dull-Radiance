@@ -53,7 +53,7 @@ namespace Dull_Radiance
         private WallType[,] map;
         private List<Vector2> textureLocation;
         private List<Vector2> collisionTile;
-        private bool godMode;
+        private bool isGodMode;
 
         // Tile size and offset value
         private int tileSize;
@@ -70,7 +70,7 @@ namespace Dull_Radiance
         /// </summary>
         public MapCreator()
         {
-            godMode = false;
+            isGodMode = false;
 
             // Tile size and offset value initalization 
             tileSize = 400;
@@ -97,28 +97,28 @@ namespace Dull_Radiance
                     LoadMap(Difficulty.Broken);
                     if (godMaker == true)
                     {
-                        godMode = true;
+                        isGodMode = true;
                     }
                     break;
                 case Difficulty.Normal:
                     LoadMap(Difficulty.Normal);
                     if (godMaker == true)
                     {
-                        godMode = true;
+                        isGodMode = true;
                     }
                     break;
                 case Difficulty.Hard:
                     LoadMap(Difficulty.Hard);
                     if (godMaker == true)
                     {
-                        godMode = true;
+                        isGodMode = true;
                     }
                     break;
                 case Difficulty.Insane:
                     LoadMap(Difficulty.Insane);
                     if (godMaker == true)
                     {
-                        godMode = true;
+                        isGodMode = true;
                     }
                     break;
             }
@@ -388,7 +388,6 @@ namespace Dull_Radiance
             CollideLoad();
             yOffset = 26;
             xOffset = 0;
-            godMode = false;
         }
         #endregion
 
@@ -598,10 +597,22 @@ namespace Dull_Radiance
                     }*/
 
                     // MAZE MAP ONLY, COMMENT IF USING THE OTHER MAP
-                    if (map[(int)Top.X, (int)Top.Y] == WallType.Floor ||
-                        map[(int)Top.X, (int)Top.Y] == WallType.End)
+                    if (isGodMode)
                     {
-                        return false;
+                        if (map[(int)Top.X, (int)Top.Y] == WallType.Floor ||
+                        map[(int)Top.X, (int)Top.Y] == WallType.End ||
+                        map[(int)Top.X, (int)Top.Y] == WallType.HorizontalWall)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        if (map[(int)Top.X, (int)Top.Y] == WallType.Floor ||
+                        map[(int)Top.X, (int)Top.Y] == WallType.End)
+                        {
+                            return false;
+                        }
                     }
                     break;
                 case Direction.Down:
@@ -612,10 +623,22 @@ namespace Dull_Radiance
                     }*/
 
                     // MAZE MAP ONLY, COMMENT IF USING THE OTHER MAP
-                    if (map[(int)Down.X, (int)Down.Y] == WallType.Floor ||
-                        map[(int)Down.X, (int)Down.Y] == WallType.End)
+                    if (isGodMode)
                     {
-                        return false;
+                        if (map[(int)Down.X, (int)Down.Y] == WallType.Floor ||
+                        map[(int)Down.X, (int)Down.Y] == WallType.End ||
+                        map[(int)Down.X, (int)Down.Y] == WallType.HorizontalWall)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        if (map[(int)Down.X, (int)Down.Y] == WallType.Floor ||
+                        map[(int)Down.X, (int)Down.Y] == WallType.End)
+                        {
+                            return false;
+                        }
                     }
                     break;
                 case Direction.Left:
@@ -626,10 +649,22 @@ namespace Dull_Radiance
                     }*/
 
                     // MAZE MAP ONLY, COMMENT IF USING THE OTHER MAP
-                    if (map[(int)Left.X, (int)Left.Y] == WallType.Floor ||
-                        map[(int)Left.X, (int)Left.Y] == WallType.End)
+                    if (isGodMode == true)
                     {
-                        return false;
+                        if (map[(int)Left.X, (int)Left.Y] == WallType.Floor ||
+                        map[(int)Left.X, (int)Left.Y] == WallType.End ||
+                        map[(int)Left.X, (int)Left.Y] == WallType.HorizontalWall)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        if (map[(int)Left.X, (int)Left.Y] == WallType.Floor ||
+                        map[(int)Left.X, (int)Left.Y] == WallType.End)
+                        {
+                            return false;
+                        }
                     }
                     break;
                 case Direction.Right:
@@ -640,10 +675,22 @@ namespace Dull_Radiance
                     }*/
 
                     // MAZE MAP ONLY, COMMENT IF USING THE OTHER MAP
-                    if (map[(int)Right.X, (int)Right.Y] == WallType.Floor ||
-                        map[(int)Right.X, (int)Right.Y] == WallType.End)
+                    if (isGodMode)
                     {
-                        return false;
+                        if (map[(int)Right.X, (int)Right.Y] == WallType.Floor ||
+                        map[(int)Right.X, (int)Right.Y] == WallType.End ||
+                        map[(int)Right.X, (int)Right.Y] == WallType.HorizontalWall)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        if (map[(int)Right.X, (int)Right.Y] == WallType.Floor ||
+                        map[(int)Right.X, (int)Right.Y] == WallType.End)
+                        {
+                            return false;
+                        }
                     }
                     break;
             }

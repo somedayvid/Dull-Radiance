@@ -378,7 +378,7 @@ namespace Dull_Radiance
                     if (kbState.IsKeyDown(Keys.Enter))
                     {
                         // Button stuff to determine difficulty
-                        mapMaker.DifficultySelection(Difficulty.Normal, false);
+                        mapMaker.DifficultySelection(Difficulty.Normal, true);
 
                         // Start game => reset values to default
                         player.Reset();
