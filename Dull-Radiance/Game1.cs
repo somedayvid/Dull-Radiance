@@ -81,6 +81,7 @@ namespace Dull_Radiance
         private Texture2D shadow;
         private Texture2D voidTile;
         private Texture2D keyTile;
+        private Texture2D blackScreen;
 
         // Player texture
         private Player player;
@@ -93,7 +94,7 @@ namespace Dull_Radiance
         private Texture2D pauseScreen;
         private Texture2D playScreen;
         private Screens title;
-        private Screens Selector;
+        private Screens selector;
         private Screens controls;
         private Screens pause;
         private Screens play;
@@ -129,6 +130,10 @@ namespace Dull_Radiance
         private int elapsedMinute;
         private int elapsedSecond;
         private int elapsedMillisecond;
+
+        //Difficulty Elements
+        private Difficulty difficulty;
+        private bool godMode;
         #endregion
 
         public Game1()
@@ -168,6 +173,9 @@ namespace Dull_Radiance
             {
                 startButton,
                 controlsButton,
+                difficulty1,
+                difficulty2,
+                difficulty3,
                 quitButton,
                 quitButton2,
                 resumeButton,
@@ -178,6 +186,7 @@ namespace Dull_Radiance
             screensList = new List<Screens>
             {
                 title,
+                selector,
                 controls,
                 play,
                 pause
@@ -186,6 +195,9 @@ namespace Dull_Radiance
             // Intialize 2D map
             mapMaker = new MapCreator();
             cord = new Vector2(800, 800);
+
+            //GodMode
+            godMode = false;
         }
         
         protected override void LoadContent()
@@ -212,10 +224,12 @@ namespace Dull_Radiance
             // Screens
             titleScreen = Content.Load<Texture2D>("StartMenu");
             controlsScreen = Content.Load<Texture2D>("ControlsScreen");
+            blackScreen = Content.Load<Texture2D>("void");
             pauseScreen = Content.Load<Texture2D>("PauseScreen");
             playScreen = Content.Load<Texture2D>("TempPlayScreen");
 
             title = new Screens(titleScreen, _graphics);
+            selector = new Screens(blackScreen, _graphics);
             controls = new Screens(controlsScreen, _graphics);
             pause = new Screens(pauseScreen, _graphics);
             play = new Screens(playScreen, _graphics);
@@ -287,21 +301,21 @@ namespace Dull_Radiance
 
             difficulty1 = new Button(
                 windowWidth / 10,
-                windowHeight / 2 + windowHeight / 36,
+                windowHeight / 4,
                 buttonTexture,
                 _graphics,
                 agencyFB);
 
             difficulty2 = new Button(
-                windowWidth / 10,
-                windowHeight / 2 + windowHeight / 36,
+                windowWidth / 3,
+                windowHeight / 4,
                 buttonTexture,
                 _graphics,
                 agencyFB);
 
             difficulty3 = new Button(
-                windowWidth / 10,
-                windowHeight / 2 + windowHeight / 36,
+                windowWidth / 3 + windowWidth / 4,
+                windowHeight / 4,
                 buttonTexture,
                 _graphics,
                 agencyFB);
@@ -375,8 +389,10 @@ namespace Dull_Radiance
                     break;
 
                 case GameState.Selector:
+                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                        Exit();
                     // Button stuff to determine difficulty
-                    mapMaker.DifficultySelection(Difficulty.Normal, false);
+                    mapMaker.DifficultySelection(difficulty, godMode);
 
                     // Final enter press to start game
                     if (kbState.IsKeyDown(Keys.Enter))
@@ -390,32 +406,15 @@ namespace Dull_Radiance
                     }
                     if (difficulty1.Click())
                     {
-                        // Start game => reset values to default
-                        player.Reset();
-                        ResetSuccess();
-                        ResetTimer();
-                        mapMaker.ResetMap();
-                        currentState = GameState.Game;
+                        difficulty = Difficulty.Normal;
                     }
                     if (difficulty2.Click())
                     {
-                        mapMaker.DifficultySelection(Difficulty.Hard);
-                        // Start game => reset values to default
-                        player.Reset();
-                        ResetSuccess();
-                        ResetTimer();
-                        mapMaker.ResetMap();
-                        currentState = GameState.Game;
+                        difficulty= Difficulty.Hard;
                     }
                     if (difficulty3.Click())
                     {
-                        mapMaker.DifficultySelection(Difficulty.Insane);
-                        // Start game => reset values to default
-                        player.Reset();
-                        ResetSuccess();
-                        ResetTimer();
-                        mapMaker.ResetMap();
-                        currentState = GameState.Game;
+                        difficulty = Difficulty.Insane;
                     }
                     break;
 
@@ -547,6 +546,7 @@ namespace Dull_Radiance
                 case GameState.Selector:
                     _spriteBatch.DrawString(agencyFB, "Press Enter to Start", new Vector2(windowWidth / 2, windowHeight / 2), Color.White);
 
+                    selector.ScreenDraw(_spriteBatch);
                     difficulty1.DrawButton(_spriteBatch, "Easy Mode");
                     difficulty2.DrawButton(_spriteBatch, "Hard Mode");
                     difficulty3.DrawButton(_spriteBatch, "Insane Mode");
