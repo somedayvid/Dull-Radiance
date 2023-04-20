@@ -80,10 +80,8 @@ namespace Dull_Radiance
         #endregion
 
         /// <summary>
-        /// Parameterized constructor
+        /// Parameterized constructor for MapCreator
         /// </summary>
-        /// <param name="windowWidth"></param>
-        /// <param name="windowHeight"></param>
         /// <param name="player"></param>
         public MapCreator(Player player)
         {
@@ -104,6 +102,7 @@ namespace Dull_Radiance
             textureLocation = new List<Vector2>();
             StartScreen();
 
+            // Initialize collisionTile and load the collision tiles
             collisionTile = new List<Vector2>();
             CollideLoad();
 
@@ -698,7 +697,6 @@ namespace Dull_Radiance
         public bool IsKeyCollected()
         {
             Vector2 end = new Vector2(5, 2);
-            //Vector2 end = new Vector2(27, 5);
 
             // Check if the player is on the key
             if (textureLocation[8] == end)
@@ -716,7 +714,11 @@ namespace Dull_Radiance
         /// </summary>
         public void ResetMap()
         {
-            
+            LoadMap();
+            StartScreen();
+            CollideLoad();
+            yOffset = 26;
+            xOffset = 0;
         }
     }
 }

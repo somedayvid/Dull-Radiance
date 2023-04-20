@@ -135,7 +135,7 @@ namespace Dull_Radiance
 
         protected override void Initialize()
         {
-            //Commments
+            // Window size
             _graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
             //_graphics.IsFullScreen = true;
@@ -145,6 +145,7 @@ namespace Dull_Radiance
             windowHeight = _graphics.PreferredBackBufferHeight;
             windowWidth = _graphics.PreferredBackBufferWidth;
 
+            // Timer
             minuteTimer = 5;
             secondTimer = 0;
             millisecondTimer = 0;
@@ -153,6 +154,7 @@ namespace Dull_Radiance
             elapsedMinute = 0;
             elapsedSecond = 0;
             elapsedMillisecond = 0;
+
             base.Initialize();
 
             // buttonList with all buttons
@@ -549,6 +551,7 @@ namespace Dull_Radiance
             base.Draw(gameTime);
         }
 
+        #region Reset Methods
         /// <summary>
         /// Resets the timer back to default values
         /// </summary>
@@ -570,6 +573,8 @@ namespace Dull_Radiance
         {
             isSuccessful = false;
         }
+        #endregion
+
         #region Single Presses
         /// <summary>
         /// Single KeyPress Checker
