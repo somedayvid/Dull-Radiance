@@ -401,10 +401,7 @@ namespace Dull_Radiance
                         mapMaker.ResetMap();
                         currentState = GameState.Game;
                     }
-
-
-
-                    /*if (difficulty1.Click())
+                    if (difficulty1.Click())
                     {
                         difficulty = Difficulty.Normal;
                     }
