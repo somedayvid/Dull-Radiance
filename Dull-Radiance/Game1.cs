@@ -28,7 +28,7 @@ namespace Dull_Radiance
     public enum GameState
     {
         Title,
-        Difficulty, 
+        Difficulty,
         Pause,
         Game,
         Instructions,
@@ -113,6 +113,7 @@ namespace Dull_Radiance
         private Button titleReturn;
         private Button quitButton2;
         private Texture2D buttonTexture;
+        private Texture2D buttonHovered;
         private SpriteFont agencyFB;
 
         // Window size
@@ -199,7 +200,7 @@ namespace Dull_Radiance
             //GodMode
             godMode = false;
         }
-        
+
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -236,6 +237,7 @@ namespace Dull_Radiance
 
             // Buttons
             buttonTexture = Content.Load<Texture2D>("BUTTON_UNHOVER");
+            buttonHovered = Content.Load<Texture2D>("BUTTON_HOVER");
 
             // Fonts
             agencyFB = Content.Load<SpriteFont>("Agency FB");
@@ -393,14 +395,35 @@ namespace Dull_Radiance
                     if (difficulty1.Click())
                     {
                         difficulty = Difficulty.Normal;
+                        difficulty1 = new Button(
+                        windowWidth / 10,
+                        windowHeight / 4,
+                        buttonHovered,
+                        _graphics,
+                        agencyFB);
                     }
-                    if (difficulty2.Click())
+                    else if (difficulty2.Click())
                     {
-                        difficulty= Difficulty.Hard;
+                        difficulty = Difficulty.Hard;
+
+                        difficulty2 = new Button(
+                        windowWidth / 3,
+                        windowHeight / 4,
+                        buttonTexture,
+                        _graphics,
+                        agencyFB);
+
                     }
-                    if (difficulty3.Click())
+                    else if (difficulty3.Click())
                     {
                         difficulty = Difficulty.Insane;
+
+                        difficulty3 = new Button(
+                        windowWidth / 3 + windowWidth / 4,
+                        windowHeight / 4,
+                        buttonTexture,
+                        _graphics,
+                        agencyFB);
                     }
 
                     // Final enter press to start game (can change to a button press)
@@ -547,7 +570,7 @@ namespace Dull_Radiance
                     _spriteBatch.DrawString(agencyFB, "Press Enter to Start", new Vector2(windowWidth / 2, windowHeight / 2), Color.White);
 
                     selector.ScreenDraw(_spriteBatch);
-                    difficulty1.DrawButton(_spriteBatch, "Easy Mode");
+                    difficulty1.DrawButton(_spriteBatch, "Normal Mode");
                     difficulty2.DrawButton(_spriteBatch, "Hard Mode");
                     difficulty3.DrawButton(_spriteBatch, "Insane Mode");
                     break;
@@ -602,15 +625,15 @@ namespace Dull_Radiance
                     if (isSuccessful == true)
                     {
                         _spriteBatch.DrawString(
-                            agencyFB, 
-                            $"{elapsedMinute:0}:{elapsedSecond:00}:{elapsedMillisecond:00}", 
-                            new Vector2(0, 0), 
+                            agencyFB,
+                            $"{elapsedMinute:0}:{elapsedSecond:00}:{elapsedMillisecond:00}",
+                            new Vector2(0, 0),
                             Color.White);
 
                         _spriteBatch.DrawString(
                             agencyFB,
-                            "You won! PRESS ENTER TO GO TO TITLE", 
-                            new Vector2(windowWidth / 2, windowHeight / 2), 
+                            "You won! PRESS ENTER TO GO TO TITLE",
+                            new Vector2(windowWidth / 2, windowHeight / 2),
                             Color.White);
                     }
                     else
