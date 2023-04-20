@@ -389,11 +389,11 @@ namespace Dull_Radiance
                     {
                         currentState = GameState.Selector;
                     }
-                    if (controlsButton.Click())
+                    else if (controlsButton.Click())
                     {
                         currentState = GameState.Instructions;
                     }
-                    if (quitButton.Click())
+                    else if (quitButton.Click())
                     {
                         Exit();
                     }
@@ -409,7 +409,8 @@ namespace Dull_Radiance
 
                 // Selector
                 case GameState.Selector:
-                    // Button stuff to determine difficulty
+                    #region Difficulty and God Mode Buttons
+                    // Determines which difficulty is selected
                     if (difficulty1.Click())
                     {
                         difficulty = Difficulty.Normal;
@@ -443,14 +444,17 @@ namespace Dull_Radiance
                         _graphics,
                         agencyFB);
                     }
+
+                    // Determines if god mode is on or off
                     if (godModeTrue.Click())
                     {
                         godMode = true;
                     }
-                    if (godModeFalse.Click())
+                    else if (godModeFalse.Click())
                     {
                         godMode = false;
                     }
+                    #endregion
 
                     // Final enter press to start game (can change to a button press)
                     if (kbState.IsKeyDown(Keys.Enter))
@@ -464,6 +468,10 @@ namespace Dull_Radiance
                         ResetTimer();
                         mapMaker.ResetMap();
                         currentState = GameState.Game;
+                    }
+                    else if (kbState.IsKeyDown(Keys.Space))
+                    {
+                        currentState = GameState.Title;
                     }
                     break;
 
@@ -538,17 +546,15 @@ namespace Dull_Radiance
 
                 // Pause
                 case GameState.Pause:
-                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                        Exit();
                     if (quitButton2.Click())
                     {
                         Exit();
                     }
-                    if (resumeButton.Click())
+                    else if (resumeButton.Click())
                     {
                         currentState = GameState.Game;
                     }
-                    if (titleReturn.Click())
+                    else if (titleReturn.Click())
                     {
                         currentState = GameState.Title;
                     }
@@ -556,8 +562,6 @@ namespace Dull_Radiance
 
                 // Game over
                 case GameState.GameOver:
-                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                        Exit();
                     if (SingleKeyPress(kbState, prevkbState, Keys.Enter))
                     {
                         currentState = GameState.Title;
