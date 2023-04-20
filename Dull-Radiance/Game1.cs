@@ -365,15 +365,6 @@ namespace Dull_Radiance
                     }
                     break;
 
-                // Difficulty
-                case GameState.Difficulty:
-                    if (difficulty1.Click())
-                    {
-
-                    }
-
-                    break;
-
                 // Instructions
                 case GameState.Instructions:
                     if (kbState.IsKeyDown(Keys.Space))
@@ -385,10 +376,40 @@ namespace Dull_Radiance
                 case GameState.Selector:
                     // Button stuff to determine difficulty
                     mapMaker.DifficultySelection(Difficulty.Normal);
-
+                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                        Exit();
                     // Final enter press to start game
                     if (kbState.IsKeyDown(Keys.Enter))
                     {
+                        // Start game => reset values to default
+                        player.Reset();
+                        ResetSuccess();
+                        ResetTimer();
+                        mapMaker.ResetMap();
+                        currentState = GameState.Game;
+                    }
+                    if (difficulty1.Click())
+                    {
+                        // Start game => reset values to default
+                        player.Reset();
+                        ResetSuccess();
+                        ResetTimer();
+                        mapMaker.ResetMap();
+                        currentState = GameState.Game;
+                    }
+                    if (difficulty2.Click())
+                    {
+                        mapMaker.DifficultySelection(Difficulty.Hard);
+                        // Start game => reset values to default
+                        player.Reset();
+                        ResetSuccess();
+                        ResetTimer();
+                        mapMaker.ResetMap();
+                        currentState = GameState.Game;
+                    }
+                    if (difficulty3.Click())
+                    {
+                        mapMaker.DifficultySelection(Difficulty.Insane);
                         // Start game => reset values to default
                         player.Reset();
                         ResetSuccess();
@@ -525,6 +546,10 @@ namespace Dull_Radiance
                 // Select difficulty
                 case GameState.Selector:
                     _spriteBatch.DrawString(agencyFB, "Press Enter to Start", new Vector2(windowWidth / 2, windowHeight / 2), Color.White);
+
+                    difficulty1.DrawButton(_spriteBatch, "Easy Mode");
+                    difficulty2.DrawButton(_spriteBatch, "Hard Mode");
+                    difficulty3.DrawButton(_spriteBatch, "Insane Mode");
                     break;
 
                 // Game
