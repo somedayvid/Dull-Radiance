@@ -11,7 +11,7 @@ namespace Dull_Radiance
     /// <summary>
     /// Enum for all the various wall types
     /// </summary>
-    public enum WallType
+    internal enum WallType
     {
         TLCorner,
         BLCorner,
@@ -31,18 +31,11 @@ namespace Dull_Radiance
     }
 
     /// <summary>
-    /// Collectible|Movable Type of Object
+    /// Carindal direction
     /// </summary>
-    public enum CollectibleType
-    {
-        GKey,           //Green Key
-        GDoor,          //Green Door
-        YKey,           //Yellow Key
-        YDoor,          //Yellow Door
-        MB              //Moving Block
-    }
+    internal enum Direction { Up, Down, Left, Right }
 
-    public enum Direction { Up, Down, Left, Right }
+    public enum Difficulty { Broken, Normal, Hard, Insane }
     #endregion
 
     /// <summary>
@@ -76,19 +69,10 @@ namespace Dull_Radiance
         /// </summary>
         public MapCreator()
         {
-            // Load Map
-            LoadMap();
-
             // Tile size and offset value initalization 
             tileSize = 400;
             yOffset = 26;
             xOffset = 0;
-
-            // Initialize textureLocation and collisionTile and load them
-            textureLocation = new List<Vector2>();
-            collisionTile = new List<Vector2>();
-            StartScreen();
-            CollideLoad();
 
             //Initialize Inventory
             inventory = new Inventory();
@@ -99,15 +83,54 @@ namespace Dull_Radiance
 
         #region Map
         /// <summary>
+        /// Determine the mode the map will load with
+        /// </summary>
+        /// <param name="difficulty">The difficulty</param>
+        public void DifficultySelection(Difficulty difficulty)
+        {
+            switch (difficulty)
+            {
+                case Difficulty.Broken:
+                    LoadMap(Difficulty.Broken);
+                    break;
+                case Difficulty.Normal:
+                    LoadMap(Difficulty.Normal);
+                    break;
+                case Difficulty.Hard:
+                    LoadMap(Difficulty.Hard);
+                    break;
+                case Difficulty.Insane:
+                    LoadMap(Difficulty.Insane);
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Load the map
         /// </summary>
-        private void LoadMap()
+        private void LoadMap(Difficulty difficulty)
         {
+            string mapSetting = "";
+            switch (difficulty)
+            {
+                case Difficulty.Broken:
+                    mapSetting = "WallType.txt";
+                    break;
+                case Difficulty.Normal:
+                    mapSetting = "MazeMap.txt";
+                    break;
+                case Difficulty.Hard:
+                    mapSetting = "MazeMapHard.txt";
+                    break;
+                case Difficulty.Insane:
+                    mapSetting = "MazeMapInsane.txt";
+                    break;
+            }
+
             try
             {
                 // Initialize the reader and textLine
-                //reader = new StreamReader("../../../WallType.txt");
-                reader = new StreamReader("../../../MazeMap.txt");
+                reader = new StreamReader($"../../../{mapSetting}");
                 string textLine = "";
                 textLine = reader.ReadLine();
 
@@ -199,6 +222,12 @@ namespace Dull_Radiance
                     reader.Close();
                 }
             }
+
+            // Initialize textureLocation and collisionTile and load them
+            textureLocation = new List<Vector2>();
+            collisionTile = new List<Vector2>();
+            StartScreen();
+            CollideLoad();
         }
 
         /// <summary>
@@ -336,7 +365,6 @@ namespace Dull_Radiance
         /// </summary>
         public void ResetMap()
         {
-            LoadMap();
             StartScreen();
             CollideLoad();
             yOffset = 26;

@@ -32,6 +32,7 @@ namespace Dull_Radiance
         Pause,
         Game,
         Instructions,
+        Selector,
         GameOver
     }
     #endregion
@@ -352,12 +353,7 @@ namespace Dull_Radiance
                 case GameState.Title:
                     if (startButton.Click())
                     {
-                        // Start game => reset values to default
-                        player.Reset();
-                        ResetSuccess();
-                        ResetTimer();
-                        mapMaker.ResetMap();
-                        currentState = GameState.Game;
+                        currentState = GameState.Selector;
                     }
                     if (controlsButton.Click())
                     {
@@ -386,7 +382,24 @@ namespace Dull_Radiance
                     }
                     break;
 
+                case GameState.Selector:
+                    // Button stuff to determine difficulty
+                    mapMaker.DifficultySelection(Difficulty.Normal);
+
+                    // Final enter press to start game
+                    if (kbState.IsKeyDown(Keys.Enter))
+                    {
+                        // Start game => reset values to default
+                        player.Reset();
+                        ResetSuccess();
+                        ResetTimer();
+                        mapMaker.ResetMap();
+                        currentState = GameState.Game;
+                    }
+                    break;
+
                 case GameState.Game:
+                    #region Game UI
                     // Update countdown timer
                     millisecondTimer -= gameTime.ElapsedGameTime.Milliseconds;
                     if (millisecondTimer < 0)
@@ -413,12 +426,12 @@ namespace Dull_Radiance
                         elapsedMinute++;
                     }
 
-                    //player.Movement();
+                    // Update UI elements
                     uiManager.Update(gameTime, kbState, prevkbState);
+                    #endregion
 
-                    //Move Player
+                    // Move Player
                     player.Movement();
-                    //Player Movement + Tile Movement
                     string result = player.CheckPosition();
                     mapMaker.DetectMovement(result);
 
@@ -507,6 +520,11 @@ namespace Dull_Radiance
                 // Instruction
                 case GameState.Instructions:
                     controls.ScreenDraw(_spriteBatch);
+                    break;
+
+                // Select difficulty
+                case GameState.Selector:
+                    _spriteBatch.DrawString(agencyFB, "Press Enter to Start", new Vector2(windowWidth / 2, windowHeight / 2), Color.White);
                     break;
 
                 // Game
