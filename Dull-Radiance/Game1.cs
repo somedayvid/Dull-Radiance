@@ -10,6 +10,8 @@ using System.Xml.Schema;
  * Rice in the Bowl: David Gao, Jason Chen, Thaw Thaw, Will Forbes
  */
 
+//HELLO WILL THIS IS TEMP - PLEASE DELETE THIS COMMENT
+
 namespace Dull_Radiance
 {
     #region Enums
