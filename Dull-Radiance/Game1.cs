@@ -177,7 +177,7 @@ namespace Dull_Radiance
             mapMaker = new MapCreator(player);
             cord = new Vector2(800, 800);
         }
-
+        
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
