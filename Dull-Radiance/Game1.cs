@@ -224,7 +224,7 @@ namespace Dull_Radiance
 
             // Player
             playerTexture = Content.Load<Texture2D>("Player");
-            player = new Player(playerTexture, hearts, windowWidth, windowHeight);
+            player = new Player(playerTexture, hearts, windowWidth, windowHeight, 8);
 
             // Screens
             titleScreen = Content.Load<Texture2D>("StartMenu");
@@ -420,6 +420,7 @@ namespace Dull_Radiance
                         buttonHovered,
                         _graphics,
                         agencyFB);
+                        
                     }
                     else if (difficulty2.Click())
                     {
@@ -431,7 +432,7 @@ namespace Dull_Radiance
                         buttonTexture,
                         _graphics,
                         agencyFB);
-
+                        
                     }
                     else if (difficulty3.Click())
                     {
@@ -443,15 +444,18 @@ namespace Dull_Radiance
                         buttonTexture,
                         _graphics,
                         agencyFB);
+                        
                     }
 
                     // Determines if god mode is on or off
                     if (godModeTrue.Click())
                     {
                         godMode = true;
+                        player.PlayerSpeed = 12;
                     }
                     else if (godModeFalse.Click())
                     {
+                        player.PlayerSpeed = 9;
                         godMode = false;
                     }
                     #endregion
