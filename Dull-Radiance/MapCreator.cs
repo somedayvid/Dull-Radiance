@@ -53,6 +53,7 @@ namespace Dull_Radiance
         private WallType[,] map;
         private List<Vector2> textureLocation;
         private List<Vector2> collisionTile;
+        string mapSetting;
         private bool isGodMode;
 
         // Tile size and offset value
@@ -70,7 +71,8 @@ namespace Dull_Radiance
         /// </summary>
         public MapCreator()
         {
-            isGodMode = false;
+            mapSetting = "";
+            //isGodMode = false;
 
             // Tile size and offset value initalization 
             tileSize = 400;
@@ -89,47 +91,48 @@ namespace Dull_Radiance
         /// Determine the mode the map will load with
         /// </summary>
         /// <param name="difficulty">The difficulty</param>
-        public void DifficultySelection(Difficulty difficulty, bool godMaker)
+        public void DifficultySelection(Difficulty difficulty, bool isGodMode)
         {
             switch (difficulty)
             {
                 case Difficulty.Broken:
                     LoadMap(Difficulty.Broken);
-                    if (godMaker == true)
+                    if (isGodMode == true)
                     {
-                        isGodMode = true;
+                        this.isGodMode = true;
                     }
                     break;
                 case Difficulty.Normal:
                     LoadMap(Difficulty.Normal);
-                    if (godMaker == true)
+                    if (isGodMode == true)
                     {
-                        isGodMode = true;
+                        this.isGodMode = true;
                     }
                     break;
                 case Difficulty.Hard:
                     LoadMap(Difficulty.Hard);
-                    if (godMaker == true)
+                    if (isGodMode == true)
                     {
-                        isGodMode = true;
+                        this.isGodMode = true;
                     }
                     break;
                 case Difficulty.Insane:
                     LoadMap(Difficulty.Insane);
-                    if (godMaker == true)
+                    if (isGodMode == true)
                     {
-                        isGodMode = true;
+                        this.isGodMode = true;
                     }
                     break;
             }
         }
 
         /// <summary>
-        /// Load the map
+        /// Loads the map based on the difficulty
         /// </summary>
+        /// <param name="difficulty">How hard the map is</param>
         private void LoadMap(Difficulty difficulty)
         {
-            string mapSetting = "";
+            // Determine which map to load based on difficulty
             switch (difficulty)
             {
                 case Difficulty.Broken:
@@ -585,117 +588,140 @@ namespace Dull_Radiance
                 checkForKey = true;
             }
 
-            // Switch based on direction
-            // Only return false if the tile in which you pressed is a floor
-            switch (direction)
+            System.Diagnostics.Debug.WriteLine("Setting: " + mapSetting);
+            System.Diagnostics.Debug.WriteLine("God mode:" + isGodMode);
+
+            switch (mapSetting)
             {
-                case Direction.Up:
-                    /*if (map[(int)Top.X, (int)Top.Y] == WallType.Floor || 
-                        (map[(int)Top.X, (int)Top.Y] == WallType.Door && checkForKey))
+                #region Hopeful Map
+                case "WallType.txt":
+                    switch (direction)
                     {
-                        return false;
-                    }*/
-
-                    // MAZE MAP ONLY, COMMENT IF USING THE OTHER MAP
-                    if (isGodMode)
-                    {
-                        if (map[(int)Top.X, (int)Top.Y] == WallType.Floor ||
-                        map[(int)Top.X, (int)Top.Y] == WallType.End ||
-                        map[(int)Top.X, (int)Top.Y] == WallType.HorizontalWall)
-                        {
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        if (map[(int)Top.X, (int)Top.Y] == WallType.Floor ||
-                        map[(int)Top.X, (int)Top.Y] == WallType.End)
-                        {
-                            return false;
-                        }
-                    }
-                    break;
-                case Direction.Down:
-                    /*if (map[(int)Down.X, (int)Down.Y] == WallType.Floor ||
-                        (map[(int)Down.X, (int)Down.Y] == WallType.Door && checkForKey))
-                    {
-                        return false;
-                    }*/
-
-                    // MAZE MAP ONLY, COMMENT IF USING THE OTHER MAP
-                    if (isGodMode)
-                    {
-                        if (map[(int)Down.X, (int)Down.Y] == WallType.Floor ||
-                        map[(int)Down.X, (int)Down.Y] == WallType.End ||
-                        map[(int)Down.X, (int)Down.Y] == WallType.HorizontalWall)
-                        {
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        if (map[(int)Down.X, (int)Down.Y] == WallType.Floor ||
-                        map[(int)Down.X, (int)Down.Y] == WallType.End)
-                        {
-                            return false;
-                        }
+                        case Direction.Up:
+                            if (map[(int)Top.X, (int)Top.Y] == WallType.Floor ||
+                            (map[(int)Top.X, (int)Top.Y] == WallType.Door && checkForKey))
+                            {
+                                return false;
+                            }
+                            break;
+                        case Direction.Down:
+                            if (map[(int)Down.X, (int)Down.Y] == WallType.Floor ||
+                            (map[(int)Down.X, (int)Down.Y] == WallType.Door && checkForKey))
+                            {
+                                return false;
+                            }
+                            break;
+                        case Direction.Left:
+                            if (map[(int)Left.X, (int)Left.Y] == WallType.Floor ||
+                            (map[(int)Left.X, (int)Left.Y] == WallType.Door && checkForKey))
+                            {
+                                return false;
+                            }
+                            break;
+                        case Direction.Right:
+                            if (map[(int)Right.X, (int)Right.Y] == WallType.Floor ||
+                            (map[(int)Right.X, (int)Right.Y] == WallType.Door && checkForKey))
+                            {
+                                return false;
+                            }
+                            break;
                     }
                     break;
-                case Direction.Left:
-                    /*if (map[(int)Left.X, (int)Left.Y] == WallType.Floor ||
-                        (map[(int)Left.X, (int)Left.Y] == WallType.Door && checkForKey))
+                #endregion
+                #region Maze Map
+                case "MazeMap.txt":
+                case "MazeMapHard.txt":
+                case "MazeMapInsane.txt":
+                    switch (direction)
                     {
-                        return false;
-                    }*/
+                        // Check the tile above the player
+                        case Direction.Up:
+                            if (isGodMode == true)
+                            {
+                                if (map[(int)Top.X, (int)Top.Y] == WallType.Floor ||
+                                map[(int)Top.X, (int)Top.Y] == WallType.End ||
+                                map[(int)Top.X, (int)Top.Y] == WallType.HorizontalWall)
+                                {
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                if (map[(int)Top.X, (int)Top.Y] == WallType.Floor ||
+                                map[(int)Top.X, (int)Top.Y] == WallType.End)
+                                {
+                                    return false;
+                                }
+                            }
+                            break;
 
-                    // MAZE MAP ONLY, COMMENT IF USING THE OTHER MAP
-                    if (isGodMode == true)
-                    {
-                        if (map[(int)Left.X, (int)Left.Y] == WallType.Floor ||
-                        map[(int)Left.X, (int)Left.Y] == WallType.End ||
-                        map[(int)Left.X, (int)Left.Y] == WallType.HorizontalWall)
-                        {
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        if (map[(int)Left.X, (int)Left.Y] == WallType.Floor ||
-                        map[(int)Left.X, (int)Left.Y] == WallType.End)
-                        {
-                            return false;
-                        }
+                        // Check the tile below the player
+                        case Direction.Down:
+                            if (isGodMode == true)
+                            {
+                                if (map[(int)Down.X, (int)Down.Y] == WallType.Floor ||
+                                map[(int)Down.X, (int)Down.Y] == WallType.End ||
+                                map[(int)Down.X, (int)Down.Y] == WallType.HorizontalWall)
+                                {
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                if (map[(int)Down.X, (int)Down.Y] == WallType.Floor ||
+                                map[(int)Down.X, (int)Down.Y] == WallType.End)
+                                {
+                                    return false;
+                                }
+                            }
+                            break;
+
+                        // Check the tile to the left of the player
+                        case Direction.Left:
+                            if (isGodMode == true)
+                            {
+                                if (map[(int)Left.X, (int)Left.Y] == WallType.Floor ||
+                                map[(int)Left.X, (int)Left.Y] == WallType.End ||
+                                map[(int)Left.X, (int)Left.Y] == WallType.HorizontalWall)
+                                {
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                if (map[(int)Left.X, (int)Left.Y] == WallType.Floor ||
+                                map[(int)Left.X, (int)Left.Y] == WallType.End)
+                                {
+                                    return false;
+                                }
+                            }
+                            break;
+
+                        // Check the tile to the right of the player
+                        case Direction.Right:
+                            if (isGodMode == true)
+                            {
+                                if (map[(int)Right.X, (int)Right.Y] == WallType.Floor ||
+                                map[(int)Right.X, (int)Right.Y] == WallType.End ||
+                                map[(int)Right.X, (int)Right.Y] == WallType.HorizontalWall)
+                                {
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                if (map[(int)Right.X, (int)Right.Y] == WallType.Floor ||
+                                map[(int)Right.X, (int)Right.Y] == WallType.End)
+                                {
+                                    return false;
+                                }
+                            }
+                            break;
                     }
                     break;
-                case Direction.Right:
-                    /*if (map[(int)Right.X, (int)Right.Y] == WallType.Floor ||
-                        (map[(int)Right.X, (int)Right.Y] == WallType.Door && checkForKey))
-                    {
-                        return false;
-                    }*/
-
-                    // MAZE MAP ONLY, COMMENT IF USING THE OTHER MAP
-                    if (isGodMode)
-                    {
-                        if (map[(int)Right.X, (int)Right.Y] == WallType.Floor ||
-                        map[(int)Right.X, (int)Right.Y] == WallType.End ||
-                        map[(int)Right.X, (int)Right.Y] == WallType.HorizontalWall)
-                        {
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        if (map[(int)Right.X, (int)Right.Y] == WallType.Floor ||
-                        map[(int)Right.X, (int)Right.Y] == WallType.End)
-                        {
-                            return false;
-                        }
-                    }
-                    break;
+                #endregion
             }
 
-            // The tile was not a floor => true
             return true;
         }
         #endregion
