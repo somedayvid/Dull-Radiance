@@ -388,19 +388,7 @@ namespace Dull_Radiance
                     break;
 
                 case GameState.Selector:
-                    // Final enter press to start game (can change to a button press)
-                    if (kbState.IsKeyDown(Keys.Enter))
-                    {
-                        // Button stuff to determine difficulty
-                        mapMaker.DifficultySelection(Difficulty.Normal, true);
-
-                        // Start game => reset values to default
-                        player.Reset();
-                        ResetSuccess();
-                        ResetTimer();
-                        mapMaker.ResetMap();
-                        currentState = GameState.Game;
-                    }
+                    
                     if (difficulty1.Click())
                     {
                         difficulty = Difficulty.Normal;
@@ -412,6 +400,20 @@ namespace Dull_Radiance
                     if (difficulty3.Click())
                     {
                         difficulty = Difficulty.Insane;
+                    }
+
+                    // Final enter press to start game (can change to a button press)
+                    if (kbState.IsKeyDown(Keys.Enter))
+                    {
+                        // Button stuff to determine difficulty
+                        mapMaker.DifficultySelection(difficulty, true);
+
+                        // Start game => reset values to default
+                        player.Reset();
+                        ResetSuccess();
+                        ResetTimer();
+                        mapMaker.ResetMap();
+                        currentState = GameState.Game;
                     }
                     break;
 
