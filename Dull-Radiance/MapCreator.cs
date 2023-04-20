@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using static System.Net.WebRequestMethods;
-using System.Reflection;
-using Microsoft.Xna.Framework.Content;
 //using System.Drawing;
 
 namespace Dull_Radiance
 {
-    #region ENUMS
+    #region Enumerations
     /// <summary>
     /// Enum for all the various wall types
     /// </summary>
@@ -51,39 +44,37 @@ namespace Dull_Radiance
 
     public enum Direction { Up, Down, Left, Right }
     #endregion
+
     /// <summary>
-    /// Class focused around creating the 2D Array map for the player
+    /// Creating, loading, and drawing the map and detecting 
+    /// collisions for map related activities
     /// </summary>
     internal class MapCreator
     {
         #region Variables
-        // Variables
+        // Variable field
         private StreamReader reader;
-        private WallType[,] map;
-        private KeyboardState kbState;
-        private KeyboardState prevState;
-
-
-        List<Vector2> textureLocation;
-        List<Vector2> collisionTile;
-        private Vector2 playerLocation;
-        private int tileSize;
-
-        private int xOffset;
-        private int yOffset;
-        private Player player;
-
         private Inventory inventory;
 
+        // Map variables
+        private WallType[,] map;
+        private List<Vector2> textureLocation;
+        private List<Vector2> collisionTile;
+
+        // Tile size and offset value
+        private int tileSize;
+        private int xOffset;
+        private int yOffset;
+
+        // Key variables
         private int keys;
         private bool checkForKey;
         #endregion
 
         /// <summary>
-        /// Parameterized constructor for MapCreator
+        /// Default constructor for MapCreator
         /// </summary>
-        /// <param name="player"></param>
-        public MapCreator(Player player)
+        public MapCreator()
         {
             // Load Map
             LoadMap();
@@ -93,17 +84,10 @@ namespace Dull_Radiance
             yOffset = 26;
             xOffset = 0;
 
-            //Create player for collision
-            this.player = player;
-            playerLocation = new Vector2(2, 27);
-            //box = new Rectangle(400, 400, tileSize,tileSize);
-
-            // Initialize textureLocation and start the screen view
+            // Initialize textureLocation and collisionTile and load them
             textureLocation = new List<Vector2>();
-            StartScreen();
-
-            // Initialize collisionTile and load the collision tiles
             collisionTile = new List<Vector2>();
+            StartScreen();
             CollideLoad();
 
             //Initialize Inventory
@@ -111,29 +95,6 @@ namespace Dull_Radiance
 
             keys = 0;
             checkForKey = false;
-        }
-
-        /// <summary>
-        /// Add A key
-        /// </summary>
-        public void AddKey()
-        {
-            if (keys < 5)
-            {
-                keys++;
-                //System.Diagnostics.Debug.WriteLine(keys);
-            }
-        }
-
-        /// <summary>
-        /// Remove A Key
-        /// </summary>
-        public void RemoveKey()
-        {
-            if (keys > 0)
-            {
-                keys--;
-            }
         }
 
         #region Map
@@ -369,20 +330,27 @@ namespace Dull_Radiance
                 }
             }
         }
+
+        /// <summary>
+        /// Resets the map for next play through
+        /// </summary>
+        public void ResetMap()
+        {
+            LoadMap();
+            StartScreen();
+            CollideLoad();
+            yOffset = 26;
+            xOffset = 0;
+        }
         #endregion
 
         #region Movement
         /// <summary>
-        /// Updates screen and offset values based on player position
+        /// Updates screen and offset values based on direction
         /// </summary>
-        public void DetectMovement(string result)
+        public void DetectMovement(string direction)
         {
-            // Get the keyboard state
-            kbState = Keyboard.GetState();
-
-
-
-            if (result == "up")
+            if (direction == "up")
             {
                 if (CheckCollision(Direction.Up) == false)
                 {
@@ -391,7 +359,7 @@ namespace Dull_Radiance
                     yOffset--;
                 }
             }
-            if (result == "left")
+            else if (direction == "left")
             {
                 if (CheckCollision(Direction.Left) == false)
                 {
@@ -400,7 +368,7 @@ namespace Dull_Radiance
                     xOffset--;
                 }
             }
-            if (result == "down")
+            else if (direction == "down")
             {
                 if (CheckCollision(Direction.Down) == false)
                 {
@@ -409,7 +377,7 @@ namespace Dull_Radiance
                     yOffset++;
                 }
             }
-            if (result == "right")
+            else if (direction == "right")
             {
                 if (CheckCollision(Direction.Right) == false)
                 {
@@ -418,58 +386,6 @@ namespace Dull_Radiance
                     xOffset++;
                 }
             }
-
-
-            #region GOD Mode
-            /*
-
-            // Check for single key presses
-            // Check if the direction is a floor tile
-            // Update the screen, collision tiles, and offset
-            if (kbState.IsKeyDown(Keys.W) && prevState.IsKeyUp(Keys.W))
-            {
-                if (CheckCollision(Direction.Up) == false)
-                {
-                    UpdateScreenTile(Direction.Up);
-                    UpdateCollisionTile(Direction.Up);
-                    yOffset--;
-                }
-            }
-            else if (kbState.IsKeyDown(Keys.A) && prevState.IsKeyUp(Keys.A))
-            {
-                if (CheckCollision(Direction.Left) == false)
-                {
-                    UpdateScreenTile(Direction.Left);
-                    UpdateCollisionTile(Direction.Left);
-                    xOffset--;
-                }
-            }
-            else if (kbState.IsKeyDown(Keys.S) && prevState.IsKeyUp(Keys.S))
-            {
-                if (CheckCollision(Direction.Down) == false)
-                {
-                    UpdateScreenTile(Direction.Down);
-                    UpdateCollisionTile(Direction.Down);
-                    yOffset++;
-                }
-            }
-            else if (kbState.IsKeyDown(Keys.D) && prevState.IsKeyUp(Keys.D))
-            {
-                if (CheckCollision(Direction.Right) == false)
-                {
-                    UpdateScreenTile(Direction.Right);
-                    UpdateCollisionTile(Direction.Right);
-                    xOffset++;
-                }
-            }
-
-            */
-            // Set previous state to current
-            prevState = kbState;
-
-
-            #endregion
-
         }
 
         /// <summary>
@@ -706,19 +622,29 @@ namespace Dull_Radiance
 
             return false;
         }
-        #endregion
-
 
         /// <summary>
-        /// Resets the map for next play through
+        /// Add A key
         /// </summary>
-        public void ResetMap()
+        public void AddKey()
         {
-            LoadMap();
-            StartScreen();
-            CollideLoad();
-            yOffset = 26;
-            xOffset = 0;
+            if (keys < 5)
+            {
+                keys++;
+                //System.Diagnostics.Debug.WriteLine(keys);
+            }
         }
+
+        /// <summary>
+        /// Remove A Key
+        /// </summary>
+        public void RemoveKey()
+        {
+            if (keys > 0)
+            {
+                keys--;
+            }
+        }
+        #endregion
     }
 }

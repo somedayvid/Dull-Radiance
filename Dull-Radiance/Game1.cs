@@ -2,19 +2,15 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using System.Threading;
-using System.Xml.Schema;
 
 /* Game: Dull Radience
  * Dev Team: Rice Bowls
  * Rice in the Bowl: David Gao, Jason Chen, Thaw Thaw, Will Forbes
  */
 
-//HELLO WILL THIS IS TEMP - PLEASE DELETE THIS COMMENT
-
 namespace Dull_Radiance
 {
-    #region Enums
+    #region Enumerations
     /// <summary>
     /// Player state enumerations used for player action animations
     /// </summary>
@@ -25,7 +21,10 @@ namespace Dull_Radiance
         WalkLeft,
         WalkRight,
     }
-    // Enum which contains the possible state of the game
+
+    /// <summary>
+    /// State the game can be in
+    /// </summary>
     public enum GameState
     {
         Title,
@@ -35,6 +34,7 @@ namespace Dull_Radiance
         GameOver
     }
     #endregion
+
     public class Game1 : Game
     {
         #region Variables
@@ -138,9 +138,9 @@ namespace Dull_Radiance
             // Window size
             _graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-            //_graphics.IsFullScreen = true;
-            _graphics.PreferredBackBufferHeight = 1000;
-            _graphics.PreferredBackBufferWidth = 2000;
+            _graphics.IsFullScreen = true;
+            //_graphics.PreferredBackBufferHeight = 1000;
+            //_graphics.PreferredBackBufferWidth = 2000;
             _graphics.ApplyChanges();
             windowHeight = _graphics.PreferredBackBufferHeight;
             windowWidth = _graphics.PreferredBackBufferWidth;
@@ -178,7 +178,7 @@ namespace Dull_Radiance
             };
 
             // Intialize 2D map
-            mapMaker = new MapCreator(player);
+            mapMaker = new MapCreator();
             cord = new Vector2(800, 800);
         }
         
@@ -327,6 +327,7 @@ namespace Dull_Radiance
                 case GameState.Title:
                     if (startButton.Click())
                     {
+                        // Start game => reset values to default
                         player.Reset();
                         ResetSuccess();
                         ResetTimer();
