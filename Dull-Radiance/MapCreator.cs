@@ -42,7 +42,12 @@ namespace Dull_Radiance
         MB              //Moving Block
     }
 
+    /// <summary>
+    /// Carindal direction
+    /// </summary>
     public enum Direction { Up, Down, Left, Right }
+
+    public enum Difficulty { Broken, Normal, Hard, Insane }
     #endregion
 
     /// <summary>
@@ -103,11 +108,29 @@ namespace Dull_Radiance
         /// </summary>
         private void LoadMap()
         {
+            string mapSetting = "";
+            /*
+            switch (Difficulty)
+            {
+                case Difficulty.Broken:
+                    mapSetting = "WallType.txt";
+                    break;
+                case Difficulty.Normal:
+                    mapSetting = "MazeMap.txt";
+                    break;
+                case Difficulty.Hard:
+                    mapSetting = "MazeMapHard.txt";
+                    break;
+                case Difficulty.Insane:
+                    mapSetting = "MazeMapInsane.txt";
+                    break;
+            }*/
+            mapSetting = "MazeMap.txt";
+
             try
             {
                 // Initialize the reader and textLine
-                //reader = new StreamReader("../../../WallType.txt");
-                reader = new StreamReader("../../../MazeMap.txt");
+                reader = new StreamReader($"../../../{mapSetting}");
                 string textLine = "";
                 textLine = reader.ReadLine();
 
