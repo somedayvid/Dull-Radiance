@@ -97,7 +97,7 @@ namespace Dull_Radiance
         /// <summary>
         /// Load the map
         /// </summary>
-        public void LoadMap(Difficulty difficulty)
+        private void LoadMap(Difficulty difficulty)
         {
             string mapSetting = "";
             switch (difficulty)
@@ -664,6 +664,10 @@ namespace Dull_Radiance
         }
         #endregion
 
+        /// <summary>
+        /// Determine the mode the map will load with
+        /// </summary>
+        /// <param name="difficulty">The difficulty</param>
         public void DifficultySelection(Difficulty difficulty)
         {
             switch (difficulty)
