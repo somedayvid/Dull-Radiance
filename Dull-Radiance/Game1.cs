@@ -376,9 +376,8 @@ namespace Dull_Radiance
 
                 case GameState.Selector:
                     // Button stuff to determine difficulty
-                    mapMaker.DifficultySelection(Difficulty.Normal);
-                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                        Exit();
+                    mapMaker.DifficultySelection(Difficulty.Normal, false);
+
                     // Final enter press to start game
                     if (kbState.IsKeyDown(Keys.Enter))
                     {
