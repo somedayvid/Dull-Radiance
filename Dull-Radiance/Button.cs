@@ -26,6 +26,12 @@ namespace Dull_Radiance
         private Rectangle buttonRect;
         private MouseState mState;
 
+        public Texture2D ButtonTexture
+        {
+            get { return buttonTexture; }
+            set { buttonTexture = value; }
+        }
+
         /// <summary>
         /// Initializes the position of the button and other variables used in determining 
         /// button position
