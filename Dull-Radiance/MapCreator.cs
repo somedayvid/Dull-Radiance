@@ -101,7 +101,7 @@ namespace Dull_Radiance
         /// <summary>
         /// Load the map
         /// </summary>
-        public void LoadMap()
+        private void LoadMap()
         {
             try
             {
