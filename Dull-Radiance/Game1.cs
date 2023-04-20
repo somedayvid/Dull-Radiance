@@ -31,6 +31,7 @@ namespace Dull_Radiance
         Pause,
         Game,
         Instructions,
+        Selector,
         GameOver
     }
     #endregion
@@ -327,12 +328,7 @@ namespace Dull_Radiance
                 case GameState.Title:
                     if (startButton.Click())
                     {
-                        // Start game => reset values to default
-                        player.Reset();
-                        ResetSuccess();
-                        ResetTimer();
-                        mapMaker.ResetMap();
-                        currentState = GameState.Game;
+                        currentState = GameState.Selector;
                     }
                     if (controlsButton.Click())
                     {
@@ -349,6 +345,22 @@ namespace Dull_Radiance
                     if (kbState.IsKeyDown(Keys.Space))
                     {
                         currentState = GameState.Title;
+                    }
+                    break;
+
+                case GameState.Selector:
+                    // Button stuff to determine difficulty
+                    mapMaker.LoadMap(Difficulty.Normal);
+
+                    // Final enter press to start game
+                    if (kbState.IsKeyDown(Keys.Enter))
+                    {
+                        // Start game => reset values to default
+                        player.Reset();
+                        ResetSuccess();
+                        ResetTimer();
+                        mapMaker.ResetMap();
+                        currentState = GameState.Game;
                     }
                     break;
 
@@ -473,6 +485,11 @@ namespace Dull_Radiance
                 // Instruction
                 case GameState.Instructions:
                     controls.ScreenDraw(_spriteBatch);
+                    break;
+
+                // Select difficulty
+                case GameState.Selector:
+                    _spriteBatch.DrawString(agencyFB, "Press Enter to Start", new Vector2(windowWidth / 2, windowHeight / 2), Color.White);
                     break;
 
                 // Game

@@ -81,19 +81,10 @@ namespace Dull_Radiance
         /// </summary>
         public MapCreator()
         {
-            // Load Map
-            LoadMap();
-
             // Tile size and offset value initalization 
             tileSize = 400;
             yOffset = 26;
             xOffset = 0;
-
-            // Initialize textureLocation and collisionTile and load them
-            textureLocation = new List<Vector2>();
-            collisionTile = new List<Vector2>();
-            StartScreen();
-            CollideLoad();
 
             //Initialize Inventory
             inventory = new Inventory();
@@ -106,11 +97,10 @@ namespace Dull_Radiance
         /// <summary>
         /// Load the map
         /// </summary>
-        private void LoadMap()
+        public void LoadMap(Difficulty difficulty)
         {
             string mapSetting = "";
-            /*
-            switch (Difficulty)
+            switch (difficulty)
             {
                 case Difficulty.Broken:
                     mapSetting = "WallType.txt";
@@ -124,8 +114,7 @@ namespace Dull_Radiance
                 case Difficulty.Insane:
                     mapSetting = "MazeMapInsane.txt";
                     break;
-            }*/
-            mapSetting = "MazeMap.txt";
+            }
 
             try
             {
@@ -222,6 +211,12 @@ namespace Dull_Radiance
                     reader.Close();
                 }
             }
+
+            // Initialize textureLocation and collisionTile and load them
+            textureLocation = new List<Vector2>();
+            collisionTile = new List<Vector2>();
+            StartScreen();
+            CollideLoad();
         }
 
         /// <summary>
@@ -359,7 +354,6 @@ namespace Dull_Radiance
         /// </summary>
         public void ResetMap()
         {
-            LoadMap();
             StartScreen();
             CollideLoad();
             yOffset = 26;
@@ -669,5 +663,24 @@ namespace Dull_Radiance
             }
         }
         #endregion
+
+        public void DifficultySelection(Difficulty difficulty)
+        {
+            switch (difficulty)
+            {
+                case Difficulty.Broken:
+                    LoadMap(Difficulty.Broken);
+                    break;
+                case Difficulty.Normal:
+                    LoadMap(Difficulty.Normal);
+                    break;
+                case Difficulty.Hard:
+                    LoadMap(Difficulty.Hard);
+                    break;
+                case Difficulty.Insane:
+                    LoadMap(Difficulty.Insane);
+                    break;
+            }
+        }
     }
 }
