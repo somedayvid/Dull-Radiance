@@ -108,6 +108,8 @@ namespace Dull_Radiance
         private Button difficulty1;
         private Button difficulty2;
         private Button difficulty3;
+        private Button godModeTrue;
+        private Button godModeFalse;
         private Button controlsButton;
         private Button resumeButton;
         private Button titleReturn;
@@ -177,6 +179,8 @@ namespace Dull_Radiance
                 difficulty1,
                 difficulty2,
                 difficulty3,
+                godModeTrue,
+                godModeFalse,
                 quitButton,
                 quitButton2,
                 resumeButton,
@@ -321,6 +325,20 @@ namespace Dull_Radiance
                 _graphics,
                 agencyFB);
 
+            godModeTrue = new Button(
+                windowWidth / 3,
+                windowHeight / 2 + windowHeight / 4,
+                buttonTexture,
+                _graphics,
+                agencyFB);
+
+            godModeFalse = new Button(
+                windowWidth / 3 + windowWidth / 4,
+                windowHeight / 2 + windowHeight / 4,
+                buttonTexture,
+                _graphics,
+                agencyFB);
+
             quitButton = new Button(
                 windowWidth / 10,
                 windowHeight / 2 + windowHeight / 6 + windowHeight / 36,
@@ -424,6 +442,14 @@ namespace Dull_Radiance
                         buttonTexture,
                         _graphics,
                         agencyFB);
+                    }
+                    if (godModeTrue.Click())
+                    {
+                        godMode = true;
+                    }
+                    if (godModeFalse.Click())
+                    {
+                        godMode = false;
                     }
 
                     // Final enter press to start game (can change to a button press)
@@ -573,6 +599,8 @@ namespace Dull_Radiance
                     difficulty1.DrawButton(_spriteBatch, "Normal Mode");
                     difficulty2.DrawButton(_spriteBatch, "Hard Mode");
                     difficulty3.DrawButton(_spriteBatch, "Insane Mode");
+                    godModeTrue.DrawButton(_spriteBatch, "God Mode On");
+                    godModeFalse.DrawButton(_spriteBatch, "God Mode Off");
                     break;
 
                 // Game
