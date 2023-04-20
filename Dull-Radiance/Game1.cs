@@ -387,8 +387,9 @@ namespace Dull_Radiance
                     }
                     break;
 
+                // Selector
                 case GameState.Selector:
-                    
+                    // Button stuff to determine difficulty
                     if (difficulty1.Click())
                     {
                         difficulty = Difficulty.Normal;
