@@ -93,6 +93,7 @@ namespace Dull_Radiance
         private Texture2D pauseScreen;
         private Texture2D playScreen;
         private Screens title;
+        private Screens Selector;
         private Screens controls;
         private Screens pause;
         private Screens play;
