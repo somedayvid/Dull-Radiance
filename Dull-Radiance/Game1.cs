@@ -502,6 +502,7 @@ namespace Dull_Radiance
                             currentState = GameState.Game;
                         }
                     }
+                    //Press space to get back to the menu
                     if (kbState.IsKeyDown(Keys.Space))
                     {
                         currentState = GameState.Title;
@@ -632,7 +633,7 @@ namespace Dull_Radiance
 
                 // Select difficulty
                 case GameState.Selector:
-                    _spriteBatch.DrawString(agencyFB, "Press Enter to Start", new Vector2(windowWidth / 2, windowHeight / 2), Color.White);
+                    
 
                     selector.ScreenDraw(_spriteBatch);
                     difficulty1.DrawButton(_spriteBatch, "Normal Mode");
@@ -640,6 +641,9 @@ namespace Dull_Radiance
                     difficulty3.DrawButton(_spriteBatch, "Insane Mode");
                     godModeTrue.DrawButton(_spriteBatch, "God Mode On");
                     godModeFalse.DrawButton(_spriteBatch, "God Mode Off");
+
+                    _spriteBatch.DrawString(agencyFB, "Press Enter to Start", new Vector2(windowWidth / 2, windowHeight / 2), Color.White);
+                    _spriteBatch.DrawString(agencyFB, "Press Space to Go Back", new Vector2(windowWidth / 2, windowHeight / 2 + 60), Color.White);
                     break;
 
                 // Game
