@@ -722,15 +722,16 @@ namespace Dull_Radiance
 
                     if (isSuccessful == true)
                     {
+                        string timeTaken = $"{elapsedMinute:0}:{elapsedSecond:00}:{elapsedMillisecond:00}";
                         _spriteBatch.DrawString(
                             agencyFB,
-                            $"{elapsedMinute:0}:{elapsedSecond:00}:{elapsedMillisecond:00}",
+                            timeTaken,
                             new Vector2(0, 0),
                             Color.White);
 
                         _spriteBatch.DrawString(
                             agencyFB,
-                            "You won! PRESS ENTER TO GO TO TITLE",
+                            "You won! Press ENTER to go back to TITLE",
                             new Vector2(windowWidth / 2, windowHeight / 2),
                             Color.White);
                     }
@@ -738,7 +739,7 @@ namespace Dull_Radiance
                     {
                         _spriteBatch.DrawString(
                             agencyFB,
-                            "Game over! PRESS ENTER TO GO TO TITLE",
+                            "Game over! Press ENTER to go back to TITLE",
                             new Vector2(windowWidth / 2, windowHeight / 2),
                             Color.White);
                     }
