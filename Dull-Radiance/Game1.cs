@@ -319,21 +319,27 @@ namespace Dull_Radiance
                 agencyFB);
 
             normalMode = new Button(
-                windowWidth / 10,
+                (windowWidth / 2 - 384 / 2) - 800,
                 windowHeight / 4,
                 buttonTexture,
                 _graphics,
                 agencyFB);
 
             hardMode = new Button(
-                windowWidth / 3,
+                windowWidth / 2 - 384 / 2,
                 windowHeight / 4,
                 buttonTexture,
                 _graphics,
                 agencyFB);
 
+            // hovered
+            // 384w x 120h
+
+            // unhovered
+            // 384w x 135h
+
             insaneMode = new Button(
-                windowWidth / 3 + windowWidth / 4,
+                (windowWidth / 2 - 384 / 2) + 800,
                 windowHeight / 4,
                 buttonTexture,
                 _graphics,
@@ -651,6 +657,8 @@ namespace Dull_Radiance
                         _spriteBatch.DrawString(agencyFB, "Press Enter to Start", new Vector2(windowWidth / 2, windowHeight / 2), Color.Red);
                     }
                     _spriteBatch.DrawString(agencyFB, "Press Space to Go Back", new Vector2(windowWidth / 2, windowHeight / 2 + 60), Color.White);
+
+                    _spriteBatch.DrawString(agencyFB, "a", new Vector2(windowWidth / 2, 0), Color.White);
                     break;
 
                 // Game
