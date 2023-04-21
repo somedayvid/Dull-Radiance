@@ -224,7 +224,7 @@ namespace Dull_Radiance
 
             // Player
             playerTexture = Content.Load<Texture2D>("Player");
-            player = new Player(playerTexture, hearts, windowWidth, windowHeight);
+            player = new Player(playerTexture, hearts, windowWidth, windowHeight, 8);
 
             // Screens
             titleScreen = Content.Load<Texture2D>("StartMenu");
@@ -444,9 +444,11 @@ namespace Dull_Radiance
 
                         godModeTrue.ButtonTexture = buttonHovered;
                         godModeFalse.ButtonTexture = buttonTexture;
+                        player.PlayerSpeed = 12;
                     }
                     else if (godModeFalse.Click())
                     {
+                        player.PlayerSpeed = 9;
                         godMode = false;
 
                         godModeTrue.ButtonTexture = buttonTexture;

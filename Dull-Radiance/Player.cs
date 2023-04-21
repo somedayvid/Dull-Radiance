@@ -65,7 +65,7 @@ namespace Dull_Radiance
         /// Initializes the player's initial position and starting stats
         /// </summary>
         /// <param name="playerTexture">The texture of the player character</param>
-        public Player(Texture2D playerTexture, PlayerHealth hearts, int windowWidth, int windowHeight)
+        public Player(Texture2D playerTexture, PlayerHealth hearts, int windowWidth, int windowHeight, int playerSpeed)
         {
             this.windowWidth = windowWidth;
             this.windowHeight = windowHeight;
@@ -77,7 +77,7 @@ namespace Dull_Radiance
 
             playerRect = new Rectangle(windowWidth/2 - width/2, windowHeight/2 - height/2, width, height);
 
-            playerSpeed = 10; //6 is the best speed
+            playerSpeed = this.playerSpeed; //6 is original speed
             height = 280;
             width = 280;
             this.playerTexture = playerTexture;
@@ -125,6 +125,14 @@ namespace Dull_Radiance
                 playerTexture,
                 playerRect,
                 Color.White);
+        }
+
+        public int PlayerSpeed
+        {
+            set
+            {
+                playerSpeed = value;
+            }
         }
 
         /// <summary>
