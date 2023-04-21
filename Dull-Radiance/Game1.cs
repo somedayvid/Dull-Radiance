@@ -250,7 +250,7 @@ namespace Dull_Radiance
             playScreen = Content.Load<Texture2D>("TempPlayScreen");
             difficultyScreenSelector = Content.Load<Texture2D>("Difficulty");
             transparent = Content.Load<Texture2D>("transparent");
-            winScreen = Content.Load<Texture2D>("GameWin");
+            winScreen = Content.Load<Texture2D>("GameWin(1)");
 
             title = new Screens(titleScreen, _graphics);
             selector = new Screens(difficultyScreenSelector, _graphics);
@@ -394,7 +394,7 @@ namespace Dull_Radiance
                 _graphics,
                 agencyFB);
             winTime = new Button(
-                windowHeight/8,
+                windowHeight/7,
                 transparent,
                 _graphics,
                 agencyFB);
@@ -738,7 +738,7 @@ namespace Dull_Radiance
                         _spriteBatch.DrawString(
                             agencyFB,
                             "You escaped! Press ENTER to go back to TITLE",
-                            new Vector2(windowWidth / 2 - agencyFB.MeasureString("You won! Press ENTER to go back to TITLE").X/2, windowHeight / 5),
+                            new Vector2(windowWidth / 2 - agencyFB.MeasureString("You won! Press ENTER to go back to TITLE").X/2, windowHeight / 8),
                             Color.White);
                     }
                     else

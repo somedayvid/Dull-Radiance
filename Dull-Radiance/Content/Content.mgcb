@@ -104,7 +104,7 @@
 /processorParam:TextureFormat=Color
 /build:Floor.png
 
-#begin GameWin.png
+#begin GameWin(1).png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -114,7 +114,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:GameWin.png
+/build:GameWin(1).png
 
 #begin KEY.png
 /importer:TextureImporter
