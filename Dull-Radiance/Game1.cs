@@ -108,9 +108,9 @@ namespace Dull_Radiance
         private List<Button> buttonList;
         private Button startButton;
         private Button quitButton;
-        private Button difficulty1;
-        private Button difficulty2;
-        private Button difficulty3;
+        private Button normalMode;
+        private Button hardMode;
+        private Button insaneMode;
         private Button godModeTrue;
         private Button godModeFalse;
         private Button controlsButton;
@@ -183,9 +183,9 @@ namespace Dull_Radiance
             {
                 startButton,
                 controlsButton,
-                difficulty1,
-                difficulty2,
-                difficulty3,
+                normalMode,
+                hardMode,
+                insaneMode,
                 godModeTrue,
                 godModeFalse,
                 quitButton,
@@ -315,21 +315,21 @@ namespace Dull_Radiance
                 _graphics,
                 agencyFB);
 
-            difficulty1 = new Button(
+            normalMode = new Button(
                 windowWidth / 10,
                 windowHeight / 4,
                 buttonTexture,
                 _graphics,
                 agencyFB);
 
-            difficulty2 = new Button(
+            hardMode = new Button(
                 windowWidth / 3,
                 windowHeight / 4,
                 buttonTexture,
                 _graphics,
                 agencyFB);
 
-            difficulty3 = new Button(
+            insaneMode = new Button(
                 windowWidth / 3 + windowWidth / 4,
                 windowHeight / 4,
                 buttonTexture,
@@ -403,9 +403,9 @@ namespace Dull_Radiance
                         modeSelected = false;
 
                         //Change Button Texture to reflect buttons being pressed
-                        difficulty1.ButtonTexture = buttonTexture;
-                        difficulty2.ButtonTexture = buttonTexture;
-                        difficulty3.ButtonTexture = buttonTexture;
+                        normalMode.ButtonTexture = buttonTexture;
+                        hardMode.ButtonTexture = buttonTexture;
+                        insaneMode.ButtonTexture = buttonTexture;
                         godModeTrue.ButtonTexture = buttonTexture;
                         godModeFalse.ButtonTexture = buttonTexture;
 
@@ -433,34 +433,34 @@ namespace Dull_Radiance
                 case GameState.Selector:
                     #region Difficulty and God Mode Buttons
                     // Determines which difficulty is selected
-                    if (difficulty1.Click())
+                    if (normalMode.Click())
                     {
                         difficulty = Difficulty.Normal;
 
-                        difficulty1.ButtonTexture = buttonHovered;
-                        difficulty2.ButtonTexture = buttonTexture;
-                        difficulty3.ButtonTexture = buttonTexture;
+                        normalMode.ButtonTexture = buttonHovered;
+                        hardMode.ButtonTexture = buttonTexture;
+                        insaneMode.ButtonTexture = buttonTexture;
 
                         difficultySelected = true;
                     }
-                    else if (difficulty2.Click())
+                    else if (hardMode.Click())
                     {
                         difficulty = Difficulty.Hard;
 
-                        difficulty1.ButtonTexture = buttonTexture;
-                        difficulty2.ButtonTexture = buttonHovered;
-                        difficulty3.ButtonTexture = buttonTexture;
+                        normalMode.ButtonTexture = buttonTexture;
+                        hardMode.ButtonTexture = buttonHovered;
+                        insaneMode.ButtonTexture = buttonTexture;
 
                         difficultySelected = true;
 
                     }
-                    else if (difficulty3.Click())
+                    else if (insaneMode.Click())
                     {
                         difficulty = Difficulty.Insane;
 
-                        difficulty1.ButtonTexture = buttonTexture;
-                        difficulty2.ButtonTexture = buttonTexture;
-                        difficulty3.ButtonTexture = buttonHovered;
+                        normalMode.ButtonTexture = buttonTexture;
+                        hardMode.ButtonTexture = buttonTexture;
+                        insaneMode.ButtonTexture = buttonHovered;
 
                         difficultySelected = true;
                     }
@@ -638,9 +638,9 @@ namespace Dull_Radiance
                     
 
                     selector.ScreenDraw(_spriteBatch);
-                    difficulty1.DrawButton(_spriteBatch, "Normal Mode");
-                    difficulty2.DrawButton(_spriteBatch, "Hard Mode");
-                    difficulty3.DrawButton(_spriteBatch, "Insane Mode");
+                    normalMode.DrawButton(_spriteBatch, "Normal Mode");
+                    hardMode.DrawButton(_spriteBatch, "Hard Mode");
+                    insaneMode.DrawButton(_spriteBatch, "Insane Mode");
                     godModeTrue.DrawButton(_spriteBatch, "God Mode On");
                     godModeFalse.DrawButton(_spriteBatch, "God Mode Off");
 
