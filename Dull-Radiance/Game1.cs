@@ -159,9 +159,9 @@ namespace Dull_Radiance
             // Window size
             _graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-            //_graphics.IsFullScreen = true;
-            _graphics.PreferredBackBufferHeight = 1000;
-            _graphics.PreferredBackBufferWidth = 2000;
+            _graphics.IsFullScreen = true;
+            //_graphics.PreferredBackBufferHeight = 1000;
+            //_graphics.PreferredBackBufferWidth = 2000;
             _graphics.ApplyChanges();
             windowHeight = _graphics.PreferredBackBufferHeight;
             windowWidth = _graphics.PreferredBackBufferWidth;

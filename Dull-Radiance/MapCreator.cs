@@ -605,15 +605,6 @@ namespace Dull_Radiance
             Vector2 Right = collisionTile[2];
             Vector2 Down = collisionTile[3];
 
-            //Check for player having key
-            if (keys > 0)
-            {
-                checkForKey = true;
-            }
-
-            System.Diagnostics.Debug.WriteLine("Setting: " + mapSetting);
-            System.Diagnostics.Debug.WriteLine("God mode:" + isGodMode);
-
             switch (mapSetting)
             {
                 #region Hopeful Map
@@ -621,6 +612,12 @@ namespace Dull_Radiance
                     switch (direction)
                     {
                         case Direction.Up:
+                            //Check for player having key
+                            if (keys > 0)
+                            {
+                                checkForKey = true;
+                            }
+
                             if (map[(int)Top.X, (int)Top.Y] == WallType.Floor ||
                             (map[(int)Top.X, (int)Top.Y] == WallType.Door && checkForKey))
                             {
