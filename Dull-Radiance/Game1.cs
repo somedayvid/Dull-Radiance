@@ -413,50 +413,44 @@ namespace Dull_Radiance
                     // Determines which difficulty is selected
                     if (difficulty1.Click())
                     {
-                        difficulty = Difficulty.Normal;
-                        difficulty1 = new Button(
-                        windowWidth / 10,
-                        windowHeight / 4,
-                        buttonHovered,
-                        _graphics,
-                        agencyFB);
-                        
+                        difficulty1.ButtonTexture = buttonHovered;
+                        difficulty2.ButtonTexture = buttonTexture;
+                        difficulty3.ButtonTexture = buttonTexture;
                     }
                     else if (difficulty2.Click())
                     {
                         difficulty = Difficulty.Hard;
 
-                        difficulty2 = new Button(
-                        windowWidth / 3,
-                        windowHeight / 4,
-                        buttonTexture,
-                        _graphics,
-                        agencyFB);
-                        
+                        difficulty1.ButtonTexture = buttonTexture;
+                        difficulty2.ButtonTexture = buttonHovered;
+                        difficulty3.ButtonTexture = buttonTexture;
+
                     }
                     else if (difficulty3.Click())
                     {
                         difficulty = Difficulty.Insane;
 
-                        difficulty3 = new Button(
-                        windowWidth / 3 + windowWidth / 4,
-                        windowHeight / 4,
-                        buttonTexture,
-                        _graphics,
-                        agencyFB);
-                        
+                        difficulty1.ButtonTexture = buttonTexture;
+                        difficulty2.ButtonTexture = buttonTexture;
+                        difficulty3.ButtonTexture = buttonHovered;
                     }
 
                     // Determines if god mode is on or off
                     if (godModeTrue.Click())
                     {
                         godMode = true;
+
+                        godModeTrue.ButtonTexture = buttonHovered;
+                        godModeFalse.ButtonTexture = buttonTexture;
                         player.PlayerSpeed = 12;
                     }
                     else if (godModeFalse.Click())
                     {
                         player.PlayerSpeed = 9;
                         godMode = false;
+
+                        godModeTrue.ButtonTexture = buttonTexture;
+                        godModeFalse.ButtonTexture = buttonHovered;
                     }
                     #endregion
 
