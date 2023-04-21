@@ -102,7 +102,10 @@ namespace Dull_Radiance
                     {
                         this.isGodMode = true;
                     }
-                    this.isGodMode = false;
+                    else
+                    {
+                        this.isGodMode = false;
+                    }
                     break;
 
                 // Normal map
@@ -112,7 +115,10 @@ namespace Dull_Radiance
                     {
                         this.isGodMode = true;
                     }
-                    this.isGodMode = false;
+                    else
+                    {
+                        this.isGodMode = false;
+                    }
                     break;
 
                 // Hard map
@@ -122,7 +128,10 @@ namespace Dull_Radiance
                     {
                         this.isGodMode = true;
                     }
-                    this.isGodMode = false;
+                    else
+                    {
+                        this.isGodMode = false;
+                    }
                     break;
 
                 // Insane map
@@ -132,7 +141,10 @@ namespace Dull_Radiance
                     {
                         this.isGodMode = true;
                     }
-                    this.isGodMode = false;
+                    else
+                    {
+                        this.isGodMode = false;
+                    }
                     break;
             }
         }
@@ -593,15 +605,6 @@ namespace Dull_Radiance
             Vector2 Right = collisionTile[2];
             Vector2 Down = collisionTile[3];
 
-            //Check for player having key
-            if (keys > 0)
-            {
-                checkForKey = true;
-            }
-
-            System.Diagnostics.Debug.WriteLine("Setting: " + mapSetting);
-            System.Diagnostics.Debug.WriteLine("God mode:" + isGodMode);
-
             switch (mapSetting)
             {
                 #region Hopeful Map
@@ -609,6 +612,12 @@ namespace Dull_Radiance
                     switch (direction)
                     {
                         case Direction.Up:
+                            //Check for player having key
+                            if (keys > 0)
+                            {
+                                checkForKey = true;
+                            }
+
                             if (map[(int)Top.X, (int)Top.Y] == WallType.Floor ||
                             (map[(int)Top.X, (int)Top.Y] == WallType.Door && checkForKey))
                             {
