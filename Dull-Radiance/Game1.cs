@@ -86,6 +86,7 @@ namespace Dull_Radiance
         private Texture2D keyTile;
         private Texture2D blackScreen;
         private Texture2D difficultyScreenSelector;
+        private Texture2D transparent;
 
         // Player texture
         private Player player;
@@ -119,6 +120,8 @@ namespace Dull_Radiance
         private Button resumeButton;
         private Button titleReturn;
         private Button quitButton2;
+        private Button words1;
+        private Button words2; 
         private Texture2D buttonTexture;
         private Texture2D buttonHovered;
         private SpriteFont agencyFB;
@@ -162,8 +165,6 @@ namespace Dull_Radiance
             _graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
             _graphics.IsFullScreen = true;
-            //_graphics.PreferredBackBufferHeight = 1000;
-            //_graphics.PreferredBackBufferWidth = 2000;
             _graphics.ApplyChanges();
             windowHeight = _graphics.PreferredBackBufferHeight;
             windowWidth = _graphics.PreferredBackBufferWidth;
@@ -246,6 +247,7 @@ namespace Dull_Radiance
             pauseScreen = Content.Load<Texture2D>("PauseScreen");
             playScreen = Content.Load<Texture2D>("TempPlayScreen");
             difficultyScreenSelector = Content.Load<Texture2D>("Difficulty");
+            transparent = Content.Load<Texture2D>("transparent");
 
             title = new Screens(titleScreen, _graphics);
             selector = new Screens(difficultyScreenSelector, _graphics);
@@ -345,15 +347,15 @@ namespace Dull_Radiance
                 agencyFB);
 
             godModeTrue = new Button(
-                windowWidth / 3,
-                windowHeight / 2 + windowHeight / 4,
+                windowWidth/8 + buttonTexture.Width,
+                windowHeight / 2,
                 buttonTexture,
                 _graphics,
                 agencyFB);
 
             godModeFalse = new Button(
-                windowWidth / 3 + windowWidth / 4,
-                windowHeight / 2 + windowHeight / 4,
+                windowWidth - windowWidth/3 - buttonTexture.Width,
+                windowHeight /2,
                 buttonTexture,
                 _graphics,
                 agencyFB);
@@ -380,6 +382,17 @@ namespace Dull_Radiance
             quitButton2 = new Button(
                 windowHeight / 2 + windowHeight / 6 + windowHeight / 9,
                 buttonTexture,
+                _graphics,
+                agencyFB);
+
+            words1 = new Button(
+                windowHeight - windowHeight/8,
+                transparent,
+                _graphics,
+                agencyFB);
+            words2 = new Button(
+                windowHeight - windowHeight/6,
+                transparent,
                 _graphics,
                 agencyFB);
             #endregion
@@ -653,9 +666,11 @@ namespace Dull_Radiance
 
                     if (difficultySelected && modeSelected)
                     {
-                        _spriteBatch.DrawString(agencyFB, "Press Enter to Start", new Vector2(windowWidth / 2, windowHeight / 2), Color.Red);
+                        words1.DrawButton(_spriteBatch, "Press Enter to Start");
+                        //_spriteBatch.DrawString(agencyFB, "Press Enter to Start", new Vector2(windowWidth / 2, windowHeight / 2), Color.Red);
                     }
-                    _spriteBatch.DrawString(agencyFB, "Press Space to Go Back", new Vector2(windowWidth / 2, windowHeight / 2 + 60), Color.White);
+                    words2.DrawButton(_spriteBatch, "Press Space to Go Back");
+                   // _spriteBatch.DrawString(agencyFB, "Press Space to Go Back", new Vector2(windowWidth / 2, windowHeight / 2 + 60), Color.White);
 
                     _spriteBatch.DrawString(agencyFB, "a", new Vector2(windowWidth / 2, 0), Color.White);
                     break;
