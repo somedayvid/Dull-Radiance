@@ -102,7 +102,10 @@ namespace Dull_Radiance
                     {
                         this.isGodMode = true;
                     }
-                    this.isGodMode = false;
+                    else
+                    {
+                        this.isGodMode = false;
+                    }
                     break;
 
                 // Normal map
@@ -112,7 +115,10 @@ namespace Dull_Radiance
                     {
                         this.isGodMode = true;
                     }
-                    this.isGodMode = false;
+                    else
+                    {
+                        this.isGodMode = false;
+                    }
                     break;
 
                 // Hard map
@@ -122,7 +128,10 @@ namespace Dull_Radiance
                     {
                         this.isGodMode = true;
                     }
-                    this.isGodMode = false;
+                    else
+                    {
+                        this.isGodMode = false;
+                    }
                     break;
 
                 // Insane map
@@ -132,7 +141,10 @@ namespace Dull_Radiance
                     {
                         this.isGodMode = true;
                     }
-                    this.isGodMode = false;
+                    else
+                    {
+                        this.isGodMode = false;
+                    }
                     break;
             }
         }
