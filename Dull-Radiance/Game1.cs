@@ -252,7 +252,7 @@ namespace Dull_Radiance
 
             // Buttons
             buttonTexture = Content.Load<Texture2D>("BUTTON_UNHOVER");
-            buttonHovered = Content.Load<Texture2D>("BUTTON_HOVER");
+            buttonHovered = Content.Load<Texture2D>("redHovered");
 
             // Fonts
             agencyFB = Content.Load<SpriteFont>("Agency FB");
