@@ -43,12 +43,10 @@ namespace Dull_Radiance
     public class Game1 : Game
     {
         #region Variables
+        // Graphics
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private bool isFullScreen;
-
-        //Player/Enemy Related variables
-        private Vector2 cord;
 
         // Keyboard and mouse states
         private KeyboardState kbState;
@@ -56,11 +54,11 @@ namespace Dull_Radiance
         private MouseState mState;
         private MouseState prevmState;
 
-        // Call classes
+        // Class calls
         private PlayerHealth hearts;
         private MapCreator mapMaker;
         private GameState currentState;
-        private PlayerState playerState;
+        //private PlayerState playerState;
 
         // Map textures
         private List<Texture2D> wallList;
@@ -79,13 +77,10 @@ namespace Dull_Radiance
         private Texture2D door;
         private List<Collectibles> collectibleList;
         private Texture2D key;
-        private Texture2D lights;
         private Collectibles yellowKey;
-        private Collectibles greenKey;
         private Texture2D shadow;
         private Texture2D voidTile;
         private Texture2D keyTile;
-        private Texture2D blackScreen;
         private Texture2D difficultyScreenSelector;
         private Texture2D transparent;
 
@@ -94,18 +89,17 @@ namespace Dull_Radiance
         private Texture2D playerTexture;
 
         // Menu
-        private List<Screens> screensList;
-        private Texture2D titleScreen;
-        private Texture2D controlsScreen;
-        private Texture2D pauseScreen;
-        private Texture2D playScreen;
-        private Texture2D winScreen;
         private Screens title;
         private Screens selector;
         private Screens controls;
         private Screens pause;
         private Screens play;
         private Screens gameWin;
+        private Texture2D titleScreen;
+        private Texture2D controlsScreen;
+        private Texture2D pauseScreen;
+        private Texture2D playScreen;
+        private Texture2D winScreen;
         private UIManager uiManager;
         private Inventory inventory;
 
@@ -205,7 +199,7 @@ namespace Dull_Radiance
 
             base.Initialize();
 
-            #region List of buttons and screens
+            #region List of buttons
             // ButtonList with all buttons
             buttonList = new List<Button>
             {
@@ -220,16 +214,6 @@ namespace Dull_Radiance
                 quitButton2,
                 resumeButton,
                 titleReturn
-            };
-
-            // Screen list with all screens
-            screensList = new List<Screens>
-            {
-                title,
-                selector,
-                controls,
-                play,
-                pause
             };
             #endregion
 
@@ -251,7 +235,6 @@ namespace Dull_Radiance
             key = Content.Load<Texture2D>("KEY");
             hearts = new PlayerHealth(aliveHeart, deadHeart);
             yellowKey = new Collectibles(key, Color.White);
-            // Add collectables to list of texture2D
             collectibleList = new List<Collectibles>();
             collectibleList.Add(yellowKey);
             collectibleList.Add(yellowKey);
@@ -264,7 +247,7 @@ namespace Dull_Radiance
             // Screens
             titleScreen = Content.Load<Texture2D>("StartMenu");
             controlsScreen = Content.Load<Texture2D>("ControlsScreen");
-            blackScreen = Content.Load<Texture2D>("void");
+            //blackScreen = Content.Load<Texture2D>("void");
             pauseScreen = Content.Load<Texture2D>("PauseScreen");
             playScreen = Content.Load<Texture2D>("TempPlayScreen");
             difficultyScreenSelector = Content.Load<Texture2D>("Difficulty");
