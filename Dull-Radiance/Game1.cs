@@ -321,7 +321,7 @@ namespace Dull_Radiance
                 agencyFB);
 
             normalMode = new Button(
-                windowWidth/10,
+                buttonTexture.Width,
                 windowHeight / 4,
                 buttonTexture,
                 _graphics,
@@ -644,9 +644,9 @@ namespace Dull_Radiance
                 // Title
                 case GameState.Title:
                     title.ScreenDraw(_spriteBatch);
-                    startButton.DrawButton(_spriteBatch, "Start");
-                    controlsButton.DrawButton(_spriteBatch, "Controls");
-                    quitButton.DrawButton(_spriteBatch, "Quit");
+                    startButton.DrawButton(_spriteBatch, "Start", Color.White);
+                    controlsButton.DrawButton(_spriteBatch, "Controls", Color.White);
+                    quitButton.DrawButton(_spriteBatch, "Quit", Color.White);
                     break;
 
                 // Instruction
@@ -658,18 +658,18 @@ namespace Dull_Radiance
                 case GameState.Selector:
 
                     selector.ScreenDraw(_spriteBatch);
-                    normalMode.DrawButton(_spriteBatch, "Normal Mode");
-                    hardMode.DrawButton(_spriteBatch, "Hard Mode");
-                    insaneMode.DrawButton(_spriteBatch, "Insane Mode");
-                    godModeTrue.DrawButton(_spriteBatch, "God Mode On");
-                    godModeFalse.DrawButton(_spriteBatch, "God Mode Off");
+                    normalMode.DrawButton(_spriteBatch, "Normal Mode", Color.White);
+                    hardMode.DrawButton(_spriteBatch, "Hard Mode", Color.White);
+                    insaneMode.DrawButton(_spriteBatch, "Insane Mode", Color.White);
+                    godModeTrue.DrawButton(_spriteBatch, "God Mode On", Color.White);
+                    godModeFalse.DrawButton(_spriteBatch, "God Mode Off", Color.White);
 
                     if (difficultySelected && modeSelected)
                     {
-                        words1.DrawButton(_spriteBatch, "Press Enter to Start");
+                        words1.DrawButton(_spriteBatch, "Press Enter to Start", Color.Red);
                         //_spriteBatch.DrawString(agencyFB, "Press Enter to Start", new Vector2(windowWidth / 2, windowHeight / 2), Color.Red);
                     }
-                    words2.DrawButton(_spriteBatch, "Press Space to Go Back");
+                    words2.DrawButton(_spriteBatch, "Press Space to Go Back", Color.White);
                    // _spriteBatch.DrawString(agencyFB, "Press Space to Go Back", new Vector2(windowWidth / 2, windowHeight / 2 + 60), Color.White);
 
                     _spriteBatch.DrawString(agencyFB, "a", new Vector2(windowWidth / 2, 0), Color.White);
@@ -711,9 +711,9 @@ namespace Dull_Radiance
                 // Pause
                 case GameState.Pause:
                     pause.ScreenDraw(_spriteBatch);
-                    resumeButton.DrawButton(_spriteBatch, "Resume");
-                    titleReturn.DrawButton(_spriteBatch, "Return to Title Screen");
-                    quitButton2.DrawButton(_spriteBatch, "Quit");
+                    resumeButton.DrawButton(_spriteBatch, "Resume", Color.White);
+                    titleReturn.DrawButton(_spriteBatch, "Return to Title Screen", Color.White);
+                    quitButton2.DrawButton(_spriteBatch, "Quit", Color.White);
                     break;
 
                 // Game over

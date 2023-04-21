@@ -125,7 +125,7 @@ namespace Dull_Radiance
         /// </summary>
         /// <param name="sb">Spritebatch to draw</param>
         /// <param name="buttonText">Text that describes button function</param>
-        public void DrawButton(SpriteBatch sb, string buttonText)
+        public void DrawButton(SpriteBatch sb, string buttonText, Color textColor)
         {
             Color color = Color.White;
 
@@ -144,7 +144,7 @@ namespace Dull_Radiance
                 font,
                 buttonText,
                 CenterText(buttonText),
-                Color.White);
+                textColor);
         }
     }
 }
