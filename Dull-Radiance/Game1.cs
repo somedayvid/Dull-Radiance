@@ -737,7 +737,7 @@ namespace Dull_Radiance
 
                         _spriteBatch.DrawString(
                             agencyFB,
-                            "You won! Press ENTER to go back to TITLE",
+                            "You escaped! Press ENTER to go back to TITLE",
                             new Vector2(windowWidth / 2 - agencyFB.MeasureString("You won! Press ENTER to go back to TITLE").X/2, windowHeight / 5),
                             Color.White);
                     }
