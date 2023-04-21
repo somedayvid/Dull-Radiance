@@ -333,12 +333,6 @@ namespace Dull_Radiance
                 _graphics,
                 agencyFB);
 
-            // hovered
-            // 384w x 120h
-
-            // unhovered
-            // 384w x 135h
-
             insaneMode = new Button(
                 (windowWidth - windowWidth/5 - buttonTexture.Width),
                 windowHeight / 4 + windowHeight/10,
@@ -656,7 +650,7 @@ namespace Dull_Radiance
 
                 // Select difficulty
                 case GameState.Selector:
-
+                    // Draw buttons
                     selector.ScreenDraw(_spriteBatch);
                     normalMode.DrawButton(_spriteBatch, "Normal Mode", Color.White);
                     hardMode.DrawButton(_spriteBatch, "Hard Mode", Color.White);
@@ -664,15 +658,20 @@ namespace Dull_Radiance
                     godModeTrue.DrawButton(_spriteBatch, "God Mode On", Color.White);
                     godModeFalse.DrawButton(_spriteBatch, "God Mode Off", Color.White);
 
+                    // Draw text if difficulty and mode is selected
                     if (difficultySelected && modeSelected)
                     {
-                        words1.DrawButton(_spriteBatch, "Press Enter to Start", Color.Red);
-                        //_spriteBatch.DrawString(agencyFB, "Press Enter to Start", new Vector2(windowWidth / 2, windowHeight / 2), Color.Red);
+                        words1.DrawButton(
+                            _spriteBatch, 
+                            "Press Enter to Start", 
+                            Color.Red);
                     }
-                    words2.DrawButton(_spriteBatch, "Press Space to Go Back", Color.White);
-                   // _spriteBatch.DrawString(agencyFB, "Press Space to Go Back", new Vector2(windowWidth / 2, windowHeight / 2 + 60), Color.White);
 
-                    _spriteBatch.DrawString(agencyFB, "a", new Vector2(windowWidth / 2, 0), Color.White);
+                    // Draw text to press space to go back
+                    words2.DrawButton(
+                        _spriteBatch, 
+                        "Press Space to Go Back", 
+                        Color.White);
                     break;
 
                 // Game
