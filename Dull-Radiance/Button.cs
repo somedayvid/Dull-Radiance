@@ -12,7 +12,7 @@ namespace Dull_Radiance
     /// <summary>
     /// Controls the positioning, clicking, and sizing of buttons
     /// </summary>
-    internal class Button //: ICollideAndDraw
+    internal class Button 
     {
         //fields
         private int xPos;
