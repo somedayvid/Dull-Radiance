@@ -51,8 +51,6 @@ namespace Dull_Radiance
         // Keyboard and mouse states
         private KeyboardState kbState;
         private KeyboardState prevkbState;
-        private MouseState mState;
-        private MouseState prevmState;
 
         // Class calls
         private PlayerHealth hearts;
@@ -75,13 +73,11 @@ namespace Dull_Radiance
         private Texture2D verticalWall;
         private Texture2D boxWall;
         private Texture2D door;
-        private List<Collectibles> collectibleList;
         private Texture2D key;
-        private Collectibles yellowKey;
+
         private Texture2D shadow;
         private Texture2D voidTile;
         private Texture2D keyTile;
-        private Texture2D difficultyScreenSelector;
         private Texture2D transparent;
 
         // Player texture
@@ -100,13 +96,14 @@ namespace Dull_Radiance
         private Texture2D pauseScreen;
         private Texture2D playScreen;
         private Texture2D winScreen;
+        private Texture2D difficultyScreenSelector;
         private UIManager uiManager;
         private Inventory inventory;
 
         // Button items
         private List<Button> buttonList;
         private Button startButton;
-        private Button quitButton;
+        private Button quitTitleButton;
         private Button normalMode;
         private Button hardMode;
         private Button insaneMode;
@@ -115,7 +112,7 @@ namespace Dull_Radiance
         private Button controlsButton;
         private Button resumeButton;
         private Button titleReturn;
-        private Button quitButton2;
+        private Button quitPausedButton;
         private Button words1;
         private Button words2;
         private Button winTime;
@@ -128,6 +125,8 @@ namespace Dull_Radiance
         private int windowWidth;
 
         // UI elements
+        private List<Collectibles> collectibleList;
+        private Collectibles yellowKey;
         private Texture2D aliveHeart;
         private Texture2D deadHeart;
         private int minuteTimer;
@@ -210,8 +209,8 @@ namespace Dull_Radiance
                 insaneMode,
                 godModeTrue,
                 godModeFalse,
-                quitButton,
-                quitButton2,
+                quitTitleButton,
+                quitPausedButton,
                 resumeButton,
                 titleReturn
             };
@@ -360,7 +359,7 @@ namespace Dull_Radiance
                 _graphics,
                 agencyFB);
 
-            quitButton = new Button(
+            quitTitleButton = new Button(
                 windowWidth / 10,
                 windowHeight / 2 + windowHeight / 6 + windowHeight / 36,
                 buttonTexture,
@@ -379,7 +378,7 @@ namespace Dull_Radiance
                 _graphics,
                 agencyFB);
 
-            quitButton2 = new Button(
+            quitPausedButton = new Button(
                 windowHeight / 2 + windowHeight / 6 + windowHeight / 9,
                 buttonTexture,
                 _graphics,
@@ -410,7 +409,6 @@ namespace Dull_Radiance
 
             // Get keyboard and mouse state
             kbState = Keyboard.GetState();
-            mState = Mouse.GetState();
 
             // Update each button
             foreach (Button button in buttonList)
@@ -420,15 +418,14 @@ namespace Dull_Radiance
 
             switch (currentState)
             {
-                // Title
                 case GameState.Title:
                     if (startButton.Click())
                     {
-                        //Selected Buttons Tracker
+                        // Selected Buttons Tracker
                         difficultySelected = false;
                         modeSelected = false;
 
-                        //Change Button Texture to reflect buttons being pressed
+                        // Change Button Texture to reflect buttons being pressed
                         normalMode.ButtonTexture = buttonTexture;
                         hardMode.ButtonTexture = buttonTexture;
                         insaneMode.ButtonTexture = buttonTexture;
@@ -441,21 +438,17 @@ namespace Dull_Radiance
                     {
                         currentState = GameState.Instructions;
                     }
-                    else if (quitButton.Click())
+                    else if (quitTitleButton.Click())
                     {
                         Exit();
                     }
                     break;
 
-                // Instructions
                 case GameState.Instructions:
                     if (kbState.IsKeyDown(Keys.Space))
-                    {
                         currentState = GameState.Title;
-                    }
                     break;
 
-                // Selector
                 case GameState.Selector:
                     #region Difficulty and God Mode Buttons
                     // Determines which difficulty is selected
@@ -514,9 +507,10 @@ namespace Dull_Radiance
                     }
                     #endregion
 
-                    // Final enter press to start game (can change to a button press)
+                    // Check if difficulty and god mode are selected
                     if (difficultySelected && modeSelected)
                     {
+                        // Check if enter is pressed
                         if (kbState.IsKeyDown(Keys.Enter))
                         {
                             // Button stuff to determine difficulty
@@ -530,11 +524,10 @@ namespace Dull_Radiance
                             currentState = GameState.Game;
                         }
                     }
-                    //Press space to get back to the menu
+
+                    // Check if escape is pressed and return to title if so
                     if (kbState.IsKeyDown(Keys.Space))
-                    {
                         currentState = GameState.Title;
-                    }
                     break;
 
                 case GameState.Game:
@@ -574,7 +567,7 @@ namespace Dull_Radiance
                     string result = player.CheckPosition();
                     mapMaker.DetectMovement(result);
 
-                    //Add Key / Remove key
+                    // Add Key / Remove key
                     if (kbState.IsKeyDown(Keys.D1) && prevkbState.IsKeyUp(Keys.D1))
                     {
                         mapMaker.AddKey();
@@ -584,7 +577,7 @@ namespace Dull_Radiance
                         mapMaker.RemoveKey();
                     }
 
-                    //Changed state based on events
+                    // Check if any conditions are met and change state accordingly
                     if (kbState.IsKeyDown(Keys.P))
                     {
                         currentState = GameState.Pause;
@@ -606,9 +599,9 @@ namespace Dull_Radiance
                     }
                     break;
 
-                // Pause
                 case GameState.Pause:
-                    if (quitButton2.Click())
+                    // Check if buttons are clicked and change state accordingly
+                    if (quitPausedButton.Click())
                     {
                         Exit();
                     }
@@ -622,10 +615,7 @@ namespace Dull_Radiance
                     }
                     break;
 
-                // Game over
                 case GameState.GameOver:
-                    
-
                     if (SingleKeyPress(kbState, prevkbState, Keys.Enter))
                     {
                         currentState = GameState.Title;
@@ -633,9 +623,8 @@ namespace Dull_Radiance
                     break;
             }
 
-            // Set previous keyboard and mouse state to current
+            // Set previous keyboard state to current
             prevkbState = kbState;
-            prevmState = mState;
 
             base.Update(gameTime);
         }
@@ -646,22 +635,21 @@ namespace Dull_Radiance
 
             switch (currentState)
             {
-                // Title
                 case GameState.Title:
+                    // Draw title screen and buttons
                     title.ScreenDraw(_spriteBatch);
                     startButton.DrawButton(_spriteBatch, "Start", Color.White);
                     controlsButton.DrawButton(_spriteBatch, "Controls", Color.White);
-                    quitButton.DrawButton(_spriteBatch, "Quit", Color.White);
+                    quitTitleButton.DrawButton(_spriteBatch, "Quit", Color.White);
                     break;
 
-                // Instruction
                 case GameState.Instructions:
+                    // Draw instruction screen
                     controls.ScreenDraw(_spriteBatch);
                     break;
 
-                // Select difficulty
                 case GameState.Selector:
-                    // Draw buttons
+                    // Draw selector screen and buttons
                     selector.ScreenDraw(_spriteBatch);
                     normalMode.DrawButton(_spriteBatch, "Normal Mode", Color.White);
                     hardMode.DrawButton(_spriteBatch, "Hard Mode", Color.White);
@@ -669,7 +657,13 @@ namespace Dull_Radiance
                     godModeTrue.DrawButton(_spriteBatch, "God Mode On", Color.White);
                     godModeFalse.DrawButton(_spriteBatch, "God Mode Off", Color.White);
 
-                    // Draw text if difficulty and mode is selected
+                    // Draw text to press space to go back
+                    words2.DrawButton(
+                        _spriteBatch,
+                        "Press Space to Go Back",
+                        Color.White);
+
+                    // Show text depending on if difficulty and mode are selected
                     if (difficultySelected && modeSelected)
                     {
                         words1.DrawButton(
@@ -677,75 +671,65 @@ namespace Dull_Radiance
                             "Press Enter to Start", 
                             Color.Red);
                     }
-
-                    // Draw text to press space to go back
-                    words2.DrawButton(
-                        _spriteBatch, 
-                        "Press Space to Go Back", 
-                        Color.White);
+                    else
+                    {
+                        words1.DrawButton(
+                            _spriteBatch,
+                            "Please Select a Difficulty and Mode",
+                            Color.White);
+                    }
                     break;
 
-                // Game
                 case GameState.Game:
-                    // 
+                    // Draw game related textures
                     play.ScreenDraw(_spriteBatch);
-
-                    // Draw map using mapMaker class
                     mapMaker.DrawMap(_spriteBatch, wallList);
-
                     player.Draw(_spriteBatch);
-
-                    // Shadow outline VERY temporary
                     _spriteBatch.Draw(shadow, new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
 
                     // Draw UI
                     uiManager.Draw(_spriteBatch);
-
-                    //_spriteBatch.DrawString(agencyFB,
-                    //    "PRESS Q TO TEST DMG TAKING\n" +
-                    //    "Try adding with 1 to max then press 5\n",
-                    //    new Vector2(windowWidth / 2, windowHeight / 2),
-                    //    Color.White);
-
-                    // Draw timer
                     time = $"Timer: {minuteTimer:0}:{secondTimer:00}:{millisecondTimer:000}";
-                    _spriteBatch.DrawString(
-                        agencyFB,
-                        time,
-                        new Vector2(
+                    _spriteBatch.DrawString(agencyFB, time, new Vector2(
                             windowWidth / 2 - 132,
                             agencyFB.MeasureString(time).Y / 4),
                         Color.White);
                     break;
 
-                // Pause
                 case GameState.Pause:
                     pause.ScreenDraw(_spriteBatch);
                     resumeButton.DrawButton(_spriteBatch, "Resume", Color.White);
                     titleReturn.DrawButton(_spriteBatch, "Return to Title Screen", Color.White);
-                    quitButton2.DrawButton(_spriteBatch, "Quit", Color.White);
+                    quitPausedButton.DrawButton(_spriteBatch, "Quit", Color.White);
                     break;
 
-                // Game over
-                // TODO: replace temp with actual game over screen
                 case GameState.GameOver:
-
-                    gameWin.ScreenDraw(_spriteBatch);
-
+                    // Draw game over screen and extra depending if the player won or lost
                     if (isSuccessful == true)
                     {
+                        // Draw win screen
+                        gameWin.ScreenDraw(_spriteBatch);
+
+                        // Draw time taken
                         string timeTaken = $"Elasped Time - {elapsedMinute:0}:{elapsedSecond:00}:{elapsedMillisecond:00}";
                         winTime.DrawButton(_spriteBatch,timeTaken, Color.White);
 
+                        // Draw win message
+                        string winMessage = "You escaped! Press ENTER to go back to TITLE";
                         _spriteBatch.DrawString(
                             agencyFB,
-                            "You escaped! Press ENTER to go back to TITLE",
-                            new Vector2(windowWidth / 2 - agencyFB.MeasureString("You won! Press ENTER to go back to TITLE").X/2, windowHeight / 8),
+                            winMessage,
+                            new Vector2(
+                                windowWidth / 2 - agencyFB.MeasureString(winMessage).X/2, 
+                                windowHeight / 8),
                             Color.White);
                     }
                     else
                     {
+                        // Draw lose screen
                         play.ScreenDraw(_spriteBatch);
+
+                        // Draw lose message
                         _spriteBatch.DrawString(
                             agencyFB,
                             "Game over! Press ENTER to go back to TITLE",
@@ -756,7 +740,6 @@ namespace Dull_Radiance
             }
 
             _spriteBatch.End();
-
             base.Draw(gameTime);
         }
 

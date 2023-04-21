@@ -53,7 +53,7 @@ namespace Dull_Radiance
         private WallType[,] map;
         private List<Vector2> textureLocation;
         private List<Vector2> collisionTile;
-        string mapSetting;
+        private string mapSetting;
         private bool isGodMode;
 
         // Tile size and offset value
@@ -72,7 +72,6 @@ namespace Dull_Radiance
         public MapCreator()
         {
             mapSetting = "";
-            //isGodMode = false;
 
             // Tile size and offset value initalization 
             tileSize = 220;
@@ -91,6 +90,7 @@ namespace Dull_Radiance
         /// Determine the mode the map will load with
         /// </summary>
         /// <param name="difficulty">The difficulty</param>
+        /// <param name="isGodMode">If god mode is on or not</param>
         public void DifficultySelection(Difficulty difficulty, bool isGodMode)
         {
             switch (difficulty)
@@ -262,10 +262,7 @@ namespace Dull_Radiance
             finally
             {
                 // Check if reader contains data, if so close it
-                if (reader != null)
-                {
-                    reader.Close();
-                }
+                reader?.Close();
             }
 
             // Initialize textureLocation and collisionTile and load them
@@ -294,7 +291,9 @@ namespace Dull_Radiance
                 {
                     // Splits data and parse each value into the list
                     string[] splitData = lineOfText.Split(',');
-                    textureLocation.Add(new Vector2(int.Parse(splitData[0]), int.Parse(splitData[1])));
+                    textureLocation.Add(new Vector2(
+                        int.Parse(splitData[0]),
+                        int.Parse(splitData[1])));
                 }
             }
             catch (Exception error)
@@ -305,8 +304,7 @@ namespace Dull_Radiance
             finally
             {
                 // Check if reader contains data, if so close it
-                if (reader != null)
-                    reader.Close();
+                reader?.Close();
             }
         }
 
@@ -423,41 +421,41 @@ namespace Dull_Radiance
         /// </summary>
         public void DetectMovement(string direction)
         {
-            if (direction == "up")
+            // Check direction and update values if collision is false
+            switch (direction)
             {
-                if (CheckCollision(Direction.Up) == false)
-                {
-                    UpdateScreenTile(Direction.Up);
-                    UpdateCollisionTile(Direction.Up);
-                    yOffset--;
-                }
-            }
-            else if (direction == "left")
-            {
-                if (CheckCollision(Direction.Left) == false)
-                {
-                    UpdateScreenTile(Direction.Left);
-                    UpdateCollisionTile(Direction.Left);
-                    xOffset--;
-                }
-            }
-            else if (direction == "down")
-            {
-                if (CheckCollision(Direction.Down) == false)
-                {
-                    UpdateScreenTile(Direction.Down);
-                    UpdateCollisionTile(Direction.Down);
-                    yOffset++;
-                }
-            }
-            else if (direction == "right")
-            {
-                if (CheckCollision(Direction.Right) == false)
-                {
-                    UpdateScreenTile(Direction.Right);
-                    UpdateCollisionTile(Direction.Right);
-                    xOffset++;
-                }
+                case "up":
+                    if (CheckCollision(Direction.Up) == false)
+                    {
+                        UpdateScreenTile(Direction.Up);
+                        UpdateCollisionTile(Direction.Up);
+                        yOffset--;
+                    }
+                    break;
+                case "left":
+                    if (CheckCollision(Direction.Left) == false)
+                    {
+                        UpdateScreenTile(Direction.Left);
+                        UpdateCollisionTile(Direction.Left);
+                        xOffset--;
+                    }
+                    break;
+                case "down":
+                    if (CheckCollision(Direction.Down) == false)
+                    {
+                        UpdateScreenTile(Direction.Down);
+                        UpdateCollisionTile(Direction.Down);
+                        yOffset++;
+                    }
+                    break;
+                case "right":
+                    if (CheckCollision(Direction.Right) == false)
+                    {
+                        UpdateScreenTile(Direction.Right);
+                        UpdateCollisionTile(Direction.Right);
+                        xOffset++;
+                    }
+                    break;
             }
         }
 
@@ -587,8 +585,7 @@ namespace Dull_Radiance
             finally
             {
                 // Check if reader contains data, if so close it
-                if (reader != null)
-                    reader.Close();
+                reader?.Close();
             }
         }
 
@@ -753,27 +750,16 @@ namespace Dull_Radiance
         /// <returns>True if player is on key</returns>
         public bool IsKeyCollected()
         {
-            // Set the end point for each map
-            Vector2 end;
-            switch (mapSetting)
+            // Set the end point depending on map
+            Vector2 end = mapSetting switch
             {
-                case "MazeMapInsane.txt":
-                    end = new Vector2(29, 50);
-                    break;
-                case "WallType.txt":
-                case "MazeMap.txt":
-                case "MazeMapHard.txt":
-                default:
-                    end = new Vector2(6, 3);
-                    break;
-            }
+                "MazeMapInsane.txt" => new Vector2(29, 50),
+                _ => new Vector2(6, 3),
+            };
 
             // Check if the player is on the key
             if (textureLocation[22] == end)
-            {
                 return true;
-            }
-
             return false;
         }
 
