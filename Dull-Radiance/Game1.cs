@@ -322,13 +322,13 @@ namespace Dull_Radiance
 
             normalMode = new Button(
                 buttonTexture.Width,
-                windowHeight / 4,
+                windowHeight / 4 + windowHeight/10,
                 buttonTexture,
                 _graphics,
                 agencyFB);
 
             hardMode = new Button(
-                windowHeight / 4,
+                windowHeight / 4 + windowHeight/10,
                 buttonTexture,
                 _graphics,
                 agencyFB);
@@ -341,21 +341,21 @@ namespace Dull_Radiance
 
             insaneMode = new Button(
                 (windowWidth - windowWidth/5 - buttonTexture.Width),
-                windowHeight / 4,
+                windowHeight / 4 + windowHeight/10,
                 buttonTexture,
                 _graphics,
                 agencyFB);
 
             godModeTrue = new Button(
                 windowWidth/8 + buttonTexture.Width,
-                windowHeight / 2,
+                windowHeight / 2 + windowHeight/10,
                 buttonTexture,
                 _graphics,
                 agencyFB);
 
             godModeFalse = new Button(
                 windowWidth - windowWidth/3 - buttonTexture.Width,
-                windowHeight /2,
+                windowHeight /2 + windowHeight/10,
                 buttonTexture,
                 _graphics,
                 agencyFB);
