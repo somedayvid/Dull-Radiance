@@ -159,15 +159,17 @@ namespace Dull_Radiance
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             currentState = GameState.Title;
+            // Window size
+            //_graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+            //_graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+            //_graphics.IsFullScreen = true;
+            _graphics.PreferredBackBufferHeight = 1080;
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.ApplyChanges();
         }
 
         protected override void Initialize()
         {
-            // Window size
-            _graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-            _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-            _graphics.IsFullScreen = true;
-            _graphics.ApplyChanges();
             windowHeight = _graphics.PreferredBackBufferHeight;
             windowWidth = _graphics.PreferredBackBufferWidth;
 
@@ -281,7 +283,7 @@ namespace Dull_Radiance
             verticalWall = Content.Load<Texture2D>("T_V");
             boxWall = Content.Load<Texture2D>("T_BOX");
             door = Content.Load<Texture2D>("Door");
-            voidTile = Content.Load<Texture2D>("void");
+            voidTile = Content.Load<Texture2D>("png");
             keyTile = Content.Load<Texture2D>("keyTile");
 
             // Add walls to list of texture2D

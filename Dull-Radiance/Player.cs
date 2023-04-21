@@ -78,8 +78,8 @@ namespace Dull_Radiance
             playerRect = new Rectangle(windowWidth/2 - width/2, windowHeight/2 - height/2, width, height);
 
             playerSpeed = this.playerSpeed; //6 is original speed
-            height = 280;
-            width = 280;
+            height = 200;
+            width = 200;
             this.playerTexture = playerTexture;
 
             //playerRect = new Rectangle(960, 540, width, height);

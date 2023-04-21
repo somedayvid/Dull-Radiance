@@ -75,9 +75,9 @@ namespace Dull_Radiance
             //isGodMode = false;
 
             // Tile size and offset value initalization 
-            tileSize = 400;
+            tileSize = 220;
             yOffset = 26;
-            xOffset = 0;
+            xOffset = 1;
 
             //Initialize Inventory
             inventory = new Inventory();
@@ -179,8 +179,8 @@ namespace Dull_Radiance
                 string textLine = "";
                 textLine = reader.ReadLine();
 
-                // Initialize array to always be 30x53
-                map = new WallType[30, 53];
+                // Initialize array to always be 32x55
+                map = new WallType[32, 55];
 
                 // Skip every data containing '-' before it
                 while (textLine[0] == '-')
@@ -413,7 +413,7 @@ namespace Dull_Radiance
             StartScreen();
             CollideLoad();
             yOffset = 26;
-            xOffset = 0;
+            xOffset = 1;
         }
         #endregion
 
@@ -758,18 +758,18 @@ namespace Dull_Radiance
             switch (mapSetting)
             {
                 case "MazeMapInsane.txt":
-                    end = new Vector2(28, 49);
+                    end = new Vector2(29, 50);
                     break;
                 case "WallType.txt":
                 case "MazeMap.txt":
                 case "MazeMapHard.txt":
                 default:
-                    end = new Vector2(5, 2);
+                    end = new Vector2(6, 3);
                     break;
             }
 
             // Check if the player is on the key
-            if (textureLocation[8] == end)
+            if (textureLocation[22] == end)
             {
                 return true;
             }
