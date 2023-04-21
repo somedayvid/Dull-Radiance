@@ -85,6 +85,7 @@ namespace Dull_Radiance
         private Texture2D voidTile;
         private Texture2D keyTile;
         private Texture2D blackScreen;
+        private Texture2D difficultyScreenSelector;
 
         // Player texture
         private Player player;
@@ -101,6 +102,7 @@ namespace Dull_Radiance
         private Screens controls;
         private Screens pause;
         private Screens play;
+        private Screens difficultyScreen;
         private UIManager uiManager;
         private Inventory inventory;
 
@@ -243,9 +245,10 @@ namespace Dull_Radiance
             blackScreen = Content.Load<Texture2D>("void");
             pauseScreen = Content.Load<Texture2D>("PauseScreen");
             playScreen = Content.Load<Texture2D>("TempPlayScreen");
+            difficultyScreenSelector = Content.Load<Texture2D>("Difficulty");
 
             title = new Screens(titleScreen, _graphics);
-            selector = new Screens(blackScreen, _graphics);
+            selector = new Screens(difficultyScreenSelector, _graphics);
             controls = new Screens(controlsScreen, _graphics);
             pause = new Screens(pauseScreen, _graphics);
             play = new Screens(playScreen, _graphics);
@@ -633,7 +636,6 @@ namespace Dull_Radiance
 
                 // Select difficulty
                 case GameState.Selector:
-                    
 
                     selector.ScreenDraw(_spriteBatch);
                     difficulty1.DrawButton(_spriteBatch, "Normal Mode");
