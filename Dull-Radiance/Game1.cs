@@ -502,7 +502,7 @@ namespace Dull_Radiance
                             currentState = GameState.Game;
                         }
                     }
-                    else if (kbState.IsKeyDown(Keys.Space))
+                    if (kbState.IsKeyDown(Keys.Space))
                     {
                         currentState = GameState.Title;
                     }
