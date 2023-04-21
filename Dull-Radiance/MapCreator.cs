@@ -95,49 +95,44 @@ namespace Dull_Radiance
         {
             switch (difficulty)
             {
+                // Broken map
                 case Difficulty.Broken:
                     LoadMap(Difficulty.Broken);
                     if (isGodMode == true)
                     {
                         this.isGodMode = true;
                     }
-                    else
-                    {
-                        this.isGodMode = false;
-                    }
+                    this.isGodMode = false;
                     break;
+
+                // Normal map
                 case Difficulty.Normal:
                     LoadMap(Difficulty.Normal);
                     if (isGodMode == true)
                     {
                         this.isGodMode = true;
                     }
-                    else
-                    {
-                        this.isGodMode = false;
-                    }
+                    this.isGodMode = false;
                     break;
+
+                // Hard map
                 case Difficulty.Hard:
                     LoadMap(Difficulty.Hard);
                     if (isGodMode == true)
                     {
                         this.isGodMode = true;
                     }
-                    else
-                    {
-                        this.isGodMode = false;
-                    }
+                    this.isGodMode = false;
                     break;
+
+                // Insane map
                 case Difficulty.Insane:
                     LoadMap(Difficulty.Insane);
                     if (isGodMode == true)
                     {
                         this.isGodMode = true;
                     }
-                    else
-                    {
-                        this.isGodMode = false;
-                    }
+                    this.isGodMode = false;
                     break;
             }
         }
@@ -735,7 +730,7 @@ namespace Dull_Radiance
                             break;
                     }
                     break;
-                #endregion
+                    #endregion
             }
 
             return true;
