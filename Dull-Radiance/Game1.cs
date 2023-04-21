@@ -442,15 +442,16 @@ namespace Dull_Radiance
                     // Determines if god mode is on or off
                     if (godModeTrue.Click())
                     {
+                        player.PlayerSpeed = 12;
                         godMode = true;
 
                         godModeTrue.ButtonTexture = buttonHovered;
                         godModeFalse.ButtonTexture = buttonTexture;
-                        player.PlayerSpeed = 12;
+                        
                     }
                     else if (godModeFalse.Click())
                     {
-                        player.PlayerSpeed = 9;
+                        player.PlayerSpeed = 8;
                         godMode = false;
 
                         godModeTrue.ButtonTexture = buttonTexture;
