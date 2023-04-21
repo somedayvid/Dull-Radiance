@@ -122,7 +122,8 @@ namespace Dull_Radiance
         private Button titleReturn;
         private Button quitButton2;
         private Button words1;
-        private Button words2; 
+        private Button words2;
+        private Button winTime;
         private Texture2D buttonTexture;
         private Texture2D buttonHovered;
         private SpriteFont agencyFB;
@@ -389,6 +390,11 @@ namespace Dull_Radiance
                 agencyFB);
             words2 = new Button(
                 windowHeight - windowHeight/6,
+                transparent,
+                _graphics,
+                agencyFB);
+            winTime = new Button(
+                windowHeight/8,
                 transparent,
                 _graphics,
                 agencyFB);
@@ -727,16 +733,12 @@ namespace Dull_Radiance
                     if (isSuccessful == true)
                     {
                         string timeTaken = $"{elapsedMinute:0}:{elapsedSecond:00}:{elapsedMillisecond:00}";
-                        _spriteBatch.DrawString(
-                            agencyFB,
-                            timeTaken,
-                            new Vector2(0, 0),
-                            Color.White);
+                        winTime.DrawButton(_spriteBatch,timeTaken, Color.White);
 
                         _spriteBatch.DrawString(
                             agencyFB,
                             "You won! Press ENTER to go back to TITLE",
-                            new Vector2(windowWidth / 2, windowHeight / 2),
+                            new Vector2(windowWidth / 2 - agencyFB.MeasureString("You won! Press ENTER to go back to TITLE").X/2, windowHeight / 5),
                             Color.White);
                     }
                     else
