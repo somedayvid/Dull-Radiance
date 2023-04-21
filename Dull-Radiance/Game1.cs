@@ -743,6 +743,7 @@ namespace Dull_Radiance
                     }
                     else
                     {
+                        play.ScreenDraw(_spriteBatch);
                         _spriteBatch.DrawString(
                             agencyFB,
                             "Game over! Press ENTER to go back to TITLE",
