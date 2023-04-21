@@ -413,6 +413,8 @@ namespace Dull_Radiance
                     // Determines which difficulty is selected
                     if (difficulty1.Click())
                     {
+                        difficulty = Difficulty.Normal;
+
                         difficulty1.ButtonTexture = buttonHovered;
                         difficulty2.ButtonTexture = buttonTexture;
                         difficulty3.ButtonTexture = buttonTexture;

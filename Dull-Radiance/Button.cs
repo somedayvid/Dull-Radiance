@@ -26,6 +26,9 @@ namespace Dull_Radiance
         private Rectangle buttonRect;
         private MouseState mState;
 
+        /// <summary>
+        /// Made to allow the changing of states for difficulty buttons
+        /// </summary>
         public Texture2D ButtonTexture
         {
             get { return buttonTexture; }
