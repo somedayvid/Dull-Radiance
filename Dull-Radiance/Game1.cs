@@ -98,11 +98,13 @@ namespace Dull_Radiance
         private Texture2D controlsScreen;
         private Texture2D pauseScreen;
         private Texture2D playScreen;
+        private Texture2D winScreen;
         private Screens title;
         private Screens selector;
         private Screens controls;
         private Screens pause;
         private Screens play;
+        private Screens gameWin;
         private UIManager uiManager;
         private Inventory inventory;
 
@@ -247,12 +249,14 @@ namespace Dull_Radiance
             playScreen = Content.Load<Texture2D>("TempPlayScreen");
             difficultyScreenSelector = Content.Load<Texture2D>("Difficulty");
             transparent = Content.Load<Texture2D>("transparent");
+            winScreen = Content.Load<Texture2D>("GameWin");
 
             title = new Screens(titleScreen, _graphics);
             selector = new Screens(difficultyScreenSelector, _graphics);
             controls = new Screens(controlsScreen, _graphics);
             pause = new Screens(pauseScreen, _graphics);
             play = new Screens(playScreen, _graphics);
+            gameWin = new Screens(winScreen, _graphics);
 
             // Buttons
             buttonTexture = Content.Load<Texture2D>("BUTTON_UNHOVER");
@@ -718,7 +722,7 @@ namespace Dull_Radiance
                 // TODO: replace temp with actual game over screen
                 case GameState.GameOver:
 
-                    play.ScreenDraw(_spriteBatch);
+                    gameWin.ScreenDraw(_spriteBatch);
 
                     if (isSuccessful == true)
                     {
