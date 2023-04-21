@@ -406,6 +406,8 @@ namespace Dull_Radiance
                         difficulty1.ButtonTexture = buttonTexture;
                         difficulty2.ButtonTexture = buttonTexture;
                         difficulty3.ButtonTexture = buttonTexture;
+                        godModeTrue.ButtonTexture = buttonTexture;
+                        godModeFalse.ButtonTexture = buttonTexture;
 
                         currentState = GameState.Selector;
                     }
@@ -642,8 +644,11 @@ namespace Dull_Radiance
                     godModeTrue.DrawButton(_spriteBatch, "God Mode On");
                     godModeFalse.DrawButton(_spriteBatch, "God Mode Off");
 
-                    _spriteBatch.DrawString(agencyFB, "Press Enter to Start", new Vector2(windowWidth / 2, windowHeight / 2), Color.White);
-                    _spriteBatch.DrawString(agencyFB, "Press Space to Go Back", new Vector2(windowWidth / 2, windowHeight / 2 + 60), Color.Red);
+                    if (difficultySelected && modeSelected)
+                    {
+                        _spriteBatch.DrawString(agencyFB, "Press Enter to Start", new Vector2(windowWidth / 2, windowHeight / 2), Color.Red);
+                    }
+                    _spriteBatch.DrawString(agencyFB, "Press Space to Go Back", new Vector2(windowWidth / 2, windowHeight / 2 + 60), Color.White);
                     break;
 
                 // Game
