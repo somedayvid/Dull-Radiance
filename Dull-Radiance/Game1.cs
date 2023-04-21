@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 /* Game: Dull Radience
  * Dev Team: Rice Bowls
@@ -139,6 +140,10 @@ namespace Dull_Radiance
         //Difficulty Elements
         private Difficulty difficulty;
         private bool godMode;
+
+        //Trackers for having a mode selected
+        private bool difficultySelected;
+        private bool modeSelected;
         #endregion
 
         public Game1()
@@ -205,6 +210,10 @@ namespace Dull_Radiance
 
             // GodMode
             godMode = false;
+
+            //Selected Buttons Tracker
+            difficultySelected = false;
+            modeSelected = false;
         }
 
         protected override void LoadContent()
@@ -389,6 +398,15 @@ namespace Dull_Radiance
                 case GameState.Title:
                     if (startButton.Click())
                     {
+                        //Selected Buttons Tracker
+                        difficultySelected = false;
+                        modeSelected = false;
+
+                        //Change Button Texture to reflect buttons being pressed
+                        difficulty1.ButtonTexture = buttonTexture;
+                        difficulty2.ButtonTexture = buttonTexture;
+                        difficulty3.ButtonTexture = buttonTexture;
+
                         currentState = GameState.Selector;
                     }
                     else if (controlsButton.Click())
@@ -420,6 +438,8 @@ namespace Dull_Radiance
                         difficulty1.ButtonTexture = buttonHovered;
                         difficulty2.ButtonTexture = buttonTexture;
                         difficulty3.ButtonTexture = buttonTexture;
+
+                        difficultySelected = true;
                     }
                     else if (difficulty2.Click())
                     {
@@ -429,6 +449,8 @@ namespace Dull_Radiance
                         difficulty2.ButtonTexture = buttonHovered;
                         difficulty3.ButtonTexture = buttonTexture;
 
+                        difficultySelected = true;
+
                     }
                     else if (difficulty3.Click())
                     {
@@ -437,6 +459,8 @@ namespace Dull_Radiance
                         difficulty1.ButtonTexture = buttonTexture;
                         difficulty2.ButtonTexture = buttonTexture;
                         difficulty3.ButtonTexture = buttonHovered;
+
+                        difficultySelected = true;
                     }
 
                     // Determines if god mode is on or off
@@ -447,7 +471,8 @@ namespace Dull_Radiance
 
                         godModeTrue.ButtonTexture = buttonHovered;
                         godModeFalse.ButtonTexture = buttonTexture;
-                        
+
+                        modeSelected = true;
                     }
                     else if (godModeFalse.Click())
                     {
@@ -456,21 +481,26 @@ namespace Dull_Radiance
 
                         godModeTrue.ButtonTexture = buttonTexture;
                         godModeFalse.ButtonTexture = buttonHovered;
+
+                        modeSelected = true;
                     }
                     #endregion
 
                     // Final enter press to start game (can change to a button press)
-                    if (kbState.IsKeyDown(Keys.Enter))
+                    if (difficultySelected && modeSelected)
                     {
-                        // Button stuff to determine difficulty
-                        mapMaker.DifficultySelection(difficulty, godMode);
+                        if (kbState.IsKeyDown(Keys.Enter))
+                        {
+                            // Button stuff to determine difficulty
+                            mapMaker.DifficultySelection(difficulty, godMode);
 
-                        // Start game => reset values to default
-                        player.Reset();
-                        ResetSuccess();
-                        ResetTimer();
-                        mapMaker.ResetMap();
-                        currentState = GameState.Game;
+                            // Start game => reset values to default
+                            player.Reset();
+                            ResetSuccess();
+                            ResetTimer();
+                            mapMaker.ResetMap();
+                            currentState = GameState.Game;
+                        }
                     }
                     else if (kbState.IsKeyDown(Keys.Space))
                     {
@@ -565,6 +595,8 @@ namespace Dull_Radiance
 
                 // Game over
                 case GameState.GameOver:
+                    
+
                     if (SingleKeyPress(kbState, prevkbState, Keys.Enter))
                     {
                         currentState = GameState.Title;
