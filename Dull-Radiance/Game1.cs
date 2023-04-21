@@ -732,7 +732,7 @@ namespace Dull_Radiance
 
                     if (isSuccessful == true)
                     {
-                        string timeTaken = $"{elapsedMinute:0}:{elapsedSecond:00}:{elapsedMillisecond:00}";
+                        string timeTaken = $"Elasped Time - {elapsedMinute:0}:{elapsedSecond:00}:{elapsedMillisecond:00}";
                         winTime.DrawButton(_spriteBatch,timeTaken, Color.White);
 
                         _spriteBatch.DrawString(

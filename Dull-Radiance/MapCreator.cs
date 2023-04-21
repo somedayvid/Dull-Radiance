@@ -753,7 +753,8 @@ namespace Dull_Radiance
         /// <returns>True if player is on key</returns>
         public bool IsKeyCollected()
         {
-            Vector2 end = new Vector2(5, 2);
+            //Vector2 end = new Vector2(5, 2);
+            Vector2 end = new Vector2(27, 5);
 
             // Check if the player is on the key
             if (textureLocation[8] == end)
