@@ -45,6 +45,7 @@ namespace Dull_Radiance
         #region Variables
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private bool isFullScreen;
 
         //Player/Enemy Related variables
         private Vector2 cord;
@@ -159,33 +160,53 @@ namespace Dull_Radiance
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             currentState = GameState.Title;
-            // Window size
-            //_graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-            //_graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-            //_graphics.IsFullScreen = true;
-            _graphics.PreferredBackBufferHeight = 1080;
-            _graphics.PreferredBackBufferWidth = 1920;
-            _graphics.ApplyChanges();
         }
 
         protected override void Initialize()
         {
-            windowHeight = _graphics.PreferredBackBufferHeight;
-            windowWidth = _graphics.PreferredBackBufferWidth;
+            isFullScreen = false;
+            #region Window Size
+            if (isFullScreen)
+            {
+                // Puts game into full screen
+                _graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+                _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+                _graphics.IsFullScreen = true;
+                _graphics.ApplyChanges();
+                windowHeight = _graphics.PreferredBackBufferHeight;
+                windowWidth = _graphics.PreferredBackBufferWidth;
+            }
+            else
+            {
+                // Puts game into windowed mode that simulate lab computers
+                _graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+                _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+                _graphics.PreferredBackBufferHeight = 1080;
+                _graphics.PreferredBackBufferWidth = 1920;
+                _graphics.ApplyChanges();
+                windowHeight = _graphics.PreferredBackBufferHeight;
+                windowWidth = _graphics.PreferredBackBufferWidth;
+            }
+            #endregion
 
+            #region Timer
             // Timer
             minuteTimer = 5;
             secondTimer = 0;
             millisecondTimer = 0;
+
             time = "";
             isSuccessful = false;
+
             elapsedMinute = 0;
             elapsedSecond = 0;
             elapsedMillisecond = 0;
+            #endregion
 
             base.Initialize();
 
-            // buttonList with all buttons
+            #region List of buttons and screens
+            // ButtonList with all buttons
             buttonList = new List<Button>
             {
                 startButton,
@@ -210,15 +231,11 @@ namespace Dull_Radiance
                 play,
                 pause
             };
+            #endregion
 
-            // Intialize 2D map
+            // Intialize 2D map and modes for game
             mapMaker = new MapCreator();
-            cord = new Vector2(800, 800);
-
-            // GodMode
             godMode = false;
-
-            //Selected Buttons Tracker
             difficultySelected = false;
             modeSelected = false;
         }
