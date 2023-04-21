@@ -643,7 +643,7 @@ namespace Dull_Radiance
                     godModeFalse.DrawButton(_spriteBatch, "God Mode Off");
 
                     _spriteBatch.DrawString(agencyFB, "Press Enter to Start", new Vector2(windowWidth / 2, windowHeight / 2), Color.White);
-                    _spriteBatch.DrawString(agencyFB, "Press Space to Go Back", new Vector2(windowWidth / 2, windowHeight / 2 + 60), Color.White);
+                    _spriteBatch.DrawString(agencyFB, "Press Space to Go Back", new Vector2(windowWidth / 2, windowHeight / 2 + 60), Color.Red);
                     break;
 
                 // Game
