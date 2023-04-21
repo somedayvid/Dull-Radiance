@@ -103,7 +103,6 @@ namespace Dull_Radiance
         private Screens controls;
         private Screens pause;
         private Screens play;
-        private Screens difficultyScreen;
         private UIManager uiManager;
         private Inventory inventory;
 
