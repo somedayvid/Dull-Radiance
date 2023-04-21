@@ -319,14 +319,13 @@ namespace Dull_Radiance
                 agencyFB);
 
             normalMode = new Button(
-                (windowWidth / 2 - 384 / 2) - 800,
+                windowWidth/10,
                 windowHeight / 4,
                 buttonTexture,
                 _graphics,
                 agencyFB);
 
             hardMode = new Button(
-                windowWidth / 2 - 384 / 2,
                 windowHeight / 4,
                 buttonTexture,
                 _graphics,
@@ -339,7 +338,7 @@ namespace Dull_Radiance
             // 384w x 135h
 
             insaneMode = new Button(
-                (windowWidth / 2 - 384 / 2) + 800,
+                (windowWidth - windowWidth/5 - buttonTexture.Width),
                 windowHeight / 4,
                 buttonTexture,
                 _graphics,
