@@ -101,12 +101,20 @@ namespace Dull_Radiance
                     {
                         this.isGodMode = true;
                     }
+                    else
+                    {
+                        this.isGodMode = false;
+                    }
                     break;
                 case Difficulty.Normal:
                     LoadMap(Difficulty.Normal);
                     if (isGodMode == true)
                     {
                         this.isGodMode = true;
+                    }
+                    else
+                    {
+                        this.isGodMode = false;
                     }
                     break;
                 case Difficulty.Hard:
@@ -115,12 +123,20 @@ namespace Dull_Radiance
                     {
                         this.isGodMode = true;
                     }
+                    else
+                    {
+                        this.isGodMode = false;
+                    }
                     break;
                 case Difficulty.Insane:
                     LoadMap(Difficulty.Insane);
                     if (isGodMode == true)
                     {
                         this.isGodMode = true;
+                    }
+                    else
+                    {
+                        this.isGodMode = false;
                     }
                     break;
             }
