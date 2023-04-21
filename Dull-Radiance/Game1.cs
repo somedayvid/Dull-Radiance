@@ -690,11 +690,11 @@ namespace Dull_Radiance
                     // Draw UI
                     uiManager.Draw(_spriteBatch);
 
-                    _spriteBatch.DrawString(agencyFB,
-                        "PRESS Q TO TEST DMG TAKING\n" +
-                        "Try adding with 1 to max then press 5\n",
-                        new Vector2(windowWidth / 2, windowHeight / 2),
-                        Color.White);
+                    //_spriteBatch.DrawString(agencyFB,
+                    //    "PRESS Q TO TEST DMG TAKING\n" +
+                    //    "Try adding with 1 to max then press 5\n",
+                    //    new Vector2(windowWidth / 2, windowHeight / 2),
+                    //    Color.White);
 
                     // Draw timer
                     time = $"Timer: {minuteTimer:0}:{secondTimer:00}:{millisecondTimer:000}";
