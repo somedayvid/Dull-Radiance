@@ -113,8 +113,8 @@ namespace Dull_Radiance
         private Button resumeButton;
         private Button titleReturn;
         private Button quitPausedButton;
-        private Button words1;
-        private Button words2;
+        private Button selectInstruction;
+        private Button selectReturn;
         private Button winTime;
         private Texture2D buttonTexture;
         private Texture2D buttonHovered;
@@ -143,8 +143,8 @@ namespace Dull_Radiance
         private bool godMode;
 
         //Trackers for having a mode selected
-        private bool difficultySelected;
-        private bool modeSelected;
+        private bool isDifficultySelected;
+        private bool isModeSelected;
         #endregion
 
         public Game1()
@@ -219,8 +219,8 @@ namespace Dull_Radiance
             // Intialize 2D map and modes for game
             mapMaker = new MapCreator();
             godMode = false;
-            difficultySelected = false;
-            modeSelected = false;
+            isDifficultySelected = false;
+            isModeSelected = false;
         }
 
         protected override void LoadContent()
@@ -384,16 +384,18 @@ namespace Dull_Radiance
                 _graphics,
                 agencyFB);
 
-            words1 = new Button(
+            selectInstruction = new Button(
                 windowHeight - windowHeight/8,
                 transparent,
                 _graphics,
                 agencyFB);
-            words2 = new Button(
+
+            selectReturn = new Button(
                 windowHeight - windowHeight/6,
                 transparent,
                 _graphics,
                 agencyFB);
+
             winTime = new Button(
                 windowHeight/7,
                 transparent,
@@ -422,8 +424,8 @@ namespace Dull_Radiance
                     if (startButton.Click())
                     {
                         // Selected Buttons Tracker
-                        difficultySelected = false;
-                        modeSelected = false;
+                        isDifficultySelected = false;
+                        isModeSelected = false;
 
                         // Change Button Texture to reflect buttons being pressed
                         normalMode.ButtonTexture = buttonTexture;
@@ -460,7 +462,7 @@ namespace Dull_Radiance
                         hardMode.ButtonTexture = buttonTexture;
                         insaneMode.ButtonTexture = buttonTexture;
 
-                        difficultySelected = true;
+                        isDifficultySelected = true;
                     }
                     else if (hardMode.Click())
                     {
@@ -470,7 +472,7 @@ namespace Dull_Radiance
                         hardMode.ButtonTexture = buttonHovered;
                         insaneMode.ButtonTexture = buttonTexture;
 
-                        difficultySelected = true;
+                        isDifficultySelected = true;
 
                     }
                     else if (insaneMode.Click())
@@ -481,7 +483,7 @@ namespace Dull_Radiance
                         hardMode.ButtonTexture = buttonTexture;
                         insaneMode.ButtonTexture = buttonHovered;
 
-                        difficultySelected = true;
+                        isDifficultySelected = true;
                     }
 
                     // Determines if god mode is on or off
@@ -493,7 +495,7 @@ namespace Dull_Radiance
                         godModeTrue.ButtonTexture = buttonHovered;
                         godModeFalse.ButtonTexture = buttonTexture;
 
-                        modeSelected = true;
+                        isModeSelected = true;
                     }
                     else if (godModeFalse.Click())
                     {
@@ -503,12 +505,12 @@ namespace Dull_Radiance
                         godModeTrue.ButtonTexture = buttonTexture;
                         godModeFalse.ButtonTexture = buttonHovered;
 
-                        modeSelected = true;
+                        isModeSelected = true;
                     }
                     #endregion
 
                     // Check if difficulty and god mode are selected
-                    if (difficultySelected && modeSelected)
+                    if (isDifficultySelected && isModeSelected)
                     {
                         // Check if enter is pressed
                         if (kbState.IsKeyDown(Keys.Enter))
@@ -658,24 +660,38 @@ namespace Dull_Radiance
                     godModeFalse.DrawButton(_spriteBatch, "God Mode Off", Color.White);
 
                     // Draw text to press space to go back
-                    words2.DrawButton(
+                    selectReturn.DrawButton(
                         _spriteBatch,
-                        "Press Space to Go Back",
+                        "Press SPACE to Go Back",
                         Color.White);
 
                     // Show text depending on if difficulty and mode are selected
-                    if (difficultySelected && modeSelected)
+                    if (isDifficultySelected && isModeSelected)
                     {
-                        words1.DrawButton(
+                        selectInstruction.DrawButton(
                             _spriteBatch, 
                             "Press Enter to Start", 
                             Color.Red);
                     }
+                    else if (isDifficultySelected && !isModeSelected)
+                    {
+                        selectInstruction.DrawButton(
+                            _spriteBatch,
+                            "Please select a god mode option",
+                            Color.White);
+                    }
+                    else if (!isDifficultySelected && isModeSelected)
+                    {
+                        selectInstruction.DrawButton(
+                            _spriteBatch,
+                            "Please select a difficulty option",
+                            Color.White);
+                    }
                     else
                     {
-                        words1.DrawButton(
+                        selectInstruction.DrawButton(
                             _spriteBatch,
-                            "Please Select a Difficulty and Mode",
+                            "Please select a difficulty AND god mode option",
                             Color.White);
                     }
                     break;
