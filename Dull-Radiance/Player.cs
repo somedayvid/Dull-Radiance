@@ -73,7 +73,7 @@ namespace Dull_Radiance
             //width = windowWidth/34;
 
             //Incredibly important rect deciding how far the player can move before getting teleported back
-            theBox = new Rectangle(740, 300, 325, 325);
+            theBox = new Rectangle(820, 370, 155, 155);
 
             playerRect = new Rectangle(windowWidth/2 - width/2, windowHeight/2 - height/2, width, height);
 
