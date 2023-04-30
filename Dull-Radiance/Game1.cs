@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -145,6 +147,10 @@ namespace Dull_Radiance
         //Trackers for having a mode selected
         private bool isDifficultySelected;
         private bool isModeSelected;
+
+        //Sounds and Music
+        private List<SoundEffect> soundEffects;
+        private Song bgMusic;
         #endregion
 
         public Game1()
@@ -221,6 +227,9 @@ namespace Dull_Radiance
             godMode = false;
             isDifficultySelected = false;
             isModeSelected = false;
+
+            //Sound effects list
+            soundEffects = new List<SoundEffect>();
         }
 
         protected override void LoadContent()
@@ -266,6 +275,12 @@ namespace Dull_Radiance
 
             // Fonts
             agencyFB = Content.Load<SpriteFont>("Agency FB");
+
+            //Background Music
+            this.bgMusic = Content.Load<Song>("Hor Hor");
+            MediaPlayer.Volume = 2f;
+            MediaPlayer.Play(bgMusic);
+            MediaPlayer.IsRepeating = true;
 
             #region Map Textures
             // Load all the wall types
