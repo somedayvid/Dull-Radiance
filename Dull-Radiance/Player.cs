@@ -110,7 +110,7 @@ namespace Dull_Radiance
             this.windowHeight = windowHeight;
 
             //Incredibly important rect deciding how far the player can move before getting teleported back
-            theBox = new Rectangle(820, 370, 155, 155);
+            theBox = new Rectangle(820, 370, 155, 100);
 
             playerRect = new Rectangle(windowWidth/2 - width/2, windowHeight/2 - height/2, width, height);
 
@@ -341,19 +341,19 @@ namespace Dull_Radiance
                 return "left";
             }
             //Up
-            else if (playerRect.Y < theBox.Y)
+            else if (playerRect.Y < theBox.Y - 5)
             {
                 playerRect.Y = theBox.Y + theBox.Height - 20;
                 return "up";
             }
             //Right
-            else if (playerRect.X > theBox.X + theBox.Width)
+            else if (playerRect.X > theBox.X + theBox.Width - 20)
             {
                 playerRect.X = theBox.X + 20;
                 return "right";
             }
             //Down
-            else if (playerRect.Y > theBox.Y + theBox.Height)
+            else if (playerRect.Y > theBox.Y + theBox.Height - 5)
             {
                 playerRect.Y = theBox.Y + 20;
                 return "down";
