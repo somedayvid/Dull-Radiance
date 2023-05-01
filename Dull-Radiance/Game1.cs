@@ -565,7 +565,7 @@ namespace Dull_Radiance
                     #endregion
 
                     // Move Player
-                    player.Movement();
+                    player.Movement(gameTime);
                     string result = player.CheckPosition();
                     mapMaker.DetectMovement(result);
 
