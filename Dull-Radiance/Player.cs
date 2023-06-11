@@ -240,6 +240,23 @@ namespace Dull_Radiance
             {
                 playerRect.Y += playerSpeed;
             }
+
+            if (KBState.IsKeyDown(Keys.Left))
+            {
+                playerRect.X -= playerSpeed;
+            }
+            if (KBState.IsKeyDown(Keys.Right))
+            {
+                playerRect.X += playerSpeed;
+            }
+            if (KBState.IsKeyDown(Keys.Up))
+            {
+                playerRect.Y -= playerSpeed;
+            }
+            if (KBState.IsKeyDown(Keys.Down))
+            {
+                playerRect.Y += playerSpeed;
+            }
             switch (currentState)
             {
                 //faceleft -> face right or walk left
