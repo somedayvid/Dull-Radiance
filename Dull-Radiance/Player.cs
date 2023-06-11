@@ -335,27 +335,27 @@ namespace Dull_Radiance
         public string CheckPosition()
         {
             //Left
-            if (playerRect.X < theBox.X)
+            if (playerRect.X < theBox.X + 10)
             {
-                playerRect.X = theBox.X + theBox.Width - 20;
+                playerRect.X = theBox.X + theBox.Width - 40;
                 return "left";
             }
             //Up
-            else if (playerRect.Y < theBox.Y - 5)
+            else if (playerRect.Y < theBox.Y + 5)
             {
-                playerRect.Y = theBox.Y + theBox.Height - 20;
+                playerRect.Y = theBox.Y + theBox.Height - 40;
                 return "up";
             }
             //Right
-            else if (playerRect.X > theBox.X + theBox.Width - 20)
+            else if (playerRect.X > theBox.X + theBox.Width - 10)
             {
-                playerRect.X = theBox.X + 20;
+                playerRect.X = theBox.X + 40;
                 return "right";
             }
             //Down
-            else if (playerRect.Y > theBox.Y + theBox.Height - 5)
+            else if (playerRect.Y > theBox.Y + theBox.Height + 5)
             {
-                playerRect.Y = theBox.Y + 20;
+                playerRect.Y = theBox.Y + 40;
                 return "down";
             }
 
