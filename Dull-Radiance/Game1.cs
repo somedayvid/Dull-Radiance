@@ -163,7 +163,7 @@ namespace Dull_Radiance
 
         protected override void Initialize()
         {
-            isFullScreen = false;
+            isFullScreen = true;
             #region Window Size
             if (isFullScreen)
             {
