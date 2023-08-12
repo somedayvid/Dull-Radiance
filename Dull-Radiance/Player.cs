@@ -144,11 +144,6 @@ namespace Dull_Radiance
             Movement(gameTime);
         }
 
-        //public void PlayerHeal()
-        //{
-        //    OnHeal();
-        //}
-
         /// <summary>
         /// Resets the player's stats to base game start stats and alerts heart UI to reset
         /// </summary>

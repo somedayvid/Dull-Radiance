@@ -47,7 +47,7 @@ namespace Dull_Radiance
         #region Variables
         // Variable field
         private StreamReader reader;
-        private Inventory inventory;
+        //private Inventory inventory;
 
         // Map variables
         private WallType[,] map;
@@ -79,7 +79,7 @@ namespace Dull_Radiance
             xOffset = 1;
 
             //Initialize Inventory
-            inventory = new Inventory();
+            //inventory = new Inventory();
 
             keys = 0;
             checkForKey = false;
